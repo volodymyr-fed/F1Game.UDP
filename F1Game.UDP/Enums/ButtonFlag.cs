@@ -1,0 +1,38 @@
+﻿namespace F1Game.UDP.Enums;
+
+[Flags]
+public enum ButtonFlag : uint
+{
+	CrossOrA = 0x00000001,
+	TriangleOrY = 0x00000002U,
+	CircleOrB = 0x00000004U,
+	SquareOrX = 0x00000008U,
+	DPadLeft = 0x00000010U,
+	DPadRight = 0x00000020U,
+	DPadUp = 0x00000040U,
+	DPadDown = 0x00000080U,
+	OptionsOrMenu = 0x00000100U,
+	L1OrLB = 0x00000200U,
+	R1OrRB = 0x00000400U,
+	L2OrLT = 0x00000800U,
+	R2OrRT = 0x00001000U,
+	LeftStickClick = 0x00002000U,
+	RightStickClick = 0x00004000U,
+	RightStickLeft = 0x00008000U,
+	RightStickRight = 0x00010000U,
+	RightStickUp = 0x00020000U,
+	RightStickDown = 0x00040000U,
+	Special = 0x00080000U,
+	UDPAction1 = 0x00100000U,
+	UDPAction2 = 0x00200000U,
+	UDPAction3 = 0x00400000U,
+	UDPAction4 = 0x00800000U,
+	UDPAction5 = 0x01000000U,
+	UDPAction6 = 0x02000000U,
+	UDPAction7 = 0x04000000U,
+	UDPAction8 = 0x08000000U,
+	UDPAction9 = 0x10000000U,
+	UDPAction10 = 0x20000000U,
+	UDPAction11 = 0x40000000U,
+	UDPAction12 = 0x80000000U,
+}

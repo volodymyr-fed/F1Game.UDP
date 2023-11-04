@@ -1,0 +1,20 @@
+﻿using F1Game.UDP.Data;
+
+namespace F1Game.UDP.Packets;
+
+public sealed record CarSetupDataPacket : IPacket, IByteParsable<CarSetupDataPacket>, ISizeable
+{
+	public static int Size => 1107;
+
+	public PacketHeader Header { get; init; } = PacketHeader.Empty; // Header
+	public CarSetupData[] CarSetups { get; init; } = Array.Empty<CarSetupData>();
+
+	static CarSetupDataPacket IByteParsable<CarSetupDataPacket>.Parse(ref BytesReader reader)
+	{
+		return new()
+		{
+			Header = reader.GetNextObject<PacketHeader>(),
+			CarSetups = reader.GetNextObjects<CarSetupData>(22)
+		};
+	}
+}
