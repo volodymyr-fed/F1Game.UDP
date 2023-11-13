@@ -2,7 +2,7 @@
 
 namespace F1Game.UDP.Data;
 
-public sealed record ParticipantData : IByteParsable<ParticipantData>
+public sealed record ParticipantData : IByteParsable<ParticipantData>, IByteWritable
 {
 	public bool IsAiControlled { get; init; } // Whether the vehicle is AI (1) or Human (0) controlled
 	public Driver Driver { get; init; } // Driver id - see appendix, ifnetworkhuman = 255,
@@ -32,5 +32,20 @@ public sealed record ParticipantData : IByteParsable<ParticipantData>
 			ShowOnlineNames = reader.GetNextBoolean(),
 			Platform = reader.GetNextEnum<Platform>()
 		};
+	}
+
+	void IByteWritable.WriteBytes(ref BytesWriter writer)
+	{
+		writer.WriteBoolean(IsAiControlled);
+		writer.WriteEnum(Driver);
+		writer.WriteByte(NetworkId);
+		writer.WriteEnum(Team);
+		writer.WriteBoolean(IsMyTeam);
+		writer.WriteByte(RaceNumber);
+		writer.WriteEnum(Nationality);
+		writer.WriteString(Name, 48);
+		writer.WriteBoolean(TelemetryIsNotRestricted);
+		writer.WriteBoolean(ShowOnlineNames);
+		writer.WriteEnum(Platform);
 	}
 }

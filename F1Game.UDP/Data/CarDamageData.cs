@@ -1,6 +1,6 @@
 ﻿namespace F1Game.UDP.Data;
 
-public sealed record CarDamageData : IByteParsable<CarDamageData>
+public sealed record CarDamageData : IByteParsable<CarDamageData>, IByteWritable
 {
 	public Tyres<float> TyresWear { get; init; } // Tyre wear (percentage)
 	public Tyres<byte> TyresDamage { get; init; } // Tyre damage (percentage)
@@ -50,5 +50,39 @@ public sealed record CarDamageData : IByteParsable<CarDamageData>
 			EngineBlown = reader.GetNextBoolean(),
 			EngineSeized = reader.GetNextBoolean(),
 		};
+	}
+
+	void IByteWritable.WriteBytes(ref BytesWriter writer)
+	{
+		writer.WriteFloat(TyresWear.RearLeft);
+		writer.WriteFloat(TyresWear.RearRight);
+		writer.WriteFloat(TyresWear.FrontLeft);
+		writer.WriteFloat(TyresWear.FrontRight);
+		writer.WriteByte(TyresDamage.RearLeft);
+		writer.WriteByte(TyresDamage.RearRight);
+		writer.WriteByte(TyresDamage.FrontLeft);
+		writer.WriteByte(TyresDamage.FrontRight);
+		writer.WriteByte(BrakesDamage.RearLeft);
+		writer.WriteByte(BrakesDamage.RearRight);
+		writer.WriteByte(BrakesDamage.FrontLeft);
+		writer.WriteByte(BrakesDamage.FrontRight);
+		writer.WriteByte(FrontLeftWingDamage);
+		writer.WriteByte(FrontRightWingDamage);
+		writer.WriteByte(RearWingDamage);
+		writer.WriteByte(FloorDamage);
+		writer.WriteByte(DiffuserDamage);
+		writer.WriteByte(SidepodDamage);
+		writer.WriteBoolean(DrsFault);
+		writer.WriteBoolean(ErsFault);
+		writer.WriteByte(GearBoxDamage);
+		writer.WriteByte(EngineDamage);
+		writer.WriteByte(EngineMGUHWear);
+		writer.WriteByte(EngineESWear);
+		writer.WriteByte(EngineCEWear);
+		writer.WriteByte(EngineICEWear);
+		writer.WriteByte(EngineMGUKWear);
+		writer.WriteByte(EngineTCWear);
+		writer.WriteBoolean(EngineBlown);
+		writer.WriteBoolean(EngineSeized);
 	}
 }

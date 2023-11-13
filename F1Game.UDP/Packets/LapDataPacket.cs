@@ -2,7 +2,7 @@
 
 namespace F1Game.UDP.Packets;
 
-public sealed record LapDataPacket : IPacket, IByteParsable<LapDataPacket>, ISizeable
+public sealed record LapDataPacket : IPacket, IByteParsable<LapDataPacket>, ISizeable, IByteWritable
 {
 	public static int Size => 1131;
 	public PacketHeader Header { get; init; } = PacketHeader.Empty; // Header
@@ -19,5 +19,13 @@ public sealed record LapDataPacket : IPacket, IByteParsable<LapDataPacket>, ISiz
 			TimeTrialPBCarIdx = reader.GetNextByte(),
 			TimeTrialRivalCarIdx = reader.GetNextByte(),
 		};
+	}
+
+	void IByteWritable.WriteBytes(ref BytesWriter writer)
+	{
+		writer.WriteObject(Header);
+		writer.WriteObjects(LapData);
+		writer.WriteByte(TimeTrialPBCarIdx);
+		writer.WriteByte(TimeTrialRivalCarIdx);
 	}
 }

@@ -2,7 +2,7 @@
 
 namespace F1Game.UDP.Data;
 
-public sealed record LobbyInfoData : IByteParsable<LobbyInfoData>
+public sealed record LobbyInfoData : IByteParsable<LobbyInfoData>, IByteWritable
 {
 	public bool IsAiControlled { get; init; } // Whether the vehicle is AI (1) or Human (0) controlled
 	public Team Team { get; init; } // Team id - see appendix (255 if no team currently selected)
@@ -24,5 +24,16 @@ public sealed record LobbyInfoData : IByteParsable<LobbyInfoData>
 			CarNumber = reader.GetNextByte(),
 			ReadyStatus = reader.GetNextEnum<ReadyStatus>(),
 		};
+	}
+
+	void IByteWritable.WriteBytes(ref BytesWriter writer)
+	{
+		writer.WriteBoolean(IsAiControlled);
+		writer.WriteEnum(Team);
+		writer.WriteEnum(Nationality);
+		writer.WriteEnum(Platform);
+		writer.WriteString(Name, 48);
+		writer.WriteByte(CarNumber);
+		writer.WriteEnum(ReadyStatus);
 	}
 }

@@ -5,6 +5,7 @@ namespace F1Game.UDP.Packets;
 public sealed record SessionHistoryDataPacket : IPacket, IByteParsable<SessionHistoryDataPacket>, ISizeable
 {
 	public static int Size => 1460;
+
 	public PacketHeader Header { get; init; } = PacketHeader.Empty; // Header
 	public byte CarIndex { get; init; } // Index of the car this lap data relates to
 	public byte NumLaps { get; init; } // Num laps in the data (including current partial lap)

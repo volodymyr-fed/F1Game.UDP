@@ -2,7 +2,7 @@
 
 namespace F1Game.UDP.Packets;
 
-public sealed record CarDamageDataPacket : IPacket, IByteParsable<CarDamageDataPacket>, ISizeable
+public sealed record CarDamageDataPacket : IPacket, IByteParsable<CarDamageDataPacket>, ISizeable, IByteWritable
 {
 	public static int Size => 953;
 
@@ -16,5 +16,11 @@ public sealed record CarDamageDataPacket : IPacket, IByteParsable<CarDamageDataP
 			Header = reader.GetNextObject<PacketHeader>(),
 			CarDamageData = reader.GetNextObjects<CarDamageData>(22)
 		};
+	}
+
+	void IByteWritable.WriteBytes(ref BytesWriter writer)
+	{
+		writer.WriteObject(Header);
+		writer.WriteObjects(CarDamageData);
 	}
 }

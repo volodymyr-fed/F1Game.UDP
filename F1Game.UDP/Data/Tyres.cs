@@ -46,3 +46,42 @@ static class TyresBytesReaderExtensions
 			reader.GetNextEnum<T>());
 	}
 }
+
+static class TyresBytesWriterExtensions
+{
+	[MethodImpl(MethodImplOptions.AggressiveInlining)]
+	public static void WriteTyresByte(this ref BytesWriter writer, Tyres<byte> tyres)
+	{
+		writer.WriteByte(tyres.RearLeft);
+		writer.WriteByte(tyres.RearRight);
+		writer.WriteByte(tyres.FrontLeft);
+		writer.WriteByte(tyres.FrontRight);
+	}
+
+	[MethodImpl(MethodImplOptions.AggressiveInlining)]
+	public static void WriteTyresUShort(this ref BytesWriter writer, Tyres<ushort> tyres)
+	{
+		writer.WriteUShort(tyres.RearLeft);
+		writer.WriteUShort(tyres.RearRight);
+		writer.WriteUShort(tyres.FrontLeft);
+		writer.WriteUShort(tyres.FrontRight);
+	}
+
+	[MethodImpl(MethodImplOptions.AggressiveInlining)]
+	public static void WriteTyresFloat(this ref BytesWriter writer, Tyres<float> tyres)
+	{
+		writer.WriteFloat(tyres.RearLeft);
+		writer.WriteFloat(tyres.RearRight);
+		writer.WriteFloat(tyres.FrontLeft);
+		writer.WriteFloat(tyres.FrontRight);
+	}
+
+	[MethodImpl(MethodImplOptions.AggressiveInlining)]
+	public static void WriteTyresEnum<T>(this ref BytesWriter writer, Tyres<T> tyres) where T : struct, Enum, IConvertible
+	{
+		writer.WriteEnum(tyres.RearLeft);
+		writer.WriteEnum(tyres.RearRight);
+		writer.WriteEnum(tyres.FrontLeft);
+		writer.WriteEnum(tyres.FrontRight);
+	}
+}

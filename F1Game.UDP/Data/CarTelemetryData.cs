@@ -2,7 +2,7 @@
 
 namespace F1Game.UDP.Data;
 
-public sealed record CarTelemetryData : IByteParsable<CarTelemetryData>
+public sealed record CarTelemetryData : IByteParsable<CarTelemetryData>, IByteWritable
 {
 	public ushort Speed { get; init; } // Speed of car in kilometres per hour
 	public float Throttle { get; init; } // Amount of throttle applied (0.0 to 1.0)
@@ -42,5 +42,25 @@ public sealed record CarTelemetryData : IByteParsable<CarTelemetryData>
 			TyresPressure = reader.GetNextTyresFloat(),
 			SurfaceType = reader.GetNextTyresEnum<Surface>(),
 		};
+	}
+
+	void IByteWritable.WriteBytes(ref BytesWriter writer)
+	{
+		writer.WriteUShort(Speed);
+		writer.WriteFloat(Throttle);
+		writer.WriteFloat(Steer);
+		writer.WriteFloat(Brake);
+		writer.WriteByte(Clutch);
+		writer.WriteSByte(Gear);
+		writer.WriteUShort(EngineRPM);
+		writer.WriteBoolean(IsDrsOn);
+		writer.WriteByte(RevLightsPercent);
+		writer.WriteUShort(RevLightsBitValue);
+		writer.WriteTyresUShort(BrakesTemperature);
+		writer.WriteTyresByte(TyresSurfaceTemperature);
+		writer.WriteTyresByte(TyresInnerTemperature);
+		writer.WriteUShort(EngineTemperature);
+		writer.WriteTyresFloat(TyresPressure);
+		writer.WriteTyresEnum(SurfaceType);
 	}
 }

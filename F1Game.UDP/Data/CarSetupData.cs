@@ -1,6 +1,6 @@
 ﻿namespace F1Game.UDP.Data;
 
-public sealed record CarSetupData : IByteParsable<CarSetupData>
+public sealed record CarSetupData : IByteParsable<CarSetupData>, IByteWritable
 {
 	public byte FrontWing { get; init; } // Front wing aero
 	public byte RearWing { get; init; } // Rear wing aero
@@ -46,5 +46,31 @@ public sealed record CarSetupData : IByteParsable<CarSetupData>
 			Ballast = reader.GetNextByte(),
 			FuelLoad = reader.GetNextFloat(),
 		};
+	}
+
+	void IByteWritable.WriteBytes(ref BytesWriter writer)
+	{
+		writer.WriteByte(FrontWing);
+		writer.WriteByte(RearWing);
+		writer.WriteByte(OnThrottle);
+		writer.WriteByte(OffThrottle);
+		writer.WriteFloat(FrontCamber);
+		writer.WriteFloat(RearCamber);
+		writer.WriteFloat(FrontToe);
+		writer.WriteFloat(RearToe);
+		writer.WriteByte(FrontSuspension);
+		writer.WriteByte(RearSuspension);
+		writer.WriteByte(FrontAntiRollBar);
+		writer.WriteByte(RearAntiRollBar);
+		writer.WriteByte(FrontSuspensionHeight);
+		writer.WriteByte(RearSuspensionHeight);
+		writer.WriteByte(BrakePressure);
+		writer.WriteByte(BrakeBias);
+		writer.WriteFloat(TyresPressures.RearLeft);
+		writer.WriteFloat(TyresPressures.RearRight);
+		writer.WriteFloat(TyresPressures.FrontLeft);
+		writer.WriteFloat(TyresPressures.FrontRight);
+		writer.WriteByte(Ballast);
+		writer.WriteFloat(FuelLoad);
 	}
 }

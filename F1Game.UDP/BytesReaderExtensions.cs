@@ -6,14 +6,6 @@ namespace F1Game.UDP;
 
 static class BytesReaderExtensions
 {
-	const int UShortSize = 2;
-	const int ShortSize = 2;
-	const int UIntSize = 4;
-	const int IntSize = 4;
-	const int FloatSize = 4;
-	const int ULongSize = 8;
-	const int DoubleSize = 8;
-
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
 	public static bool GetNextBoolean(this ref BytesReader reader)
 	{
@@ -30,43 +22,43 @@ static class BytesReaderExtensions
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
 	public static short GetNextShort(this ref BytesReader reader)
 	{
-		return BinaryPrimitives.ReadInt16LittleEndian(reader.GetNextBytes(ShortSize));
+		return BinaryPrimitives.ReadInt16LittleEndian(reader.GetNextBytes(SizeConstants.ShortSize));
 	}
 
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
 	public static ushort GetNextUShort(this ref BytesReader reader)
 	{
-		return BinaryPrimitives.ReadUInt16LittleEndian(reader.GetNextBytes(UShortSize));
+		return BinaryPrimitives.ReadUInt16LittleEndian(reader.GetNextBytes(SizeConstants.UShortSize));
 	}
 
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
 	public static float GetNextFloat(this ref BytesReader reader)
 	{
-		return BinaryPrimitives.ReadSingleLittleEndian(reader.GetNextBytes(FloatSize));
+		return BinaryPrimitives.ReadSingleLittleEndian(reader.GetNextBytes(SizeConstants.FloatSize));
 	}
 
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
 	public static int GetNextInt(this ref BytesReader reader)
 	{
-		return BinaryPrimitives.ReadInt32LittleEndian(reader.GetNextBytes(IntSize));
+		return BinaryPrimitives.ReadInt32LittleEndian(reader.GetNextBytes(SizeConstants.IntSize));
 	}
 
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
 	public static uint GetNextUInt(this ref BytesReader reader)
 	{
-		return BinaryPrimitives.ReadUInt32LittleEndian(reader.GetNextBytes(UIntSize));
+		return BinaryPrimitives.ReadUInt32LittleEndian(reader.GetNextBytes(SizeConstants.UIntSize));
 	}
 
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
 	public static ulong GetNextULong(this ref BytesReader reader)
 	{
-		return BinaryPrimitives.ReadUInt64LittleEndian(reader.GetNextBytes(ULongSize));
+		return BinaryPrimitives.ReadUInt64LittleEndian(reader.GetNextBytes(SizeConstants.ULongSize));
 	}
 
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
 	public static double GetNextDouble(this ref BytesReader reader)
 	{
-		return BinaryPrimitives.ReadDoubleLittleEndian(reader.GetNextBytes(DoubleSize));
+		return BinaryPrimitives.ReadDoubleLittleEndian(reader.GetNextBytes(SizeConstants.DoubleSize));
 	}
 
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]

@@ -2,7 +2,7 @@
 
 namespace F1Game.UDP.Data;
 
-public sealed record FinalClassificationData : IByteParsable<FinalClassificationData>
+public sealed record FinalClassificationData : IByteParsable<FinalClassificationData>, IByteWritable
 {
 	public byte Position { get; init; } // Finishing position
 	public byte NumLaps { get; init; } // Number of laps completed
@@ -40,5 +40,23 @@ public sealed record FinalClassificationData : IByteParsable<FinalClassification
 			TyreStintsVisual = reader.GetNextEnums<VisualCompound>(8),
 			TyreStintsEndLaps = reader.GetNextBytes(8).ToArray(),
 		};
+	}
+
+	void IByteWritable.WriteBytes(ref BytesWriter writer)
+	{
+		writer.WriteByte(Position);
+		writer.WriteByte(NumLaps);
+		writer.WriteByte(GridPosition);
+		writer.WriteByte(Points);
+		writer.WriteByte(NumPitStops);
+		writer.WriteEnum(ResultStatus);
+		writer.WriteUInt(BestLapTimeInMS);
+		writer.WriteDouble(TotalRaceTime);
+		writer.WriteByte(PenaltiesTime);
+		writer.WriteByte(NumPenalties);
+		writer.WriteByte(NumTyreStints);
+		writer.WriteEnums(TyreStintsActual);
+		writer.WriteEnums(TyreStintsVisual);
+		writer.WriteBytes(TyreStintsEndLaps);
 	}
 }

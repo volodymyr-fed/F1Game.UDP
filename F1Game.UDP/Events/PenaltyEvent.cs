@@ -2,7 +2,7 @@
 
 namespace F1Game.UDP.Events;
 
-public sealed record Penalty : IEventDetails, IByteParsable<Penalty>
+public sealed record PenaltyEvent : IEventDetails, IByteParsable<PenaltyEvent>, IByteWritable
 {
 	public PenaltyType PenaltyType { get; init; } // Penalty type – see Appendices
 	public InfringementType InfringementType { get; init; } // Infringement type – see Appendices
@@ -12,7 +12,7 @@ public sealed record Penalty : IEventDetails, IByteParsable<Penalty>
 	public byte LapNum { get; init; } // Lap the penalty occurred on
 	public byte PlacesGained { get; init; } // Number of places gained by this
 
-	static Penalty IByteParsable<Penalty>.Parse(ref BytesReader reader)
+	static PenaltyEvent IByteParsable<PenaltyEvent>.Parse(ref BytesReader reader)
 	{
 		return new()
 		{
@@ -24,5 +24,16 @@ public sealed record Penalty : IEventDetails, IByteParsable<Penalty>
 			LapNum = reader.GetNextByte(),
 			PlacesGained = reader.GetNextByte(),
 		};
+	}
+
+	void IByteWritable.WriteBytes(ref BytesWriter writer)
+	{
+		writer.WriteEnum(PenaltyType);
+		writer.WriteEnum(InfringementType);
+		writer.WriteByte(VehicleIdx);
+		writer.WriteByte(OtherVehicleIdx);
+		writer.WriteByte(Time);
+		writer.WriteByte(LapNum);
+		writer.WriteByte(PlacesGained);
 	}
 }

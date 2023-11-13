@@ -2,7 +2,7 @@
 
 namespace F1Game.UDP.Packets;
 
-public sealed record MotionExDataPacket : IPacket, IByteParsable<MotionExDataPacket>, ISizeable
+public sealed record MotionExDataPacket : IPacket, IByteParsable<MotionExDataPacket>, ISizeable, IByteWritable
 {
 	public static int Size => 217;
 
@@ -54,5 +54,30 @@ public sealed record MotionExDataPacket : IPacket, IByteParsable<MotionExDataPac
 			FrontWheelsAngle = reader.GetNextFloat(),
 			WheelVertForce = reader.GetNextTyresFloat(),
 		};
+	}
+
+	void IByteWritable.WriteBytes(ref BytesWriter writer)
+	{
+		writer.WriteObject(Header );
+		writer.WriteTyresFloat(SuspensionPosition );
+		writer.WriteTyresFloat(SuspensionVelocity );
+		writer.WriteTyresFloat(SuspensionAcceleration );
+		writer.WriteTyresFloat(WheelSpeed );
+		writer.WriteTyresFloat(WheelSlipRatio );
+		writer.WriteTyresFloat(WheelSlipAngle );
+		writer.WriteTyresFloat(WheelLatForce );
+		writer.WriteTyresFloat(WheelLongForce );
+		writer.WriteFloat(HeightOfCOGAboveGround );
+		writer.WriteFloat(LocalVelocityX );
+		writer.WriteFloat(LocalVelocityY );
+		writer.WriteFloat(LocalVelocityZ );
+		writer.WriteFloat(AngularVelocityX );
+		writer.WriteFloat(AngularVelocityY );
+		writer.WriteFloat(AngularVelocityZ );
+		writer.WriteFloat(AngularAccelerationX );
+		writer.WriteFloat(AngularAccelerationY );
+		writer.WriteFloat(AngularAccelerationZ );
+		writer.WriteFloat(FrontWheelsAngle );
+		writer.WriteTyresFloat(WheelVertForce );
 	}
 }

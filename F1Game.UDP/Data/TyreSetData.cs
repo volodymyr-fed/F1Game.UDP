@@ -2,7 +2,7 @@
 
 namespace F1Game.UDP.Data;
 
-public sealed record TyreSetData : IByteParsable<TyreSetData>
+public sealed record TyreSetData : IByteParsable<TyreSetData>, IByteWritable
 {
 	public ActualCompound ActualTyreCompound { get; init; } // Actual tyre compound used
 	public VisualCompound VisualTyreCompound { get; init; } // Visual tyre compound used
@@ -28,5 +28,18 @@ public sealed record TyreSetData : IByteParsable<TyreSetData>
 			LapDeltaTime = reader.GetNextShort(),
 			IsFitted = reader.GetNextBoolean(),
 		};
+	}
+
+	void IByteWritable.WriteBytes(ref BytesWriter writer)
+	{
+		writer.WriteEnum(ActualTyreCompound);
+		writer.WriteEnum(VisualTyreCompound);
+		writer.WriteByte(Wear);
+		writer.WriteBoolean(IsAvailable);
+		writer.WriteEnum(RecommendedSession);
+		writer.WriteByte(LifeSpan);
+		writer.WriteByte(UsableLife);
+		writer.WriteShort(LapDeltaTime);
+		writer.WriteBoolean(IsFitted);
 	}
 }

@@ -3,7 +3,7 @@ using F1Game.UDP.Enums;
 
 namespace F1Game.UDP.Packets;
 
-public sealed record CarTelemetryDataPacket : IPacket, IByteParsable<CarTelemetryDataPacket>, ISizeable
+public sealed record CarTelemetryDataPacket : IPacket, IByteParsable<CarTelemetryDataPacket>, ISizeable, IByteWritable
 {
 	public static int Size => 1352;
 	public PacketHeader Header { get; init; } = PacketHeader.Empty; // Header
@@ -22,5 +22,14 @@ public sealed record CarTelemetryDataPacket : IPacket, IByteParsable<CarTelemetr
 			MfdPanelIndexSecondaryPlayer = reader.GetNextEnum<MfdPanel>(),
 			SuggestedGear = reader.GetNextSbyte(),
 		};
+	}
+
+	void IByteWritable.WriteBytes(ref BytesWriter writer)
+	{
+		writer.WriteObject(Header);
+		writer.WriteObjects(CarTelemetryData);
+		writer.WriteEnum(MfdPanelIndex);
+		writer.WriteEnum(MfdPanelIndexSecondaryPlayer);
+		writer.WriteSByte(SuggestedGear);
 	}
 }

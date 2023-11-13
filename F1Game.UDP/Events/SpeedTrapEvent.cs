@@ -1,6 +1,6 @@
 ﻿namespace F1Game.UDP.Events;
 
-public sealed record SpeedTrap : IEventDetails, IByteParsable<SpeedTrap>
+public sealed record SpeedTrapEvent : IEventDetails, IByteParsable<SpeedTrapEvent>, IByteWritable
 {
 	public byte VehicleIdx { get; init; } // Vehicle index of the vehicle triggering speed trap
 	public float Speed { get; init; } // Top speed achieved in kilometres per hour
@@ -10,7 +10,7 @@ public sealed record SpeedTrap : IEventDetails, IByteParsable<SpeedTrap>
 														 // in this session
 	public float FastestSpeedInSession { get; init; } // Speed of the vehicle that is the fastest in this session
 
-	static SpeedTrap IByteParsable<SpeedTrap>.Parse(ref BytesReader reader)
+	static SpeedTrapEvent IByteParsable<SpeedTrapEvent>.Parse(ref BytesReader reader)
 	{
 		return new()
 		{
@@ -21,5 +21,15 @@ public sealed record SpeedTrap : IEventDetails, IByteParsable<SpeedTrap>
 			FastestVehicleIdxInSession = reader.GetNextByte(),
 			FastestSpeedInSession = reader.GetNextFloat(),
 		};
+	}
+
+	void IByteWritable.WriteBytes(ref BytesWriter writer)
+	{
+		writer.WriteByte(VehicleIdx);
+		writer.WriteFloat(Speed);
+		writer.WriteBoolean(IsOverallFastestInSession);
+		writer.WriteBoolean(IsDriverFastestInSession);
+		writer.WriteByte(FastestVehicleIdxInSession);
+		writer.WriteFloat(FastestSpeedInSession);
 	}
 }

@@ -2,7 +2,7 @@
 
 namespace F1Game.UDP.Data;
 
-public sealed record PacketHeader : IByteParsable<PacketHeader>, ISizeable
+public sealed record PacketHeader : IByteParsable<PacketHeader>, ISizeable, IByteWritable
 {
 	public static readonly PacketHeader Empty = new();
 	internal const int PacketTypeIndex = 6;
@@ -39,5 +39,21 @@ public sealed record PacketHeader : IByteParsable<PacketHeader>, ISizeable
 			PlayerCarIndex = reader.GetNextByte(),
 			SecondaryPlayerCarIndex = reader.GetNextByte()
 		};
+	}
+
+	void IByteWritable.WriteBytes(ref BytesWriter writer)
+	{
+		writer.WriteUShort(PacketFormat);
+		writer.WriteByte(GameYear);
+		writer.WriteByte(GameMajorVersion);
+		writer.WriteByte(GameMinorVersion);
+		writer.WriteByte(PacketVersion);
+		writer.WriteEnum(PacketType);
+		writer.WriteULong(SessionUID);
+		writer.WriteFloat(SessionTime);
+		writer.WriteUInt(FrameIdentifier);
+		writer.WriteUInt(OverallFrameIdentifier);
+		writer.WriteByte(PlayerCarIndex);
+		writer.WriteByte(SecondaryPlayerCarIndex);
 	}
 }

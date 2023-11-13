@@ -1,6 +1,6 @@
 ﻿namespace F1Game.UDP.Data;
 
-public sealed record CarMotionData : IByteParsable<CarMotionData>
+public sealed record CarMotionData : IByteParsable<CarMotionData>, IByteWritable
 {
 	public float WorldPositionX { get; init; } // World space X position
 	public float WorldPositionY { get; init; } // World space Y position
@@ -44,5 +44,27 @@ public sealed record CarMotionData : IByteParsable<CarMotionData>
 			Pitch = reader.GetNextFloat(),
 			Roll = reader.GetNextFloat(),
 		};
+	}
+
+	void IByteWritable.WriteBytes(ref BytesWriter writer)
+	{
+		writer.WriteFloat(WorldPositionX);
+		writer.WriteFloat(WorldPositionY);
+		writer.WriteFloat(WorldPositionZ);
+		writer.WriteFloat(WorldVelocityX);
+		writer.WriteFloat(WorldVelocityY);
+		writer.WriteFloat(WorldVelocityZ);
+		writer.WriteShort(WorldForwardDirX);
+		writer.WriteShort(WorldForwardDirY);
+		writer.WriteShort(WorldForwardDirZ);
+		writer.WriteShort(WorldRightDirX);
+		writer.WriteShort(WorldRightDirY);
+		writer.WriteShort(WorldRightDirZ);
+		writer.WriteFloat(GForceLateral);
+		writer.WriteFloat(GForceLongitudinal);
+		writer.WriteFloat(GForceVertical);
+		writer.WriteFloat(Yaw);
+		writer.WriteFloat(Pitch);
+		writer.WriteFloat(Roll);
 	}
 }

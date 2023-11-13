@@ -2,7 +2,7 @@
 
 namespace F1Game.UDP.Packets;
 
-public sealed record LobbyInfoDataPacket : IPacket, IByteParsable<LobbyInfoDataPacket>, ISizeable
+public sealed record LobbyInfoDataPacket : IPacket, IByteParsable<LobbyInfoDataPacket>, ISizeable, IByteWritable
 {
 	public static int Size => 1218;
 	public PacketHeader Header { get; init; } = PacketHeader.Empty; // Header
@@ -17,5 +17,12 @@ public sealed record LobbyInfoDataPacket : IPacket, IByteParsable<LobbyInfoDataP
 			NumPlayers = reader.GetNextByte(),
 			LobbyPlayers = reader.GetNextObjects<LobbyInfoData>(22)
 		};
+	}
+
+	void IByteWritable.WriteBytes(ref BytesWriter writer)
+	{
+		writer.WriteObject(Header);
+		writer.WriteByte(NumPlayers);
+		writer.WriteObjects(LobbyPlayers);
 	}
 }

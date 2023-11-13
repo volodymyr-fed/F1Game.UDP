@@ -2,7 +2,7 @@
 
 namespace F1Game.UDP.Packets;
 
-public sealed record TyreSetsDataPacket : IPacket, IByteParsable<TyreSetsDataPacket>, ISizeable
+public sealed record TyreSetsDataPacket : IPacket, IByteParsable<TyreSetsDataPacket>, ISizeable, IByteWritable
 {
 	public static int Size => 231;
 
@@ -20,5 +20,13 @@ public sealed record TyreSetsDataPacket : IPacket, IByteParsable<TyreSetsDataPac
 			TyreSetDatas = reader.GetNextObjects<TyreSetData>(20),
 			FittedIndex = reader.GetNextByte(),
 		};
+	}
+
+	void IByteWritable.WriteBytes(ref BytesWriter writer)
+	{
+		writer.WriteObject(Header);
+		writer.WriteByte(CarIndex);
+		writer.WriteObjects(TyreSetDatas);
+		writer.WriteByte(FittedIndex);
 	}
 }

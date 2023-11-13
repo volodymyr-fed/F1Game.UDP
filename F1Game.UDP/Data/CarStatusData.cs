@@ -2,7 +2,7 @@
 
 namespace F1Game.UDP.Data;
 
-public sealed record CarStatusData : IByteParsable<CarStatusData>
+public sealed record CarStatusData : IByteParsable<CarStatusData>, IByteWritable
 {
 	public TractionOptions TractionControl { get; init; } // Traction control - 0 = off, 1 = medium, 2 = full
 	public AntiLockBrakesOptions AntiLockBrakes { get; init; } // 0 (off) - 1 (on)
@@ -60,5 +60,34 @@ public sealed record CarStatusData : IByteParsable<CarStatusData>
 			ErsDeployedThisLap = reader.GetNextFloat(),
 			NetworkPaused = reader.GetNextBoolean()
 		};
+	}
+
+	void IByteWritable.WriteBytes(ref BytesWriter writer)
+	{
+		writer.WriteEnum(TractionControl);
+		writer.WriteEnum(AntiLockBrakes);
+		writer.WriteEnum(FuelMix);
+		writer.WriteByte(FrontBrakeBias);
+		writer.WriteBoolean(IsPitLimiterOn);
+		writer.WriteFloat(FuelInTank);
+		writer.WriteFloat(FuelCapacity);
+		writer.WriteFloat(FuelRemainingLaps);
+		writer.WriteUShort(MaxRPM);
+		writer.WriteUShort(IdleRPM);
+		writer.WriteByte(MaxGears);
+		writer.WriteBoolean(DrsAllowed);
+		writer.WriteUShort(DrsActivationDistance);
+		writer.WriteEnum(ActualTyreCompound);
+		writer.WriteEnum(VisualTyreCompound);
+		writer.WriteByte(TyresAgeLaps);
+		writer.WriteEnum(VehicleFiaFlags);
+		writer.WriteFloat(EnginePowerICE);
+		writer.WriteFloat(EnginePowerMGUK);
+		writer.WriteFloat(ErsStoreEnergy);
+		writer.WriteEnum(ErsDeployMode);
+		writer.WriteFloat(ErsHarvestedThisLapMGUK);
+		writer.WriteFloat(ErsHarvestedThisLapMGUH);
+		writer.WriteFloat(ErsDeployedThisLap);
+		writer.WriteBoolean(NetworkPaused);
 	}
 }

@@ -3,7 +3,7 @@ using F1Game.UDP.Enums;
 
 namespace F1Game.UDP.Packets;
 
-public sealed record SessionDataPacket : IPacket, IByteParsable<SessionDataPacket>, ISizeable
+public sealed record SessionDataPacket : IPacket, IByteParsable<SessionDataPacket>, ISizeable, IByteWritable
 {
 	public static int Size => 644;
 	public PacketHeader Header { get; init; } = PacketHeader.Empty; // Header
@@ -112,5 +112,59 @@ public sealed record SessionDataPacket : IPacket, IByteParsable<SessionDataPacke
 			NumVirtualSafetyCarPeriods = reader.GetNextByte(),
 			NumRedFlagPeriods = reader.GetNextByte(),
 		};
+	}
+
+	void IByteWritable.WriteBytes(ref BytesWriter writer)
+	{
+		writer.WriteObject(Header);
+		writer.WriteEnum(Weather);
+		writer.WriteSByte(TrackTemperature);
+		writer.WriteSByte(AirTemperature);
+		writer.WriteByte(TotalLaps);
+		writer.WriteUShort(TrackLength);
+		writer.WriteEnum(SessionType);
+		writer.WriteEnum(Track);
+		writer.WriteEnum(Formula);
+		writer.WriteUShort(SessionTimeLeft);
+		writer.WriteUShort(SessionDuration);
+		writer.WriteByte(PitSpeedLimit);
+		writer.WriteBoolean(GamePaused);
+		writer.WriteBoolean(IsSpectating);
+		writer.WriteByte(SpectatorCarIndex);
+		writer.WriteBoolean(IsSliProNativeSupport);
+		writer.WriteByte(NumMarshalZones);
+		writer.WriteObjects(MarshalZones);
+		writer.WriteEnum(SafetyCarStatus);
+		writer.WriteBoolean(IsNetworkGame);
+		writer.WriteByte(NumWeatherForecastSamples);
+		writer.WriteObjects(WeatherForecastSamples);
+		writer.WriteEnum(ForecastAccuracy);
+		writer.WriteByte(AIDifficulty);
+		writer.WriteUInt(SeasonLinkIdentifier);
+		writer.WriteUInt(WeekendLinkIdentifier);
+		writer.WriteUInt(SessionLinkIdentifier);
+		writer.WriteByte(PitStopWindowIdealLap);
+		writer.WriteByte(PitStopWindowLatestLap);
+		writer.WriteByte(PitStopRejoinPosition);
+		writer.WriteBoolean(IsSteeringAssistOn);
+		writer.WriteEnum(BrakingAssist);
+		writer.WriteEnum(GearboxAssist);
+		writer.WriteBoolean(PitAssist);
+		writer.WriteBoolean(PitReleaseAssist);
+		writer.WriteBoolean(ERSAssist);
+		writer.WriteBoolean(DRSAssist);
+		writer.WriteEnum(DynamicRacingLine);
+		writer.WriteEnum(DynamicRacingLineType);
+		writer.WriteEnum(GameMode);
+		writer.WriteEnum(RuleSet);
+		writer.WriteUInt(TimeOfDay);
+		writer.WriteEnum(SessionLength);
+		writer.WriteEnum(SpeedUnitsLeadPlayer);
+		writer.WriteEnum(TemperatureUnitsLeadPlayer);
+		writer.WriteEnum(SpeedUnitsSecondaryPlayer);
+		writer.WriteEnum(TemperatureUnitsSecondaryPlayer);
+		writer.WriteByte(NumSafetyCarPeriods);
+		writer.WriteByte(NumVirtualSafetyCarPeriods);
+		writer.WriteByte(NumRedFlagPeriods);
 	}
 }

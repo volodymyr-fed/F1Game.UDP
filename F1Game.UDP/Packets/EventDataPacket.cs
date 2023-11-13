@@ -3,7 +3,7 @@ using F1Game.UDP.Events;
 
 namespace F1Game.UDP.Packets;
 
-public sealed record EventDataPacket : IPacket, IByteParsable<EventDataPacket>, ISizeable
+public sealed record EventDataPacket : IPacket, IByteParsable<EventDataPacket>, ISizeable, IByteWritable
 {
 	public static int Size => 45;
 
@@ -21,20 +21,29 @@ public sealed record EventDataPacket : IPacket, IByteParsable<EventDataPacket>, 
 			EventType = eventType = reader.GetNextUIntEnum<EventType>(),
 			EventDetails = eventType switch
 			{
-				EventType.FastestLap => reader.GetNextObject<FastestLap>(),
-				EventType.Retirement => reader.GetNextObject<Retirement>(),
-				EventType.TeamMateInPits => reader.GetNextObject<TeamMateInPits>(),
-				EventType.RaceWinner => reader.GetNextObject<RaceWinner>(),
-				EventType.PenaltyIssued => reader.GetNextObject<Penalty>(),
-				EventType.SpeedTrapTriggered => reader.GetNextObject<SpeedTrap>(),
-				EventType.StartLights => reader.GetNextObject<StartLights>(),
-				EventType.DriveThroughServed => reader.GetNextObject<DriveThroughPenaltyServed>(),
-				EventType.StopGoServed => reader.GetNextObject<StopGoPenaltyServed>(),
-				EventType.Flashback => reader.GetNextObject<Flashback>(),
-				EventType.ButtonStatus => reader.GetNextObject<Buttons>(),
-				EventType.Overtake => reader.GetNextObject<Overtake>(),
+				EventType.FastestLap => reader.GetNextObject<FastestLapEvent>(),
+				EventType.Retirement => reader.GetNextObject<RetirementEvent>(),
+				EventType.TeamMateInPits => reader.GetNextObject<TeamMateInPitsEvent>(),
+				EventType.RaceWinner => reader.GetNextObject<RaceWinnerEvent>(),
+				EventType.PenaltyIssued => reader.GetNextObject<PenaltyEvent>(),
+				EventType.SpeedTrapTriggered => reader.GetNextObject<SpeedTrapEvent>(),
+				EventType.StartLights => reader.GetNextObject<StartLightsEvent>(),
+				EventType.DriveThroughServed => reader.GetNextObject<DriveThroughPenaltyServedEvent>(),
+				EventType.StopGoServed => reader.GetNextObject<StopGoPenaltyServedEvent>(),
+				EventType.Flashback => reader.GetNextObject<FlashbackEvent>(),
+				EventType.ButtonStatus => reader.GetNextObject<ButtonsEvent>(),
+				EventType.Overtake => reader.GetNextObject<OvertakeEvent>(),
 				_ => null,
 			}
 		};
+	}
+
+	void IByteWritable.WriteBytes(ref BytesWriter writer)
+	{
+		writer.WriteObject(Header);
+		writer.WriteUIntEnum(EventType);
+
+		if (EventDetails is IByteWritable byteWritable)
+			writer.WriteObject(byteWritable);
 	}
 }

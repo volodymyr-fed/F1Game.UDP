@@ -2,7 +2,7 @@
 
 namespace F1Game.UDP.Data;
 
-public sealed record LapData : IByteParsable<LapData>
+public sealed record LapData : IByteParsable<LapData>, IByteWritable
 {
 	public uint LastLapTimeInMS { get; init; } // Last lap time in milliseconds
 	public uint CurrentLapTimeInMS { get; init; } // Current time around the lap in milliseconds
@@ -70,5 +70,38 @@ public sealed record LapData : IByteParsable<LapData>
 			PitStopTimerInMS = reader.GetNextUShort(),
 			PitStopShouldServePen = reader.GetNextByte(),
 		};
+	}
+
+	void IByteWritable.WriteBytes(ref BytesWriter writer)
+	{
+		writer.WriteUInt(LastLapTimeInMS);
+		writer.WriteUInt(CurrentLapTimeInMS);
+		writer.WriteUShort(Sector1TimeInMS);
+		writer.WriteByte(Sector1TimeInMinutes);
+		writer.WriteUShort(Sector2TimeInMS);
+		writer.WriteByte(Sector2TimeInMinutes);
+		writer.WriteUShort(DeltaToCarInFrontInMS);
+		writer.WriteUShort(DeltaToRaceLeaderInMS);
+		writer.WriteFloat(LapDistance);
+		writer.WriteFloat(TotalDistance);
+		writer.WriteFloat(SafetyCarDelta);
+		writer.WriteByte(CarPosition);
+		writer.WriteByte(CurrentLapNum);
+		writer.WriteEnum(PitStatus);
+		writer.WriteByte(NumPitStops);
+		writer.WriteByte(Sector);
+		writer.WriteByte(CurrentLapInvalid);
+		writer.WriteByte(Penalties);
+		writer.WriteByte(TotalWarnings);
+		writer.WriteByte(CornerCuttingWarnings);
+		writer.WriteByte(NumUnservedDriveThroughPens);
+		writer.WriteByte(NumUnservedStopGoPens);
+		writer.WriteByte(GridPosition);
+		writer.WriteEnum(DriverStatus);
+		writer.WriteEnum(ResultStatus);
+		writer.WriteBoolean(PitLaneTimerActive);
+		writer.WriteUShort(PitLaneTimeInLaneInMS);
+		writer.WriteUShort(PitStopTimerInMS);
+		writer.WriteByte(PitStopShouldServePen);
 	}
 }
