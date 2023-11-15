@@ -19,7 +19,7 @@ public class ToPacketBenchmark
 	{
 		data = new byte[SessionHistoryDataPacket.Size];
 		new Random(42).NextBytes(data);
-		data[6] = 0;
+		data[6] = 11;
 	}
 
 	[Benchmark]
