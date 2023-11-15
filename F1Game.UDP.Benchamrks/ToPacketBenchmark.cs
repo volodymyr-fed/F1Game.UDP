@@ -4,12 +4,11 @@ using BenchmarkDotNet.Attributes;
 
 using F1_22_UDP_Telemetry_Receiver.Packets;
 
-using F1Game.UDP;
 using F1Game.UDP.Packets;
 
 using SharpSessionHistoryPacket = F1Sharp.Packets.SessionHistoryPacket;
 
-namespace F122Benchmark;
+namespace F1Game.UDP.Benchmarks;
 
 [MemoryDiagnoser(true)]
 public class ToPacketBenchmark
@@ -42,9 +41,7 @@ public class ToPacketBenchmark
 		finally
 		{
 			if (handle.IsAllocated)
-			{
 				handle.Free();
-			}
 		}
 	}
 

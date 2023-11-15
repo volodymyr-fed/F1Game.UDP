@@ -3,7 +3,7 @@ using BenchmarkDotNet.Environments;
 using BenchmarkDotNet.Jobs;
 using BenchmarkDotNet.Running;
 
-using F122Benchmark;
+using F1Game.UDP.Benchmarks;
 
 var config = DefaultConfig.Instance
 	.AddJob(Job.Default.WithId("NET7").WithRuntime(CoreRuntime.Core70))
