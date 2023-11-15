@@ -1,4 +1,4 @@
-﻿
+
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.6.33829.357
@@ -10,7 +10,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "F1Game.UDP.Tests", "F1Game.UDP.Tests\F1Game.UDP.Tests.csproj", "{9A200C1C-5B68-4D37-B8C3-C4738A465693}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "F1Game.UDP.Tests", "F1Game.UDP.Tests\F1Game.UDP.Tests.csproj", "{9A200C1C-5B68-4D37-B8C3-C4738A465693}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "F1Game.UDP.Benchmarks", "F1Game.UDP.Benchamrks\F1Game.UDP.Benchmarks.csproj", "{480429B0-6373-4151-AD33-6CCD4D55CC6F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -26,6 +28,10 @@ Global
 		{9A200C1C-5B68-4D37-B8C3-C4738A465693}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9A200C1C-5B68-4D37-B8C3-C4738A465693}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9A200C1C-5B68-4D37-B8C3-C4738A465693}.Release|Any CPU.Build.0 = Release|Any CPU
+		{480429B0-6373-4151-AD33-6CCD4D55CC6F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{480429B0-6373-4151-AD33-6CCD4D55CC6F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{480429B0-6373-4151-AD33-6CCD4D55CC6F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{480429B0-6373-4151-AD33-6CCD4D55CC6F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
