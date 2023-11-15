@@ -7,7 +7,7 @@ public sealed record ParticipantsDataPacket : IPacket, IByteParsable<Participant
 	public static int Size => 1306;
 	public PacketHeader Header { get; init; } = PacketHeader.Empty; // Header
 	public byte NumActiveCars { get; init; } // Number of active cars in the data – should match number of cars on HUD
-	public ParticipantData[] Participants { get; init; } = Array.Empty<ParticipantData>();
+	public ParticipantData[] Participants { get; init; } = [];
 
 	static ParticipantsDataPacket IByteParsable<ParticipantsDataPacket>.Parse(ref BytesReader reader)
 	{

@@ -7,7 +7,7 @@ public sealed record CarTelemetryDataPacket : IPacket, IByteParsable<CarTelemetr
 {
 	public static int Size => 1352;
 	public PacketHeader Header { get; init; } = PacketHeader.Empty; // Header
-	public CarTelemetryData[] CarTelemetryData { get; init; } = Array.Empty<CarTelemetryData>();
+	public CarTelemetryData[] CarTelemetryData { get; init; } = [];
 	public MfdPanel MfdPanelIndex { get; init; }
 	public MfdPanel MfdPanelIndexSecondaryPlayer { get; init; } // See above
 	public sbyte SuggestedGear { get; init; } // Suggested gear for the player (1-8) 0 if no gear suggested

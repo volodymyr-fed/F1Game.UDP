@@ -7,7 +7,7 @@ public sealed record CarSetupDataPacket : IPacket, IByteParsable<CarSetupDataPac
 	public static int Size => 1107;
 
 	public PacketHeader Header { get; init; } = PacketHeader.Empty; // Header
-	public CarSetupData[] CarSetups { get; init; } = Array.Empty<CarSetupData>();
+	public CarSetupData[] CarSetups { get; init; } = [];
 
 	static CarSetupDataPacket IByteParsable<CarSetupDataPacket>.Parse(ref BytesReader reader)
 	{

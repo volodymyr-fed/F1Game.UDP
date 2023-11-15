@@ -1,30 +1,24 @@
 ﻿namespace F1Game.UDP;
 
-ref struct BytesReader
+ref struct BytesReader(byte[] bytes, int startIndex)
 {
-	readonly byte[] bytes;
-	int currentIndex;
+	readonly ReadOnlySpan<byte> spanBytes = bytes;
+	int currentIndex = startIndex;
 
 	public readonly int CurrentIndex => currentIndex;
-	public readonly int TotalCount => bytes.Length;
+	public readonly int TotalCount => spanBytes.Length;
 
 	public BytesReader(byte[] bytes) : this(bytes, 0) { }
-
-	public BytesReader(byte[] bytes, int startIndex)
-	{
-		this.bytes = bytes;
-		currentIndex = startIndex;
-	}
 
 	public ReadOnlySpan<byte> GetNextBytes(int count)
 	{
 		var startIndex = currentIndex;
 		currentIndex += count;
 
-		return new ReadOnlySpan<byte>(bytes, startIndex, count);
+		return spanBytes.Slice(startIndex, count);
 	}
 
-	public byte GetNextByte() => bytes[currentIndex++];
+	public byte GetNextByte() => spanBytes[currentIndex++];
 
 	public void Skip(int count) => currentIndex += count;
 }

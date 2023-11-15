@@ -17,9 +17,9 @@ public sealed record FinalClassificationData : IByteParsable<FinalClassification
 	public byte PenaltiesTime { get; init; } // Total penalties accumulated in seconds
 	public byte NumPenalties { get; init; } // Number of penalties applied to this driver
 	public byte NumTyreStints { get; init; } // Number of tyres stints up to maximum
-	public ActualCompound[] TyreStintsActual { get; init; } = Array.Empty<ActualCompound>(); // Actual tyres used by this driver 8
-	public VisualCompound[] TyreStintsVisual { get; init; } = Array.Empty<VisualCompound>(); // Visual tyres used by this driver 8
-	public byte[] TyreStintsEndLaps { get; init; } = Array.Empty<byte>(); // The lap number stints end on 8
+	public ActualCompound[] TyreStintsActual { get; init; } = []; // Actual tyres used by this driver 8
+	public VisualCompound[] TyreStintsVisual { get; init; } = []; // Visual tyres used by this driver 8
+	public byte[] TyreStintsEndLaps { get; init; } = []; // The lap number stints end on 8
 
 	static FinalClassificationData IByteParsable<FinalClassificationData>.Parse(ref BytesReader reader)
 	{

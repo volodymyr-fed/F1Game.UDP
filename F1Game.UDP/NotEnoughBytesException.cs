@@ -1,12 +1,6 @@
-﻿using System.Runtime.Serialization;
+﻿namespace F1Game.UDP;
 
-namespace F1Game.UDP;
-
-[Serializable]
-public sealed class NotEnoughBytesException : Exception
+public sealed class NotEnoughBytesException(int requiredLength, int actualLength, string packetType)
+	: Exception($"There is not enough bytes to read {packetType}. Required count: {requiredLength}, actual count: {actualLength}.")
 {
-	NotEnoughBytesException(SerializationInfo info, StreamingContext context) : base(info, context) { }
-
-	public NotEnoughBytesException(int requiredLength, int actualLength, string packetType)
-		: base($"There is not enough bytes to read {packetType}. Required count: {requiredLength}, actual count: {actualLength}.") { }
 }

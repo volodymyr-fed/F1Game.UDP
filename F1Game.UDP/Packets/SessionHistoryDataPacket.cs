@@ -14,8 +14,8 @@ public sealed record SessionHistoryDataPacket : IPacket, IByteParsable<SessionHi
 	public byte BestSector1LapNum { get; init; } // Lap the best Sector 1 time was achieved on
 	public byte BestSector2LapNum { get; init; } // Lap the best Sector 2 time was achieved on
 	public byte BestSector3LapNum { get; init; } // Lap the best Sector 3 time was achieved on
-	public LapHistoryData[] LapHistoryData { get; init; } = Array.Empty<LapHistoryData>(); // 100 laps of data max
-	public TyreStintHistoryData[] TyreStintsHistoryData { get; init; } = Array.Empty<TyreStintHistoryData>(); // max 8
+	public LapHistoryData[] LapHistoryData { get; init; } = []; // 100 laps of data max
+	public TyreStintHistoryData[] TyreStintsHistoryData { get; init; } = []; // max 8
 
 	static SessionHistoryDataPacket IByteParsable<SessionHistoryDataPacket>.Parse(ref BytesReader reader)
 	{

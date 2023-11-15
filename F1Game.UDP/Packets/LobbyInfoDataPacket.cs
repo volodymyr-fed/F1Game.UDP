@@ -7,7 +7,7 @@ public sealed record LobbyInfoDataPacket : IPacket, IByteParsable<LobbyInfoDataP
 	public static int Size => 1218;
 	public PacketHeader Header { get; init; } = PacketHeader.Empty; // Header
 	public byte NumPlayers { get; init; } // Number of players in the lobby data
-	public LobbyInfoData[] LobbyPlayers { get; init; } = Array.Empty<LobbyInfoData>();
+	public LobbyInfoData[] LobbyPlayers { get; init; } = [];
 
 	static LobbyInfoDataPacket IByteParsable<LobbyInfoDataPacket>.Parse(ref BytesReader reader)
 	{

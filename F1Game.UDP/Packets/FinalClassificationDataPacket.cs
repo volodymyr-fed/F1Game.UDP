@@ -7,7 +7,7 @@ public sealed record FinalClassificationDataPacket : IPacket, IByteParsable<Fina
 	public static int Size => 1020;
 	public PacketHeader Header { get; init; } = PacketHeader.Empty; // Header
 	public byte NumCars { get; init; } // Number of cars in the final classification
-	public FinalClassificationData[] ClassificationData { get; init; } = Array.Empty<FinalClassificationData>();
+	public FinalClassificationData[] ClassificationData { get; init; } = [];
 
 	static FinalClassificationDataPacket IByteParsable<FinalClassificationDataPacket>.Parse(ref BytesReader reader)
 	{

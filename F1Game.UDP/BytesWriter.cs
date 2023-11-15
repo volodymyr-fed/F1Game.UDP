@@ -4,17 +4,12 @@ using System.Text;
 
 namespace F1Game.UDP;
 
-ref struct BytesWriter
+ref struct BytesWriter(byte[] bytes)
 {
-	readonly Span<byte> bytes;
+	readonly Span<byte> bytes = bytes;
 	int currentIndex;
 
 	public readonly int CurrentIndex => currentIndex;
-
-	public BytesWriter(byte[] bytes)
-	{
-		this.bytes = bytes;
-	}
 
 	public void WriteByte(byte value)
 	{

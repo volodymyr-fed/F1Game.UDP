@@ -6,7 +6,7 @@ public sealed record LapDataPacket : IPacket, IByteParsable<LapDataPacket>, ISiz
 {
 	public static int Size => 1131;
 	public PacketHeader Header { get; init; } = PacketHeader.Empty; // Header
-	public LapData[] LapData { get; init; } = Array.Empty<LapData>(); // Lap data for all cars on track
+	public LapData[] LapData { get; init; } = []; // Lap data for all cars on track
 	public byte TimeTrialPBCarIdx { get; init; } // Index of Personal Best car in time trial (255 if invalid)
 	public byte TimeTrialRivalCarIdx { get; init; } // Index of Rival car in time trial (255 if invalid)
 

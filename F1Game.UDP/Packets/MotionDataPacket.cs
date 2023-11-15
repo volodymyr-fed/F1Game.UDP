@@ -6,7 +6,7 @@ public sealed record MotionDataPacket : IPacket, IByteParsable<MotionDataPacket>
 {
 	public static int Size => 1349;
 	public PacketHeader Header { get; init; } = PacketHeader.Empty; // Header
-	public CarMotionData[] CarMotionData { get; init; } = Array.Empty<CarMotionData>(); // Data for all cars on track
+	public CarMotionData[] CarMotionData { get; init; } = []; // Data for all cars on track
 																						// Extra player car ONLY data
 
 	static MotionDataPacket IByteParsable<MotionDataPacket>.Parse(ref BytesReader reader)

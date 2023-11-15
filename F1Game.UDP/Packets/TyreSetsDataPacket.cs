@@ -8,7 +8,7 @@ public sealed record TyreSetsDataPacket : IPacket, IByteParsable<TyreSetsDataPac
 
 	public PacketHeader Header { get; init; } = PacketHeader.Empty;
 	public byte CarIndex { get; init; } //Index of the car this packet relates to
-	public TyreSetData[] TyreSetDatas { get; init; } = Array.Empty<TyreSetData>(); // 13 dry - 7 wet
+	public TyreSetData[] TyreSetDatas { get; init; } = []; // 13 dry - 7 wet
 	public byte FittedIndex { get; init; } // Index into array of fitted tyre
 
 	static TyreSetsDataPacket IByteParsable<TyreSetsDataPacket>.Parse(ref BytesReader reader)

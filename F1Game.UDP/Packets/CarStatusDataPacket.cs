@@ -6,7 +6,7 @@ public sealed record CarStatusDataPacket : IPacket, IByteParsable<CarStatusDataP
 {
 	public static int Size => 1239;
 	public PacketHeader Header { get; init; } = PacketHeader.Empty; // Header
-	public CarStatusData[] CarStatusData { get; init; } = Array.Empty<CarStatusData>();
+	public CarStatusData[] CarStatusData { get; init; } = [];
 
 	static CarStatusDataPacket IByteParsable<CarStatusDataPacket>.Parse(ref BytesReader reader)
 	{

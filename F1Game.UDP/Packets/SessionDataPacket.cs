@@ -23,11 +23,11 @@ public sealed record SessionDataPacket : IPacket, IByteParsable<SessionDataPacke
 	public byte SpectatorCarIndex { get; init; } // Index of the car being spectated
 	public bool IsSliProNativeSupport { get; init; } // SLI Pro support, 0 = inactive, 1 = active
 	public byte NumMarshalZones { get; init; } // Number of marshal zones to follow
-	public MarshalZone[] MarshalZones { get; init; } = Array.Empty<MarshalZone>(); // List of marshal zones – max 21
+	public MarshalZone[] MarshalZones { get; init; } = []; // List of marshal zones – max 21
 	public SafetyCarStatus SafetyCarStatus { get; init; } // 0 = no safety car, 1 = full, 2 = virtual, 3 = formation lap
 	public bool IsNetworkGame { get; init; } // 0 = offline, 1 = online
 	public byte NumWeatherForecastSamples { get; init; } // Number of weather samples to follow
-	public WeatherForecastSample[] WeatherForecastSamples { get; init; } = Array.Empty<WeatherForecastSample>(); // Array of weather forecast samples 56 cells
+	public WeatherForecastSample[] WeatherForecastSamples { get; init; } = []; // Array of weather forecast samples 56 cells
 	public ForecastAccuracy ForecastAccuracy { get; init; } // 0 = Perfect, 1 = Approximate
 	public byte AIDifficulty { get; init; } // AI Difficulty rating – 0-110
 	public uint SeasonLinkIdentifier { get; init; } // Identifier for season - persists across saves
