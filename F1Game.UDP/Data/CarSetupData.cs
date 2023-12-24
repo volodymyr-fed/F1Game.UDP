@@ -1,6 +1,6 @@
 ﻿namespace F1Game.UDP.Data;
 
-public sealed record CarSetupData : IByteParsable<CarSetupData>, IByteWritable
+public readonly record struct CarSetupData() : IByteParsable<CarSetupData>, IByteWritable
 {
 	public byte FrontWing { get; init; } // Front wing aero
 	public byte RearWing { get; init; } // Rear wing aero

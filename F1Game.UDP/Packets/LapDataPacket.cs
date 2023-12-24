@@ -2,7 +2,7 @@
 
 namespace F1Game.UDP.Packets;
 
-public sealed record LapDataPacket : IPacket, IByteParsable<LapDataPacket>, ISizeable, IByteWritable
+public readonly record struct LapDataPacket() : IPacket, IByteParsable<LapDataPacket>, ISizeable, IByteWritable
 {
 	public static int Size => 1131;
 	public PacketHeader Header { get; init; } = PacketHeader.Empty; // Header

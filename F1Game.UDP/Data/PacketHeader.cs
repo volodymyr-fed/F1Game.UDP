@@ -2,7 +2,7 @@
 
 namespace F1Game.UDP.Data;
 
-public sealed record PacketHeader : IByteParsable<PacketHeader>, ISizeable, IByteWritable
+public readonly record struct PacketHeader() : IByteParsable<PacketHeader>, ISizeable, IByteWritable
 {
 	public static readonly PacketHeader Empty = new();
 	internal const int PacketTypeIndex = 6;

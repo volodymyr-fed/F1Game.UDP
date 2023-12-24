@@ -2,48 +2,62 @@
 
 namespace F1Game.UDP.Data;
 
-public readonly record struct Tyres<TValue>(TValue RearLeft, TValue RearRight, TValue FrontLeft, TValue FrontRight);
+public readonly record struct Tyres<TValue>()
+{
+	public TValue RearLeft { get; init; }
+	public TValue RearRight { get; init; }
+	public TValue FrontLeft { get; init; }
+	public TValue FrontRight { get; init; }
+}
 
 static class TyresBytesReaderExtensions
 {
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
 	public static Tyres<byte> GetNextTyresByte(this ref BytesReader reader)
 	{
-		return new Tyres<byte>(
-			reader.GetNextByte(),
-			reader.GetNextByte(),
-			reader.GetNextByte(),
-			reader.GetNextByte());
+		return new Tyres<byte>
+		{
+			RearLeft = reader.GetNextByte(),
+			RearRight = reader.GetNextByte(),
+			FrontLeft = reader.GetNextByte(),
+			FrontRight = reader.GetNextByte()
+		};
 	}
 
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
 	public static Tyres<ushort> GetNextTyresUShort(this ref BytesReader reader)
 	{
-		return new Tyres<ushort>(
-			reader.GetNextUShort(),
-			reader.GetNextUShort(),
-			reader.GetNextUShort(),
-			reader.GetNextUShort());
+		return new Tyres<ushort>
+		{
+			RearLeft = reader.GetNextUShort(),
+			RearRight = reader.GetNextUShort(),
+			FrontLeft = reader.GetNextUShort(),
+			FrontRight = reader.GetNextUShort()
+		};
 	}
 
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
 	public static Tyres<float> GetNextTyresFloat(this ref BytesReader reader)
 	{
-		return new Tyres<float>(
-			reader.GetNextFloat(),
-			reader.GetNextFloat(),
-			reader.GetNextFloat(),
-			reader.GetNextFloat());
+		return new Tyres<float>
+		{
+			RearLeft = reader.GetNextFloat(),
+			RearRight = reader.GetNextFloat(),
+			FrontLeft = reader.GetNextFloat(),
+			FrontRight = reader.GetNextFloat()
+		};
 	}
 
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
 	public static Tyres<T> GetNextTyresEnum<T>(this ref BytesReader reader) where T : struct, Enum, IConvertible
 	{
-		return new Tyres<T>(
-			reader.GetNextEnum<T>(),
-			reader.GetNextEnum<T>(),
-			reader.GetNextEnum<T>(),
-			reader.GetNextEnum<T>());
+		return new Tyres<T>
+		{
+			RearLeft = reader.GetNextEnum<T>(),
+			RearRight = reader.GetNextEnum<T>(),
+			FrontLeft = reader.GetNextEnum<T>(),
+			FrontRight = reader.GetNextEnum<T>()
+		};
 	}
 }
 

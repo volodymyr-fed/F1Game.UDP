@@ -2,7 +2,7 @@
 
 namespace F1Game.UDP.Data;
 
-public sealed record LapHistoryData : IByteParsable<LapHistoryData>
+public readonly record struct LapHistoryData() : IByteParsable<LapHistoryData>
 {
 	public uint LapTimeInMS { get; init; } // Lap time in milliseconds
 	public ushort Sector1TimeInMS { get; init; } // Sector 1 time in milliseconds

@@ -1,6 +1,6 @@
 ﻿namespace F1Game.UDP.Events;
 
-public sealed record TeamMateInPitsEvent : IEventDetails, IByteParsable<TeamMateInPitsEvent>, IByteWritable
+public readonly record struct TeamMateInPitsEvent() : IEventDetails, IByteParsable<TeamMateInPitsEvent>, IByteWritable
 {
 	public byte VehicleIdx { get; init; } // Vehicle index of team mate
 

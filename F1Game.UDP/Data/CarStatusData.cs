@@ -2,7 +2,7 @@
 
 namespace F1Game.UDP.Data;
 
-public sealed record CarStatusData : IByteParsable<CarStatusData>, IByteWritable
+public readonly record struct CarStatusData() : IByteParsable<CarStatusData>, IByteWritable
 {
 	public TractionOptions TractionControl { get; init; } // Traction control - 0 = off, 1 = medium, 2 = full
 	public AntiLockBrakesOptions AntiLockBrakes { get; init; } // 0 (off) - 1 (on)

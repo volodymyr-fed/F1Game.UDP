@@ -1,6 +1,6 @@
 ﻿namespace F1Game.UDP.Events;
 
-public sealed record OvertakeEvent : IEventDetails, IByteParsable<OvertakeEvent>, IByteWritable
+public readonly record struct OvertakeEvent() : IEventDetails, IByteParsable<OvertakeEvent>, IByteWritable
 {
 	public byte OvertakingVehicleIdx { get; init; } // Vehicle index of the vehicle overtaking
 	public byte BeingOvertakenVehicleIdx { get; init; }  // Vehicle index of the vehicle being overtaken

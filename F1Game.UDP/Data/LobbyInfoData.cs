@@ -2,7 +2,7 @@
 
 namespace F1Game.UDP.Data;
 
-public sealed record LobbyInfoData : IByteParsable<LobbyInfoData>, IByteWritable
+public readonly record struct LobbyInfoData() : IByteParsable<LobbyInfoData>, IByteWritable
 {
 	public bool IsAiControlled { get; init; } // Whether the vehicle is AI (1) or Human (0) controlled
 	public Team Team { get; init; } // Team id - see appendix (255 if no team currently selected)

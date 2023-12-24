@@ -2,7 +2,7 @@
 
 namespace F1Game.UDP.Packets;
 
-public sealed record SessionHistoryDataPacket : IPacket, IByteParsable<SessionHistoryDataPacket>, ISizeable
+public readonly record struct SessionHistoryDataPacket() : IPacket, IByteParsable<SessionHistoryDataPacket>, ISizeable
 {
 	public static int Size => 1460;
 

@@ -2,7 +2,7 @@
 
 namespace F1Game.UDP.Data;
 
-public sealed record CarTelemetryData : IByteParsable<CarTelemetryData>, IByteWritable
+public readonly record struct CarTelemetryData() : IByteParsable<CarTelemetryData>, IByteWritable
 {
 	public ushort Speed { get; init; } // Speed of car in kilometres per hour
 	public float Throttle { get; init; } // Amount of throttle applied (0.0 to 1.0)

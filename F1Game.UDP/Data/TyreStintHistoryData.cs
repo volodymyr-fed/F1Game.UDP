@@ -2,7 +2,7 @@
 
 namespace F1Game.UDP.Data;
 
-public sealed record TyreStintHistoryData : IByteParsable<TyreStintHistoryData>
+public readonly record struct TyreStintHistoryData() : IByteParsable<TyreStintHistoryData>
 {
 	public byte EndLap { get; init; } // Lap the tyre usage ends on (255 of current tyre)
 	public ActualCompound TyreActualCompound { get; init; } // Actual tyres used by this driver
