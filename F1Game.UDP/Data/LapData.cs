@@ -2,7 +2,7 @@
 
 namespace F1Game.UDP.Data;
 
-public sealed record LapData : IByteParsable<LapData>, IByteWritable
+public readonly record struct LapData() : IByteParsable<LapData>, IByteWritable
 {
 	public uint LastLapTimeInMS { get; init; } // Last lap time in milliseconds
 	public uint CurrentLapTimeInMS { get; init; } // Current time around the lap in milliseconds

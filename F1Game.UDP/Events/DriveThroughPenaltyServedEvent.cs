@@ -1,6 +1,6 @@
 ﻿namespace F1Game.UDP.Events;
 
-public sealed record DriveThroughPenaltyServedEvent : IEventDetails, IByteParsable<DriveThroughPenaltyServedEvent>, IByteWritable
+public readonly record struct DriveThroughPenaltyServedEvent() : IEventDetails, IByteParsable<DriveThroughPenaltyServedEvent>, IByteWritable
 {
 	public byte VehicleIdx { get; init; } // Vehicle index of the vehicle serving drive through
 

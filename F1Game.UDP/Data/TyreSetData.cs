@@ -2,7 +2,7 @@
 
 namespace F1Game.UDP.Data;
 
-public sealed record TyreSetData : IByteParsable<TyreSetData>, IByteWritable
+public readonly record struct TyreSetData() : IByteParsable<TyreSetData>, IByteWritable
 {
 	public ActualCompound ActualTyreCompound { get; init; } // Actual tyre compound used
 	public VisualCompound VisualTyreCompound { get; init; } // Visual tyre compound used

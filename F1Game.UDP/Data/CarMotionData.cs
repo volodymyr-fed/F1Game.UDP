@@ -1,6 +1,6 @@
 ﻿namespace F1Game.UDP.Data;
 
-public sealed record CarMotionData : IByteParsable<CarMotionData>, IByteWritable
+public readonly record struct CarMotionData() : IByteParsable<CarMotionData>, IByteWritable
 {
 	public float WorldPositionX { get; init; } // World space X position
 	public float WorldPositionY { get; init; } // World space Y position

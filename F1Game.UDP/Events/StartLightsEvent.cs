@@ -1,6 +1,6 @@
 ﻿namespace F1Game.UDP.Events;
 
-public sealed record StartLightsEvent : IEventDetails, IByteParsable<StartLightsEvent>, IByteWritable
+public readonly record struct StartLightsEvent() : IEventDetails, IByteParsable<StartLightsEvent>, IByteWritable
 {
 	public byte NumLights { get; init; } // Number of lights showing
 

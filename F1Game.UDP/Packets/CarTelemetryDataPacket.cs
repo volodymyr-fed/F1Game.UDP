@@ -3,7 +3,7 @@ using F1Game.UDP.Enums;
 
 namespace F1Game.UDP.Packets;
 
-public sealed record CarTelemetryDataPacket : IPacket, IByteParsable<CarTelemetryDataPacket>, ISizeable, IByteWritable
+public readonly record struct CarTelemetryDataPacket() : IPacket, IByteParsable<CarTelemetryDataPacket>, ISizeable, IByteWritable
 {
 	public static int Size => 1352;
 	public PacketHeader Header { get; init; } = PacketHeader.Empty; // Header

@@ -2,7 +2,7 @@
 
 namespace F1Game.UDP.Data;
 
-public sealed record ParticipantData : IByteParsable<ParticipantData>, IByteWritable
+public readonly record struct ParticipantData() : IByteParsable<ParticipantData>, IByteWritable
 {
 	public bool IsAiControlled { get; init; } // Whether the vehicle is AI (1) or Human (0) controlled
 	public Driver Driver { get; init; } // Driver id - see appendix, ifnetworkhuman = 255,

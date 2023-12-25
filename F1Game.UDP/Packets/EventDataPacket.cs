@@ -3,7 +3,7 @@ using F1Game.UDP.Events;
 
 namespace F1Game.UDP.Packets;
 
-public sealed record EventDataPacket : IPacket, IByteParsable<EventDataPacket>, ISizeable, IByteWritable
+public readonly record struct EventDataPacket() : IPacket, IByteParsable<EventDataPacket>, ISizeable, IByteWritable
 {
 	public static int Size => 45;
 

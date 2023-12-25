@@ -2,7 +2,7 @@
 
 namespace F1Game.UDP.Events;
 
-public sealed record ButtonsEvent : IEventDetails, IByteParsable<ButtonsEvent>, IByteWritable
+public readonly record struct ButtonsEvent() : IEventDetails, IByteParsable<ButtonsEvent>, IByteWritable
 {
 	public ButtonFlag ButtonStatus { get; init; } // Bit flags specifying which buttons are being pressed
 

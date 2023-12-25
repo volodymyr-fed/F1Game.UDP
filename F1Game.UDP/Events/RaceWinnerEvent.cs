@@ -1,6 +1,6 @@
 ﻿namespace F1Game.UDP.Events;
 
-public sealed record RaceWinnerEvent : IEventDetails, IByteParsable<RaceWinnerEvent>, IByteWritable
+public readonly record struct RaceWinnerEvent() : IEventDetails, IByteParsable<RaceWinnerEvent>, IByteWritable
 {
 	public byte VehicleIdx { get; init; } // Vehicle index of the race winner
 

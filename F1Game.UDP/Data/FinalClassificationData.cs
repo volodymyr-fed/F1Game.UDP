@@ -2,7 +2,7 @@
 
 namespace F1Game.UDP.Data;
 
-public sealed record FinalClassificationData : IByteParsable<FinalClassificationData>, IByteWritable
+public readonly record struct FinalClassificationData() : IByteParsable<FinalClassificationData>, IByteWritable
 {
 	public byte Position { get; init; } // Finishing position
 	public byte NumLaps { get; init; } // Number of laps completed

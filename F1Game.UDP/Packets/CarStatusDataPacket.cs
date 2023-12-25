@@ -2,7 +2,7 @@
 
 namespace F1Game.UDP.Packets;
 
-public sealed record CarStatusDataPacket : IPacket, IByteParsable<CarStatusDataPacket>, ISizeable, IByteWritable
+public readonly record struct CarStatusDataPacket() : IPacket, IByteParsable<CarStatusDataPacket>, ISizeable, IByteWritable
 {
 	public static int Size => 1239;
 	public PacketHeader Header { get; init; } = PacketHeader.Empty; // Header

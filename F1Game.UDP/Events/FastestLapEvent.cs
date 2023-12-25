@@ -2,7 +2,7 @@
 
 // The event details packet is different for each type of event.
 // Make sure only the correct type is interpreted.
-public sealed record FastestLapEvent : IEventDetails, IByteParsable<FastestLapEvent>, IByteWritable
+public readonly record struct FastestLapEvent() : IEventDetails, IByteParsable<FastestLapEvent>, IByteWritable
 {
 	public byte VehicleIdx { get; init; } // Vehicle index of car achieving fastest lap
 	public float LapTime { get; init; } // Lap time is in seconds

@@ -3,7 +3,7 @@ using F1Game.UDP.Enums;
 
 namespace F1Game.UDP.Packets;
 
-public sealed record SessionDataPacket : IPacket, IByteParsable<SessionDataPacket>, ISizeable, IByteWritable
+public readonly record struct SessionDataPacket() : IPacket, IByteParsable<SessionDataPacket>, ISizeable, IByteWritable
 {
 	public static int Size => 644;
 	public PacketHeader Header { get; init; } = PacketHeader.Empty; // Header

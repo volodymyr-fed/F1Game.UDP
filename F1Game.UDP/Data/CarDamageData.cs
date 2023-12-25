@@ -1,6 +1,6 @@
 ﻿namespace F1Game.UDP.Data;
 
-public sealed record CarDamageData : IByteParsable<CarDamageData>, IByteWritable
+public readonly record struct CarDamageData() : IByteParsable<CarDamageData>, IByteWritable
 {
 	public Tyres<float> TyresWear { get; init; } // Tyre wear (percentage)
 	public Tyres<byte> TyresDamage { get; init; } // Tyre damage (percentage)

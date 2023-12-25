@@ -2,7 +2,7 @@
 
 namespace F1Game.UDP.Packets;
 
-public sealed record LobbyInfoDataPacket : IPacket, IByteParsable<LobbyInfoDataPacket>, ISizeable, IByteWritable
+public readonly record struct LobbyInfoDataPacket() : IPacket, IByteParsable<LobbyInfoDataPacket>, ISizeable, IByteWritable
 {
 	public static int Size => 1218;
 	public PacketHeader Header { get; init; } = PacketHeader.Empty; // Header

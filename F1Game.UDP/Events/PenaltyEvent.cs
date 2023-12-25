@@ -2,7 +2,7 @@
 
 namespace F1Game.UDP.Events;
 
-public sealed record PenaltyEvent : IEventDetails, IByteParsable<PenaltyEvent>, IByteWritable
+public readonly record struct PenaltyEvent() : IEventDetails, IByteParsable<PenaltyEvent>, IByteWritable
 {
 	public PenaltyType PenaltyType { get; init; } // Penalty type – see Appendices
 	public InfringementType InfringementType { get; init; } // Infringement type – see Appendices

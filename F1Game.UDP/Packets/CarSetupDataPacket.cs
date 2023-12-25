@@ -2,7 +2,7 @@
 
 namespace F1Game.UDP.Packets;
 
-public sealed record CarSetupDataPacket : IPacket, IByteParsable<CarSetupDataPacket>, ISizeable, IByteWritable
+public readonly record struct CarSetupDataPacket() : IPacket, IByteParsable<CarSetupDataPacket>, ISizeable, IByteWritable
 {
 	public static int Size => 1107;
 

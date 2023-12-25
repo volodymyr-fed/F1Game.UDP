@@ -2,7 +2,7 @@
 
 namespace F1Game.UDP.Data;
 
-public sealed record WeatherForecastSample : IByteParsable<WeatherForecastSample>, IByteWritable
+public readonly record struct WeatherForecastSample() : IByteParsable<WeatherForecastSample>, IByteWritable
 {
 	// 0 = unknown, 1 = P1, 2 = P2, 3 = P3, 4 = Short P, 5 = Q1
 	// 6 = Q2, 7 = Q3, 8 = Short Q, 9 = OSQ, 10 = R, 11 = R2

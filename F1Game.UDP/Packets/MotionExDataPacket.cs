@@ -2,7 +2,7 @@
 
 namespace F1Game.UDP.Packets;
 
-public sealed record MotionExDataPacket : IPacket, IByteParsable<MotionExDataPacket>, ISizeable, IByteWritable
+public readonly record struct MotionExDataPacket() : IPacket, IByteParsable<MotionExDataPacket>, ISizeable, IByteWritable
 {
 	public static int Size => 217;
 

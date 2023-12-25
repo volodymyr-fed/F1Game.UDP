@@ -1,6 +1,6 @@
 ﻿namespace F1Game.UDP.Events;
 
-public sealed record SpeedTrapEvent : IEventDetails, IByteParsable<SpeedTrapEvent>, IByteWritable
+public readonly record struct SpeedTrapEvent() : IEventDetails, IByteParsable<SpeedTrapEvent>, IByteWritable
 {
 	public byte VehicleIdx { get; init; } // Vehicle index of the vehicle triggering speed trap
 	public float Speed { get; init; } // Top speed achieved in kilometres per hour
