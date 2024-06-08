@@ -1,5 +1,8 @@
 # F1Game.UDP
 
+[![NuGet](https://img.shields.io/nuget/v/F1Game.UDP.svg)](https://www.nuget.org/packages/F1Game.UDP/)
+![BuildStatus](https://github.com/volodymyr-fed/F1Game.UDP/actions/workflows/ci.yaml/badge.svg)
+
 Library to parse UDP telemetry packets from F1 23 game.
 
 # UDP Specification
@@ -35,4 +38,4 @@ IPacket packet = arrayOfBytes.ToPacket();
 
 You can check performance of the library by running benchmarks in `F1Game.UDP.Benchmarks` project.
 
-Results on my machine are [here](../docs/F1Game.UDP.Benchmarks.ThirdPartyComparisonBenchmark-report-github.md).
+Results on my machine are [here](./docs/F1Game.UDP.Benchmarks.ThirdPartyComparisonBenchmark-report-github.md).
