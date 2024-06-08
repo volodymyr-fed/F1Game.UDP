@@ -3,7 +3,7 @@ using F1Game.UDP.Events;
 
 namespace F1Game.UDP.Packets;
 
-public readonly record struct EventDataPacket() : IPacket, IByteParsable<EventDataPacket>, ISizeable, IByteWritable
+public sealed record EventDataPacket() : IPacket, IByteParsable<EventDataPacket>, ISizeable, IByteWritable
 {
 	public static int Size => 45;
 
@@ -40,10 +40,10 @@ public readonly record struct EventDataPacket() : IPacket, IByteParsable<EventDa
 
 	void IByteWritable.WriteBytes(ref BytesWriter writer)
 	{
-		writer.WriteObject(Header);
-		writer.WriteUIntEnum(EventType);
+		writer.Write(Header);
+		writer.WriteEnum(EventType);
 
 		if (EventDetails is IByteWritable byteWritable)
-			writer.WriteObject(byteWritable);
+			writer.Write(byteWritable);
 	}
 }

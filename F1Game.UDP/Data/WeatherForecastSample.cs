@@ -2,6 +2,7 @@
 
 namespace F1Game.UDP.Data;
 
+[StructLayout(LayoutKind.Sequential, Pack = 1, Size = 8)]
 public readonly record struct WeatherForecastSample() : IByteParsable<WeatherForecastSample>, IByteWritable
 {
 	// 0 = unknown, 1 = P1, 2 = P2, 3 = P3, 4 = Short P, 5 = Q1
@@ -42,12 +43,12 @@ public readonly record struct WeatherForecastSample() : IByteParsable<WeatherFor
 	void IByteWritable.WriteBytes(ref BytesWriter writer)
 	{
 		writer.WriteEnum(SessionType);
-		writer.WriteByte(TimeOffset);
+		writer.Write(TimeOffset);
 		writer.WriteEnum(Weather);
-		writer.WriteSByte(TrackTemperature);
-		writer.WriteSByte(TrackTemperatureChange);
-		writer.WriteSByte(AirTemperature);
-		writer.WriteSByte(AirTemperatureChange);
-		writer.WriteByte(RainPercentage);
+		writer.Write(TrackTemperature);
+		writer.Write(TrackTemperatureChange);
+		writer.Write(AirTemperature);
+		writer.Write(AirTemperatureChange);
+		writer.Write(RainPercentage);
 	}
 }

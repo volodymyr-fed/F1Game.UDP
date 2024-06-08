@@ -16,7 +16,7 @@ public readonly record struct OvertakeEvent() : IEventDetails, IByteParsable<Ove
 
 	void IByteWritable.WriteBytes(ref BytesWriter writer)
 	{
-		writer.WriteByte(OvertakingVehicleIdx);
-		writer.WriteByte(BeingOvertakenVehicleIdx);
+		writer.Write(OvertakingVehicleIdx);
+		writer.Write(BeingOvertakenVehicleIdx);
 	}
 }

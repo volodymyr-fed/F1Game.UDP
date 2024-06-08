@@ -16,6 +16,6 @@ public readonly record struct ButtonsEvent() : IEventDetails, IByteParsable<Butt
 
 	void IByteWritable.WriteBytes(ref BytesWriter writer)
 	{
-		writer.WriteUIntEnum(ButtonStatus);
+		writer.WriteEnum(ButtonStatus);
 	}
 }

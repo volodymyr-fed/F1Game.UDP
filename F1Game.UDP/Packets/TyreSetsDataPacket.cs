@@ -2,12 +2,14 @@
 
 namespace F1Game.UDP.Packets;
 
-public readonly record struct TyreSetsDataPacket() : IPacket, IByteParsable<TyreSetsDataPacket>, ISizeable, IByteWritable
+[StructLayout(LayoutKind.Sequential, Pack = 1, Size = 231)]
+public sealed record TyreSetsDataPacket() : IPacket, IByteParsable<TyreSetsDataPacket>, ISizeable, IByteWritable
 {
 	public static int Size => 231;
 
 	public PacketHeader Header { get; init; } = PacketHeader.Empty;
 	public byte CarIndex { get; init; } //Index of the car this packet relates to
+	[field: MarshalAs(UnmanagedType.ByValArray, SizeConst = 20)]
 	public TyreSetData[] TyreSetDatas { get; init; } = []; // 13 dry - 7 wet
 	public byte FittedIndex { get; init; } // Index into array of fitted tyre
 
@@ -24,9 +26,9 @@ public readonly record struct TyreSetsDataPacket() : IPacket, IByteParsable<Tyre
 
 	void IByteWritable.WriteBytes(ref BytesWriter writer)
 	{
-		writer.WriteObject(Header);
-		writer.WriteByte(CarIndex);
-		writer.WriteObjects(TyreSetDatas);
-		writer.WriteByte(FittedIndex);
+		writer.Write(Header);
+		writer.Write(CarIndex);
+		writer.Write(TyreSetDatas);
+		writer.Write(FittedIndex);
 	}
 }

@@ -30,10 +30,10 @@ public readonly record struct PenaltyEvent() : IEventDetails, IByteParsable<Pena
 	{
 		writer.WriteEnum(PenaltyType);
 		writer.WriteEnum(InfringementType);
-		writer.WriteByte(VehicleIdx);
-		writer.WriteByte(OtherVehicleIdx);
-		writer.WriteByte(Time);
-		writer.WriteByte(LapNum);
-		writer.WriteByte(PlacesGained);
+		writer.Write(VehicleIdx);
+		writer.Write(OtherVehicleIdx);
+		writer.Write(Time);
+		writer.Write(LapNum);
+		writer.Write(PlacesGained);
 	}
 }

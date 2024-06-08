@@ -1,5 +1,6 @@
 ﻿namespace F1Game.UDP.Data;
 
+[StructLayout(LayoutKind.Sequential, Pack = 1, Size = 60)]
 public readonly record struct CarMotionData() : IByteParsable<CarMotionData>, IByteWritable
 {
 	public float WorldPositionX { get; init; } // World space X position
@@ -48,23 +49,23 @@ public readonly record struct CarMotionData() : IByteParsable<CarMotionData>, IB
 
 	void IByteWritable.WriteBytes(ref BytesWriter writer)
 	{
-		writer.WriteFloat(WorldPositionX);
-		writer.WriteFloat(WorldPositionY);
-		writer.WriteFloat(WorldPositionZ);
-		writer.WriteFloat(WorldVelocityX);
-		writer.WriteFloat(WorldVelocityY);
-		writer.WriteFloat(WorldVelocityZ);
-		writer.WriteShort(WorldForwardDirX);
-		writer.WriteShort(WorldForwardDirY);
-		writer.WriteShort(WorldForwardDirZ);
-		writer.WriteShort(WorldRightDirX);
-		writer.WriteShort(WorldRightDirY);
-		writer.WriteShort(WorldRightDirZ);
-		writer.WriteFloat(GForceLateral);
-		writer.WriteFloat(GForceLongitudinal);
-		writer.WriteFloat(GForceVertical);
-		writer.WriteFloat(Yaw);
-		writer.WriteFloat(Pitch);
-		writer.WriteFloat(Roll);
+		writer.Write(WorldPositionX);
+		writer.Write(WorldPositionY);
+		writer.Write(WorldPositionZ);
+		writer.Write(WorldVelocityX);
+		writer.Write(WorldVelocityY);
+		writer.Write(WorldVelocityZ);
+		writer.Write(WorldForwardDirX);
+		writer.Write(WorldForwardDirY);
+		writer.Write(WorldForwardDirZ);
+		writer.Write(WorldRightDirX);
+		writer.Write(WorldRightDirY);
+		writer.Write(WorldRightDirZ);
+		writer.Write(GForceLateral);
+		writer.Write(GForceLongitudinal);
+		writer.Write(GForceVertical);
+		writer.Write(Yaw);
+		writer.Write(Pitch);
+		writer.Write(Roll);
 	}
 }

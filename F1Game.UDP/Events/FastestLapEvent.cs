@@ -18,7 +18,7 @@ public readonly record struct FastestLapEvent() : IEventDetails, IByteParsable<F
 
 	void IByteWritable.WriteBytes(ref BytesWriter writer)
 	{
-		writer.WriteByte(VehicleIdx);
-		writer.WriteFloat(LapTime);
+		writer.Write(VehicleIdx);
+		writer.Write(LapTime);
 	}
 }

@@ -109,12 +109,12 @@ sealed class BytesReaderExtensionsFixture
 	[Test]
 	public void GetNextString_ShouldReturnCorrectString()
 	{
-		var bytes = "\0\0Hello, World!\0"u8.ToArray();
+		var bytes = "\0\0Hello, ś World!\0"u8.ToArray();
 		var reader = CreateBytesReader(bytes);
 
 		var value = reader.GetNextString(bytes.Length);
 
-		value.Should().Be("Hello, World!");
+		value.Should().Be("Hello, ś World!");
 	}
 
 	[Test]
@@ -145,9 +145,9 @@ sealed class BytesReaderExtensionsFixture
 		var bytes = new byte[] { 0x01, 0x02, 0x03 };
 		var reader = CreateBytesReader(bytes);
 
-		var result = reader.GetNextEnums<TestEnum>(3);
+		var result = reader.GetNextEnums<TestEnumByte>(3);
 
-		result.Should().Equal(TestEnum.One, TestEnum.Two, TestEnum.Three);
+		result.Should().Equal(TestEnumByte.One, TestEnumByte.Two, TestEnumByte.Three);
 	}
 
 	[Test]
@@ -175,6 +175,13 @@ sealed class BytesReaderExtensionsFixture
 	static BytesReader CreateBytesReader(byte[] bytes)
 	{
 		return new BytesReader(bytes);
+	}
+
+	enum TestEnumByte : byte
+	{
+		One = 1,
+		Two = 2,
+		Three = 3
 	}
 
 	enum TestEnum

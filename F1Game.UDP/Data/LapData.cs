@@ -2,6 +2,7 @@
 
 namespace F1Game.UDP.Data;
 
+[StructLayout(LayoutKind.Sequential, Pack = 1, Size = 50)]
 public readonly record struct LapData() : IByteParsable<LapData>, IByteWritable
 {
 	public uint LastLapTimeInMS { get; init; } // Last lap time in milliseconds
@@ -21,8 +22,9 @@ public readonly record struct LapData() : IByteParsable<LapData>, IByteWritable
 	public byte CurrentLapNum { get; init; } // Current lap number
 	public PitStatus PitStatus { get; init; } // 0 = none, 1 = pitting, 2 = in pit area
 	public byte NumPitStops { get; init; } // Number of pit stops taken in this race
-	public byte Sector { get; init; } // 0 = sector1, 1 = sector2, 2 = sector3
-	public byte CurrentLapInvalid { get; init; } // Current lap invalid - 0 = valid, 1 = invalid
+	public Sector Sector { get; init; } // 0 = sector1, 1 = sector2, 2 = sector3
+	private byte CurrentLapInvalidByte { get; init; } // Current lap invalid - 0 = valid, 1 = invalid
+	public bool CurrentLapInvalid { get => CurrentLapInvalidByte.AsBool(); init => CurrentLapInvalidByte = value.AsByte(); }
 	public byte Penalties { get; init; } // Accumulated time penalties in seconds to be added
 	public byte TotalWarnings { get; init; } // Accumulated number of warnings issued
 	public byte CornerCuttingWarnings { get; init; } // Accumulated number of corner cutting warnings issued
@@ -31,7 +33,8 @@ public readonly record struct LapData() : IByteParsable<LapData>, IByteWritable
 	public byte GridPosition { get; init; } // Grid position the vehicle started the race in
 	public DriverStatus DriverStatus { get; init; }
 	public ResultStatus ResultStatus { get; init; }
-	public bool PitLaneTimerActive { get; init; } // Pit lane timing, 0 = inactive, 1 = active
+	private byte PitLaneTimerActiveByte { get; init; } // Pit lane timing, 0 = inactive, 1 = active
+	public bool PitLaneTimerActive { get => PitLaneTimerActiveByte.AsBool(); init => PitLaneTimerActiveByte = value.AsByte(); }
 	public ushort PitLaneTimeInLaneInMS { get; init; } // If active, the current time spent in the pit lane in ms
 	public ushort PitStopTimerInMS { get; init; } // Time of the actual pit stop in ms
 	public byte PitStopShouldServePen { get; init; } // Whether the car should serve a penalty at this stop
@@ -55,8 +58,8 @@ public readonly record struct LapData() : IByteParsable<LapData>, IByteWritable
 			CurrentLapNum = reader.GetNextByte(),
 			PitStatus = reader.GetNextEnum<PitStatus>(),
 			NumPitStops = reader.GetNextByte(),
-			Sector = reader.GetNextByte(),
-			CurrentLapInvalid = reader.GetNextByte(),
+			Sector = reader.GetNextEnum<Sector>(),
+			CurrentLapInvalidByte = reader.GetNextByte(),
 			Penalties = reader.GetNextByte(),
 			TotalWarnings = reader.GetNextByte(),
 			CornerCuttingWarnings = reader.GetNextByte(),
@@ -65,7 +68,7 @@ public readonly record struct LapData() : IByteParsable<LapData>, IByteWritable
 			GridPosition = reader.GetNextByte(),
 			DriverStatus = reader.GetNextEnum<DriverStatus>(),
 			ResultStatus = reader.GetNextEnum<ResultStatus>(),
-			PitLaneTimerActive = reader.GetNextBoolean(),
+			PitLaneTimerActiveByte = reader.GetNextByte(),
 			PitLaneTimeInLaneInMS = reader.GetNextUShort(),
 			PitStopTimerInMS = reader.GetNextUShort(),
 			PitStopShouldServePen = reader.GetNextByte(),
@@ -74,34 +77,34 @@ public readonly record struct LapData() : IByteParsable<LapData>, IByteWritable
 
 	void IByteWritable.WriteBytes(ref BytesWriter writer)
 	{
-		writer.WriteUInt(LastLapTimeInMS);
-		writer.WriteUInt(CurrentLapTimeInMS);
-		writer.WriteUShort(Sector1TimeInMS);
-		writer.WriteByte(Sector1TimeInMinutes);
-		writer.WriteUShort(Sector2TimeInMS);
-		writer.WriteByte(Sector2TimeInMinutes);
-		writer.WriteUShort(DeltaToCarInFrontInMS);
-		writer.WriteUShort(DeltaToRaceLeaderInMS);
-		writer.WriteFloat(LapDistance);
-		writer.WriteFloat(TotalDistance);
-		writer.WriteFloat(SafetyCarDelta);
-		writer.WriteByte(CarPosition);
-		writer.WriteByte(CurrentLapNum);
+		writer.Write(LastLapTimeInMS);
+		writer.Write(CurrentLapTimeInMS);
+		writer.Write(Sector1TimeInMS);
+		writer.Write(Sector1TimeInMinutes);
+		writer.Write(Sector2TimeInMS);
+		writer.Write(Sector2TimeInMinutes);
+		writer.Write(DeltaToCarInFrontInMS);
+		writer.Write(DeltaToRaceLeaderInMS);
+		writer.Write(LapDistance);
+		writer.Write(TotalDistance);
+		writer.Write(SafetyCarDelta);
+		writer.Write(CarPosition);
+		writer.Write(CurrentLapNum);
 		writer.WriteEnum(PitStatus);
-		writer.WriteByte(NumPitStops);
-		writer.WriteByte(Sector);
-		writer.WriteByte(CurrentLapInvalid);
-		writer.WriteByte(Penalties);
-		writer.WriteByte(TotalWarnings);
-		writer.WriteByte(CornerCuttingWarnings);
-		writer.WriteByte(NumUnservedDriveThroughPens);
-		writer.WriteByte(NumUnservedStopGoPens);
-		writer.WriteByte(GridPosition);
+		writer.Write(NumPitStops);
+		writer.WriteEnum(Sector);
+		writer.Write(CurrentLapInvalidByte);
+		writer.Write(Penalties);
+		writer.Write(TotalWarnings);
+		writer.Write(CornerCuttingWarnings);
+		writer.Write(NumUnservedDriveThroughPens);
+		writer.Write(NumUnservedStopGoPens);
+		writer.Write(GridPosition);
 		writer.WriteEnum(DriverStatus);
 		writer.WriteEnum(ResultStatus);
-		writer.WriteBoolean(PitLaneTimerActive);
-		writer.WriteUShort(PitLaneTimeInLaneInMS);
-		writer.WriteUShort(PitStopTimerInMS);
-		writer.WriteByte(PitStopShouldServePen);
+		writer.Write(PitLaneTimerActiveByte);
+		writer.Write(PitLaneTimeInLaneInMS);
+		writer.Write(PitStopTimerInMS);
+		writer.Write(PitStopShouldServePen);
 	}
 }

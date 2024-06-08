@@ -2,12 +2,13 @@
 
 namespace F1Game.UDP.Packets;
 
-public readonly record struct MotionDataPacket() : IPacket, IByteParsable<MotionDataPacket>, ISizeable, IByteWritable
+[StructLayout(LayoutKind.Sequential, Pack = 1, Size = 1349)]
+public sealed record MotionDataPacket() : IPacket, IByteParsable<MotionDataPacket>, ISizeable, IByteWritable
 {
 	public static int Size => 1349;
 	public PacketHeader Header { get; init; } = PacketHeader.Empty; // Header
+	[field: MarshalAs(UnmanagedType.ByValArray, SizeConst = 22)]
 	public CarMotionData[] CarMotionData { get; init; } = []; // Data for all cars on track
-																						// Extra player car ONLY data
 
 	static MotionDataPacket IByteParsable<MotionDataPacket>.Parse(ref BytesReader reader)
 	{
@@ -20,7 +21,7 @@ public readonly record struct MotionDataPacket() : IPacket, IByteParsable<Motion
 
 	void IByteWritable.WriteBytes(ref BytesWriter writer)
 	{
-		writer.WriteObject(Header);
-		writer.WriteObjects(CarMotionData);
+		writer.Write(Header);
+		writer.Write(CarMotionData);
 	}
 }

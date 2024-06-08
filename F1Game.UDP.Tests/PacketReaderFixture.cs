@@ -1,4 +1,4 @@
-﻿using AutoFixture;
+using AutoFixture;
 using AutoFixture.Dsl;
 
 using F1Game.UDP.Data;
@@ -22,10 +22,11 @@ sealed class PacketReaderFixture
 
 		var bytes = new byte[CarDamageDataPacket.Size];
 		var writer = new BytesWriter(bytes);
-		writer.WriteObject(packet);
+		writer.Write(packet);
 
-		var actualPacket = bytes.ToPacket();
-		actualPacket.Should().BeEquivalentTo(packet);
+		bytes.ToPacket().Should().BeEquivalentTo(packet);
+		bytes.ToPacketWithReader().Should().BeEquivalentTo(packet);
+		bytes.ToPacketWithMarshal().Should().BeEquivalentTo(packet);
 	}
 
 	[Test]
@@ -37,10 +38,11 @@ sealed class PacketReaderFixture
 
 		var bytes = new byte[CarSetupDataPacket.Size];
 		var writer = new BytesWriter(bytes);
-		writer.WriteObject(packet);
+		writer.Write(packet);
 
-		var actualPacket = bytes.ToPacket();
-		actualPacket.Should().BeEquivalentTo(packet);
+		bytes.ToPacket().Should().BeEquivalentTo(packet);
+		bytes.ToPacketWithReader().Should().BeEquivalentTo(packet);
+		bytes.ToPacketWithMarshal().Should().BeEquivalentTo(packet);
 	}
 
 	[Test]
@@ -52,10 +54,11 @@ sealed class PacketReaderFixture
 
 		var bytes = new byte[CarStatusDataPacket.Size];
 		var writer = new BytesWriter(bytes);
-		writer.WriteObject(packet);
+		writer.Write(packet);
 
-		var actualPacket = bytes.ToPacket();
-		actualPacket.Should().BeEquivalentTo(packet);
+		bytes.ToPacket().Should().BeEquivalentTo(packet);
+		bytes.ToPacketWithReader().Should().BeEquivalentTo(packet);
+		bytes.ToPacketWithMarshal().Should().BeEquivalentTo(packet);
 	}
 
 	[Test]
@@ -67,10 +70,11 @@ sealed class PacketReaderFixture
 
 		var bytes = new byte[CarTelemetryDataPacket.Size];
 		var writer = new BytesWriter(bytes);
-		writer.WriteObject(packet);
+		writer.Write(packet);
 
-		var actualPacket = bytes.ToPacket();
-		actualPacket.Should().BeEquivalentTo(packet);
+		bytes.ToPacket().Should().BeEquivalentTo(packet);
+		bytes.ToPacketWithReader().Should().BeEquivalentTo(packet);
+		bytes.ToPacketWithMarshal().Should().BeEquivalentTo(packet);
 	}
 
 	[TestCase(EventType.ButtonStatus)]
@@ -118,10 +122,10 @@ sealed class PacketReaderFixture
 
 		var bytes = new byte[EventDataPacket.Size];
 		var writer = new BytesWriter(bytes);
-		writer.WriteObject(packet);
+		writer.Write(packet);
 
-		var actualPacket = bytes.ToPacket();
-		actualPacket.Should().BeEquivalentTo(packet);
+		bytes.ToPacket().Should().BeEquivalentTo(packet);
+		bytes.ToPacketWithReader().Should().BeEquivalentTo(packet);
 	}
 
 	[Test]
@@ -140,10 +144,11 @@ sealed class PacketReaderFixture
 
 		var bytes = new byte[FinalClassificationDataPacket.Size];
 		var writer = new BytesWriter(bytes);
-		writer.WriteObject(packet);
+		writer.Write(packet);
 
-		var actualPacket = bytes.ToPacket();
-		actualPacket.Should().BeEquivalentTo(packet);
+		bytes.ToPacket().Should().BeEquivalentTo(packet);
+		bytes.ToPacketWithReader().Should().BeEquivalentTo(packet);
+		bytes.ToPacketWithMarshal().Should().BeEquivalentTo(packet);
 	}
 
 	[Test]
@@ -155,10 +160,11 @@ sealed class PacketReaderFixture
 
 		var bytes = new byte[LapDataPacket.Size];
 		var writer = new BytesWriter(bytes);
-		writer.WriteObject(packet);
+		writer.Write(packet);
 
-		var actualPacket = bytes.ToPacket();
-		actualPacket.Should().BeEquivalentTo(packet);
+		bytes.ToPacket().Should().BeEquivalentTo(packet);
+		bytes.ToPacketWithReader().Should().BeEquivalentTo(packet);
+		bytes.ToPacketWithMarshal().Should().BeEquivalentTo(packet);
 	}
 
 	[Test]
@@ -170,10 +176,11 @@ sealed class PacketReaderFixture
 
 		var bytes = new byte[LobbyInfoDataPacket.Size];
 		var writer = new BytesWriter(bytes);
-		writer.WriteObject(packet);
+		writer.Write(packet);
 
-		var actualPacket = bytes.ToPacket();
-		actualPacket.Should().BeEquivalentTo(packet);
+		bytes.ToPacket().Should().BeEquivalentTo(packet);
+		bytes.ToPacketWithReader().Should().BeEquivalentTo(packet);
+		bytes.ToPacketWithMarshal().Should().BeEquivalentTo(packet, o => o.For(x => x.LobbyPlayers).Exclude(x => x.NameBytes));
 	}
 
 	[Test]
@@ -185,10 +192,11 @@ sealed class PacketReaderFixture
 
 		var bytes = new byte[MotionDataPacket.Size];
 		var writer = new BytesWriter(bytes);
-		writer.WriteObject(packet);
+		writer.Write(packet);
 
-		var actualPacket = bytes.ToPacket();
-		actualPacket.Should().BeEquivalentTo(packet);
+		bytes.ToPacket().Should().BeEquivalentTo(packet);
+		bytes.ToPacketWithReader().Should().BeEquivalentTo(packet);
+		bytes.ToPacketWithMarshal().Should().BeEquivalentTo(packet);
 	}
 
 	[Test]
@@ -199,10 +207,11 @@ sealed class PacketReaderFixture
 
 		var bytes = new byte[MotionExDataPacket.Size];
 		var writer = new BytesWriter(bytes);
-		writer.WriteObject(packet);
+		writer.Write(packet);
 
-		var actualPacket = bytes.ToPacket();
-		actualPacket.Should().BeEquivalentTo(packet);
+		bytes.ToPacket().Should().BeEquivalentTo(packet);
+		bytes.ToPacketWithReader().Should().BeEquivalentTo(packet);
+		bytes.ToPacketWithMarshal().Should().BeEquivalentTo(packet);
 	}
 
 	[Test]
@@ -214,10 +223,11 @@ sealed class PacketReaderFixture
 
 		var bytes = new byte[ParticipantsDataPacket.Size];
 		var writer = new BytesWriter(bytes);
-		writer.WriteObject(packet);
+		writer.Write(packet);
 
-		var actualPacket = bytes.ToPacket();
-		actualPacket.Should().BeEquivalentTo(packet);
+		bytes.ToPacket().Should().BeEquivalentTo(packet);
+		bytes.ToPacketWithReader().Should().BeEquivalentTo(packet);
+		bytes.ToPacketWithMarshal().Should().BeEquivalentTo(packet, o => o.For(x => x.Participants).Exclude(x => x.NameBytes));
 	}
 
 	[Test]
@@ -230,10 +240,28 @@ sealed class PacketReaderFixture
 
 		var bytes = new byte[SessionDataPacket.Size];
 		var writer = new BytesWriter(bytes);
-		writer.WriteObject(packet);
+		writer.Write(packet);
 
-		var actualPacket = bytes.ToPacket();
-		actualPacket.Should().BeEquivalentTo(packet);
+		bytes.ToPacket().Should().BeEquivalentTo(packet);
+		bytes.ToPacketWithReader().Should().BeEquivalentTo(packet);
+		bytes.ToPacketWithMarshal().Should().BeEquivalentTo(packet);
+	}
+
+	[Test]
+	public void ReadSessionHistoryDataPacket()
+	{
+		var packet = BuildPacket<SessionHistoryDataPacket>()
+			.With(x => x.LapHistoryData, fixture.CreateMany<LapHistoryData>(100).ToArray())
+			.With(x => x.TyreStintsHistoryData, fixture.CreateMany<TyreStintHistoryData>(8).ToArray())
+			.Create();
+
+		var bytes = new byte[SessionHistoryDataPacket.Size];
+		var writer = new BytesWriter(bytes);
+		writer.Write(packet);
+
+		bytes.ToPacket().Should().BeEquivalentTo(packet);
+		bytes.ToPacketWithReader().Should().BeEquivalentTo(packet);
+		bytes.ToPacketWithMarshal().Should().BeEquivalentTo(packet);
 	}
 
 	[Test]
@@ -245,10 +273,11 @@ sealed class PacketReaderFixture
 
 		var bytes = new byte[TyreSetsDataPacket.Size];
 		var writer = new BytesWriter(bytes);
-		writer.WriteObject(packet);
+		writer.Write(packet);
 
-		var actualPacket = bytes.ToPacket();
-		actualPacket.Should().BeEquivalentTo(packet);
+		bytes.ToPacket().Should().BeEquivalentTo(packet);
+		bytes.ToPacketWithReader().Should().BeEquivalentTo(packet);
+		bytes.ToPacketWithMarshal().Should().BeEquivalentTo(packet);
 	}
 
 	IPostprocessComposer<T> BuildPacket<T>() where T : IPacket, new()

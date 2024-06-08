@@ -14,6 +14,6 @@ public readonly record struct StopGoPenaltyServedEvent() : IEventDetails, IByteP
 
 	void IByteWritable.WriteBytes(ref BytesWriter writer)
 	{
-		writer.WriteByte(VehicleIdx);
+		writer.Write(VehicleIdx);
 	}
 }

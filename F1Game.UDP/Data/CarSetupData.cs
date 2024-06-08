@@ -1,5 +1,6 @@
 ﻿namespace F1Game.UDP.Data;
 
+[StructLayout(LayoutKind.Sequential, Pack = 1, Size = 49)]
 public readonly record struct CarSetupData() : IByteParsable<CarSetupData>, IByteWritable
 {
 	public byte FrontWing { get; init; } // Front wing aero
@@ -50,27 +51,27 @@ public readonly record struct CarSetupData() : IByteParsable<CarSetupData>, IByt
 
 	void IByteWritable.WriteBytes(ref BytesWriter writer)
 	{
-		writer.WriteByte(FrontWing);
-		writer.WriteByte(RearWing);
-		writer.WriteByte(OnThrottle);
-		writer.WriteByte(OffThrottle);
-		writer.WriteFloat(FrontCamber);
-		writer.WriteFloat(RearCamber);
-		writer.WriteFloat(FrontToe);
-		writer.WriteFloat(RearToe);
-		writer.WriteByte(FrontSuspension);
-		writer.WriteByte(RearSuspension);
-		writer.WriteByte(FrontAntiRollBar);
-		writer.WriteByte(RearAntiRollBar);
-		writer.WriteByte(FrontSuspensionHeight);
-		writer.WriteByte(RearSuspensionHeight);
-		writer.WriteByte(BrakePressure);
-		writer.WriteByte(BrakeBias);
-		writer.WriteFloat(TyresPressures.RearLeft);
-		writer.WriteFloat(TyresPressures.RearRight);
-		writer.WriteFloat(TyresPressures.FrontLeft);
-		writer.WriteFloat(TyresPressures.FrontRight);
-		writer.WriteByte(Ballast);
-		writer.WriteFloat(FuelLoad);
+		writer.Write(FrontWing);
+		writer.Write(RearWing);
+		writer.Write(OnThrottle);
+		writer.Write(OffThrottle);
+		writer.Write(FrontCamber);
+		writer.Write(RearCamber);
+		writer.Write(FrontToe);
+		writer.Write(RearToe);
+		writer.Write(FrontSuspension);
+		writer.Write(RearSuspension);
+		writer.Write(FrontAntiRollBar);
+		writer.Write(RearAntiRollBar);
+		writer.Write(FrontSuspensionHeight);
+		writer.Write(RearSuspensionHeight);
+		writer.Write(BrakePressure);
+		writer.Write(BrakeBias);
+		writer.Write(TyresPressures.RearLeft);
+		writer.Write(TyresPressures.RearRight);
+		writer.Write(TyresPressures.FrontLeft);
+		writer.Write(TyresPressures.FrontRight);
+		writer.Write(Ballast);
+		writer.Write(FuelLoad);
 	}
 }

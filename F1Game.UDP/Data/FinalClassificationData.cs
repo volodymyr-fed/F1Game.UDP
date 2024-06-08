@@ -2,6 +2,7 @@
 
 namespace F1Game.UDP.Data;
 
+[StructLayout(LayoutKind.Sequential, Pack = 1, Size = 45)]
 public readonly record struct FinalClassificationData() : IByteParsable<FinalClassificationData>, IByteWritable
 {
 	public byte Position { get; init; } // Finishing position
@@ -17,8 +18,11 @@ public readonly record struct FinalClassificationData() : IByteParsable<FinalCla
 	public byte PenaltiesTime { get; init; } // Total penalties accumulated in seconds
 	public byte NumPenalties { get; init; } // Number of penalties applied to this driver
 	public byte NumTyreStints { get; init; } // Number of tyres stints up to maximum
+	[field: MarshalAs(UnmanagedType.ByValArray, SizeConst = 8)]
 	public ActualCompound[] TyreStintsActual { get; init; } = []; // Actual tyres used by this driver 8
+	[field: MarshalAs(UnmanagedType.ByValArray, SizeConst = 8)]
 	public VisualCompound[] TyreStintsVisual { get; init; } = []; // Visual tyres used by this driver 8
+	[field: MarshalAs(UnmanagedType.ByValArray, SizeConst = 8)]
 	public byte[] TyreStintsEndLaps { get; init; } = []; // The lap number stints end on 8
 
 	static FinalClassificationData IByteParsable<FinalClassificationData>.Parse(ref BytesReader reader)
@@ -44,19 +48,19 @@ public readonly record struct FinalClassificationData() : IByteParsable<FinalCla
 
 	void IByteWritable.WriteBytes(ref BytesWriter writer)
 	{
-		writer.WriteByte(Position);
-		writer.WriteByte(NumLaps);
-		writer.WriteByte(GridPosition);
-		writer.WriteByte(Points);
-		writer.WriteByte(NumPitStops);
+		writer.Write(Position);
+		writer.Write(NumLaps);
+		writer.Write(GridPosition);
+		writer.Write(Points);
+		writer.Write(NumPitStops);
 		writer.WriteEnum(ResultStatus);
-		writer.WriteUInt(BestLapTimeInMS);
-		writer.WriteDouble(TotalRaceTime);
-		writer.WriteByte(PenaltiesTime);
-		writer.WriteByte(NumPenalties);
-		writer.WriteByte(NumTyreStints);
+		writer.Write(BestLapTimeInMS);
+		writer.Write(TotalRaceTime);
+		writer.Write(PenaltiesTime);
+		writer.Write(NumPenalties);
+		writer.Write(NumTyreStints);
 		writer.WriteEnums(TyreStintsActual);
 		writer.WriteEnums(TyreStintsVisual);
-		writer.WriteBytes(TyreStintsEndLaps);
+		writer.Write(TyreStintsEndLaps);
 	}
 }

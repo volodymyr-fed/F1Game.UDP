@@ -14,6 +14,6 @@ public readonly record struct RetirementEvent() : IEventDetails, IByteParsable<R
 
 	void IByteWritable.WriteBytes(ref BytesWriter writer)
 	{
-		writer.WriteByte(VehicleIdx);
+		writer.Write(VehicleIdx);
 	}
 }

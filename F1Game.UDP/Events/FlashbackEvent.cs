@@ -16,7 +16,7 @@ public readonly record struct FlashbackEvent() : IEventDetails, IByteParsable<Fl
 
 	void IByteWritable.WriteBytes(ref BytesWriter writer)
 	{
-		writer.WriteUInt(FlashbackFrameIdentifier);
-		writer.WriteFloat(FlashbackSessionTime);
+		writer.Write(FlashbackFrameIdentifier);
+		writer.Write(FlashbackSessionTime);
 	}
 }

@@ -2,7 +2,8 @@
 
 namespace F1Game.UDP.Packets;
 
-public readonly record struct MotionExDataPacket() : IPacket, IByteParsable<MotionExDataPacket>, ISizeable, IByteWritable
+[StructLayout(LayoutKind.Sequential, Pack = 1, Size = 217)]
+public sealed record MotionExDataPacket() : IPacket, IByteParsable<MotionExDataPacket>, ISizeable, IByteWritable
 {
 	public static int Size => 217;
 
@@ -58,26 +59,26 @@ public readonly record struct MotionExDataPacket() : IPacket, IByteParsable<Moti
 
 	void IByteWritable.WriteBytes(ref BytesWriter writer)
 	{
-		writer.WriteObject(Header );
-		writer.WriteTyresFloat(SuspensionPosition );
-		writer.WriteTyresFloat(SuspensionVelocity );
-		writer.WriteTyresFloat(SuspensionAcceleration );
-		writer.WriteTyresFloat(WheelSpeed );
-		writer.WriteTyresFloat(WheelSlipRatio );
-		writer.WriteTyresFloat(WheelSlipAngle );
-		writer.WriteTyresFloat(WheelLatForce );
-		writer.WriteTyresFloat(WheelLongForce );
-		writer.WriteFloat(HeightOfCOGAboveGround );
-		writer.WriteFloat(LocalVelocityX );
-		writer.WriteFloat(LocalVelocityY );
-		writer.WriteFloat(LocalVelocityZ );
-		writer.WriteFloat(AngularVelocityX );
-		writer.WriteFloat(AngularVelocityY );
-		writer.WriteFloat(AngularVelocityZ );
-		writer.WriteFloat(AngularAccelerationX );
-		writer.WriteFloat(AngularAccelerationY );
-		writer.WriteFloat(AngularAccelerationZ );
-		writer.WriteFloat(FrontWheelsAngle );
-		writer.WriteTyresFloat(WheelVertForce );
+		writer.Write(Header);
+		writer.WriteTyresFloat(SuspensionPosition);
+		writer.WriteTyresFloat(SuspensionVelocity);
+		writer.WriteTyresFloat(SuspensionAcceleration);
+		writer.WriteTyresFloat(WheelSpeed);
+		writer.WriteTyresFloat(WheelSlipRatio);
+		writer.WriteTyresFloat(WheelSlipAngle);
+		writer.WriteTyresFloat(WheelLatForce);
+		writer.WriteTyresFloat(WheelLongForce);
+		writer.Write(HeightOfCOGAboveGround);
+		writer.Write(LocalVelocityX);
+		writer.Write(LocalVelocityY);
+		writer.Write(LocalVelocityZ);
+		writer.Write(AngularVelocityX);
+		writer.Write(AngularVelocityY);
+		writer.Write(AngularVelocityZ);
+		writer.Write(AngularAccelerationX);
+		writer.Write(AngularAccelerationY);
+		writer.Write(AngularAccelerationZ);
+		writer.Write(FrontWheelsAngle);
+		writer.WriteTyresFloat(WheelVertForce);
 	}
 }
