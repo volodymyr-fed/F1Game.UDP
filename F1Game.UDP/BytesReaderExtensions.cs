@@ -68,13 +68,23 @@ static class BytesReaderExtensions
 	}
 
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
+	public static byte[] GetNextStringBytes(this ref BytesReader reader, int count)
+	{
+		return reader.GetNextBytes(count).Trim((byte)'\0').ToArray();
+	}
+
+	[MethodImpl(MethodImplOptions.AggressiveInlining)]
 	public static T[] GetNextObjects<T>(this ref BytesReader reader, int count) where T : IByteParsable<T>
 	{
 		var array = new T[count];
-		var span = new Span<T>(array);
 
-		for (var i = 0; i < span.Length; i++)
-			span[i] = T.Parse(ref reader);
+		ref T first = ref MemoryMarshal.GetArrayDataReference(array);
+
+		for (var i = 0; i < count; i++)
+		{
+			ref T current = ref Unsafe.Add(ref first, i);
+			current = T.Parse(ref reader);
+		}
 
 		return array;
 	}
@@ -88,13 +98,8 @@ static class BytesReaderExtensions
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
 	public static T[] GetNextEnums<T>(this ref BytesReader reader, int count) where T : struct, Enum, IConvertible
 	{
-		var array = new T[count];
-		var span = new Span<T>(array);
-
-		for (var i = 0; i < span.Length; i++)
-			span[i] = reader.GetNextEnum<T>();
-
-		return array;
+		var bytes = reader.GetNextBytes(count);
+		return MemoryMarshal.Cast<byte, T>(bytes).ToArray();
 	}
 
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]

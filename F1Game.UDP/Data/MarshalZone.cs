@@ -2,6 +2,7 @@
 
 namespace F1Game.UDP.Data;
 
+[StructLayout(LayoutKind.Sequential, Pack = 1, Size = 5)]
 public readonly record struct MarshalZone() : IByteParsable<MarshalZone>, IByteWritable
 {
 	public float ZoneStart { get; init; } // Fraction (0..1) of way through the lap the marshal zone starts
@@ -18,7 +19,7 @@ public readonly record struct MarshalZone() : IByteParsable<MarshalZone>, IByteW
 
 	void IByteWritable.WriteBytes(ref BytesWriter writer)
 	{
-		writer.WriteFloat(ZoneStart);
+		writer.Write(ZoneStart);
 		writer.WriteEnum(ZoneFlag);
 	}
 }

@@ -2,6 +2,7 @@
 
 namespace F1Game.UDP.Data;
 
+[StructLayout(LayoutKind.Sequential, Pack = 1, Size = 60)]
 public readonly record struct CarTelemetryData() : IByteParsable<CarTelemetryData>, IByteWritable
 {
 	public ushort Speed { get; init; } // Speed of car in kilometres per hour
@@ -11,7 +12,8 @@ public readonly record struct CarTelemetryData() : IByteParsable<CarTelemetryDat
 	public byte Clutch { get; init; } // Amount of clutch applied (0 to 100)
 	public sbyte Gear { get; init; } // Gear selected (1-8, N=0, R=-1)
 	public ushort EngineRPM { get; init; } // Engine RPM
-	public bool IsDrsOn { get; init; } // 0 = off, 1 = on
+	private byte IsDrsOnByte { get; init; } // 0 = off, 1 = on
+	public bool IsDrsOn { get => IsDrsOnByte.AsBool(); init => IsDrsOnByte = value.AsByte(); }
 	public byte RevLightsPercent { get; init; } // Rev lights indicator (percentage)
 	public ushort RevLightsBitValue { get; init; } // Rev lights (bit 0 = leftmost LED, bit 14 = rightmost LED)
 	public Tyres<ushort> BrakesTemperature { get; init; } // Brakes temperature (celsius)
@@ -32,7 +34,7 @@ public readonly record struct CarTelemetryData() : IByteParsable<CarTelemetryDat
 			Clutch = reader.GetNextByte(),
 			Gear = reader.GetNextSbyte(),
 			EngineRPM = reader.GetNextUShort(),
-			IsDrsOn = reader.GetNextBoolean(),
+			IsDrsOnByte = reader.GetNextByte(),
 			RevLightsPercent = reader.GetNextByte(),
 			RevLightsBitValue = reader.GetNextUShort(),
 			BrakesTemperature = reader.GetNextTyresUShort(),
@@ -46,20 +48,20 @@ public readonly record struct CarTelemetryData() : IByteParsable<CarTelemetryDat
 
 	void IByteWritable.WriteBytes(ref BytesWriter writer)
 	{
-		writer.WriteUShort(Speed);
-		writer.WriteFloat(Throttle);
-		writer.WriteFloat(Steer);
-		writer.WriteFloat(Brake);
-		writer.WriteByte(Clutch);
-		writer.WriteSByte(Gear);
-		writer.WriteUShort(EngineRPM);
-		writer.WriteBoolean(IsDrsOn);
-		writer.WriteByte(RevLightsPercent);
-		writer.WriteUShort(RevLightsBitValue);
+		writer.Write(Speed);
+		writer.Write(Throttle);
+		writer.Write(Steer);
+		writer.Write(Brake);
+		writer.Write(Clutch);
+		writer.Write(Gear);
+		writer.Write(EngineRPM);
+		writer.Write(IsDrsOnByte);
+		writer.Write(RevLightsPercent);
+		writer.Write(RevLightsBitValue);
 		writer.WriteTyresUShort(BrakesTemperature);
 		writer.WriteTyresByte(TyresSurfaceTemperature);
 		writer.WriteTyresByte(TyresInnerTemperature);
-		writer.WriteUShort(EngineTemperature);
+		writer.Write(EngineTemperature);
 		writer.WriteTyresFloat(TyresPressure);
 		writer.WriteTyresEnum(SurfaceType);
 	}

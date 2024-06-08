@@ -2,10 +2,12 @@
 
 namespace F1Game.UDP.Packets;
 
-public readonly record struct LapDataPacket() : IPacket, IByteParsable<LapDataPacket>, ISizeable, IByteWritable
+[StructLayout(LayoutKind.Sequential, Pack = 1, Size = 1131)]
+public sealed record LapDataPacket() : IPacket, IByteParsable<LapDataPacket>, ISizeable, IByteWritable
 {
 	public static int Size => 1131;
 	public PacketHeader Header { get; init; } = PacketHeader.Empty; // Header
+	[field: MarshalAs(UnmanagedType.ByValArray, SizeConst = 22)]
 	public LapData[] LapData { get; init; } = []; // Lap data for all cars on track
 	public byte TimeTrialPBCarIdx { get; init; } // Index of Personal Best car in time trial (255 if invalid)
 	public byte TimeTrialRivalCarIdx { get; init; } // Index of Rival car in time trial (255 if invalid)
@@ -23,9 +25,9 @@ public readonly record struct LapDataPacket() : IPacket, IByteParsable<LapDataPa
 
 	void IByteWritable.WriteBytes(ref BytesWriter writer)
 	{
-		writer.WriteObject(Header);
-		writer.WriteObjects(LapData);
-		writer.WriteByte(TimeTrialPBCarIdx);
-		writer.WriteByte(TimeTrialRivalCarIdx);
+		writer.Write(Header);
+		writer.Write(LapData);
+		writer.Write(TimeTrialPBCarIdx);
+		writer.Write(TimeTrialRivalCarIdx);
 	}
 }

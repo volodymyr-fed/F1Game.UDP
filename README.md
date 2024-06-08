@@ -8,8 +8,8 @@ UDP specification is [here](https://answers.ea.com/t5/General-Discussion/F1-23-U
 
 # Usages
 
-You can parse array to packets with `ToPacket` extension method.
-It will be instance of one of structs:
+You can parse an array of bytes to packets with `ToPacket` extension method.
+It returns instance of one of the classes:
 * `CarDamageDataPacket`
 * `CarSetupDataPacket`
 * `CarStatusDataPacket`

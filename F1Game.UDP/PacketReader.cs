@@ -1,4 +1,6 @@
-﻿using F1Game.UDP.Data;
+﻿using System.Runtime.CompilerServices;
+
+using F1Game.UDP.Data;
 using F1Game.UDP.Enums;
 using F1Game.UDP.Packets;
 
@@ -9,7 +11,72 @@ public static class PacketReader
 	public static IPacket ToPacket(this byte[] bytes)
 	{
 		var packetType = GetPacketType(bytes);
-		return CreatePacketByType(bytes, packetType);
+
+		return packetType switch
+		{
+			PacketType.Motion => CreateWithMarshal<MotionDataPacket>(bytes),
+			PacketType.Session => CreateWithMarshal<SessionDataPacket>(bytes),
+			PacketType.LapData => CreateWithMarshal<LapDataPacket>(bytes),
+			PacketType.Event => CreateWithReader<EventDataPacket>(bytes),
+			PacketType.Participants => CreateWithReader<ParticipantsDataPacket>(bytes),
+			PacketType.CarSetups => CreateWithMarshal<CarSetupDataPacket>(bytes),
+			PacketType.CarTelemetry => CreateWithMarshal<CarTelemetryDataPacket>(bytes),
+			PacketType.CarStatus => CreateWithMarshal<CarStatusDataPacket>(bytes),
+			PacketType.FinalClassification => CreateWithReader<FinalClassificationDataPacket>(bytes),
+			PacketType.LobbyInfo => CreateWithReader<LobbyInfoDataPacket>(bytes),
+			PacketType.CarDamage => CreateWithMarshal<CarDamageDataPacket>(bytes),
+			PacketType.SessionHistory => CreateWithMarshal<SessionHistoryDataPacket>(bytes),
+			PacketType.TyreSets => CreateWithMarshal<TyreSetsDataPacket>(bytes),
+			PacketType.MotionEx => CreateWithMarshal<MotionExDataPacket>(bytes),
+			_ => throw new ArgumentOutOfRangeException(nameof(packetType)),
+		};
+	}
+
+	internal static IPacket ToPacketWithReader(this byte[] bytes)
+	{
+		var packetType = GetPacketType(bytes);
+
+		return packetType switch
+		{
+			PacketType.Motion => CreateWithReader<MotionDataPacket>(bytes),
+			PacketType.Session => CreateWithReader<SessionDataPacket>(bytes),
+			PacketType.LapData => CreateWithReader<LapDataPacket>(bytes),
+			PacketType.Event => CreateWithReader<EventDataPacket>(bytes),
+			PacketType.Participants => CreateWithReader<ParticipantsDataPacket>(bytes),
+			PacketType.CarSetups => CreateWithReader<CarSetupDataPacket>(bytes),
+			PacketType.CarTelemetry => CreateWithReader<CarTelemetryDataPacket>(bytes),
+			PacketType.CarStatus => CreateWithReader<CarStatusDataPacket>(bytes),
+			PacketType.FinalClassification => CreateWithReader<FinalClassificationDataPacket>(bytes),
+			PacketType.LobbyInfo => CreateWithReader<LobbyInfoDataPacket>(bytes),
+			PacketType.CarDamage => CreateWithReader<CarDamageDataPacket>(bytes),
+			PacketType.SessionHistory => CreateWithReader<SessionHistoryDataPacket>(bytes),
+			PacketType.TyreSets => CreateWithReader<TyreSetsDataPacket>(bytes),
+			PacketType.MotionEx => CreateWithReader<MotionExDataPacket>(bytes),
+			_ => throw new ArgumentOutOfRangeException(nameof(packetType)),
+		};
+	}
+
+	internal static IPacket ToPacketWithMarshal(this byte[] bytes)
+	{
+		var packetType = GetPacketType(bytes);
+
+		return packetType switch
+		{
+			PacketType.Motion => CreateWithMarshal<MotionDataPacket>(bytes),
+			PacketType.Session => CreateWithMarshal<SessionDataPacket>(bytes),
+			PacketType.LapData => CreateWithMarshal<LapDataPacket>(bytes),
+			PacketType.Participants => CreateWithMarshal<ParticipantsDataPacket>(bytes),
+			PacketType.CarSetups => CreateWithMarshal<CarSetupDataPacket>(bytes),
+			PacketType.CarTelemetry => CreateWithMarshal<CarTelemetryDataPacket>(bytes),
+			PacketType.CarStatus => CreateWithMarshal<CarStatusDataPacket>(bytes),
+			PacketType.FinalClassification => CreateWithMarshal<FinalClassificationDataPacket>(bytes),
+			PacketType.LobbyInfo => CreateWithMarshal<LobbyInfoDataPacket>(bytes),
+			PacketType.CarDamage => CreateWithMarshal<CarDamageDataPacket>(bytes),
+			PacketType.SessionHistory => CreateWithMarshal<SessionHistoryDataPacket>(bytes),
+			PacketType.TyreSets => CreateWithMarshal<TyreSetsDataPacket>(bytes),
+			PacketType.MotionEx => CreateWithMarshal<MotionExDataPacket>(bytes),
+			_ => throw new ArgumentOutOfRangeException(nameof(packetType)),
+		};
 	}
 
 	static PacketType GetPacketType(byte[] bytes)
@@ -22,35 +89,25 @@ public static class PacketReader
 		return bytesReader.GetNextEnum<PacketType>();
 	}
 
-	static IPacket CreatePacketByType(byte[] bytes, PacketType packetType)
+	static T CreateWithReader<T>(byte[] bytes) where T : IByteParsable<T>, ISizeable
 	{
-		var bytesReader = new BytesReader(bytes);
+		if (T.Size > bytes.Length)
+			throw new NotEnoughBytesException(T.Size, bytes.Length, typeof(T).Name);
 
-		return packetType switch
-		{
-			PacketType.Motion => CreateWithSizeCheck<MotionDataPacket>(ref bytesReader),
-			PacketType.Session => CreateWithSizeCheck<SessionDataPacket>(ref bytesReader),
-			PacketType.LapData => CreateWithSizeCheck<LapDataPacket>(ref bytesReader),
-			PacketType.Event => CreateWithSizeCheck<EventDataPacket>(ref bytesReader),
-			PacketType.Participants => CreateWithSizeCheck<ParticipantsDataPacket>(ref bytesReader),
-			PacketType.CarSetups => CreateWithSizeCheck<CarSetupDataPacket>(ref bytesReader),
-			PacketType.CarTelemetry => CreateWithSizeCheck<CarTelemetryDataPacket>(ref bytesReader),
-			PacketType.CarStatus => CreateWithSizeCheck<CarStatusDataPacket>(ref bytesReader),
-			PacketType.FinalClassification => CreateWithSizeCheck<FinalClassificationDataPacket>(ref bytesReader),
-			PacketType.LobbyInfo => CreateWithSizeCheck<LobbyInfoDataPacket>(ref bytesReader),
-			PacketType.CarDamage => CreateWithSizeCheck<CarDamageDataPacket>(ref bytesReader),
-			PacketType.SessionHistory => CreateWithSizeCheck<SessionHistoryDataPacket>(ref bytesReader),
-			PacketType.TyreSets => CreateWithSizeCheck<TyreSetsDataPacket>(ref bytesReader),
-			PacketType.MotionEx => CreateWithSizeCheck<MotionExDataPacket>(ref bytesReader),
-			_ => throw new ArgumentOutOfRangeException(nameof(packetType)),
-		};
+		var reader = new BytesReader(bytes);
+		return reader.GetNextObject<T>();
 	}
 
-	static IPacket CreateWithSizeCheck<T>(ref BytesReader reader) where T : IPacket, IByteParsable<T>, ISizeable
+	static unsafe T CreateWithMarshal<T>(Span<byte> span) where T : class, IPacket, ISizeable, new()
 	{
-		if (T.Size > reader.TotalCount)
-			throw new NotEnoughBytesException(T.Size, reader.TotalCount, typeof(T).Name);
+		if (T.Size > span.Length)
+			throw new NotEnoughBytesException(T.Size, span.Length, typeof(T).Name);
 
-		return reader.GetNextObject<T>();
+		T result = new T();
+		ref byte r = ref MemoryMarshal.GetReference(span);
+		IntPtr ptr = (IntPtr)Unsafe.AsPointer(ref r);
+		Marshal.PtrToStructure(ptr, result);
+
+		return result;
 	}
 }

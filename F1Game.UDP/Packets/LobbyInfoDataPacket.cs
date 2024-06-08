@@ -2,11 +2,13 @@
 
 namespace F1Game.UDP.Packets;
 
-public readonly record struct LobbyInfoDataPacket() : IPacket, IByteParsable<LobbyInfoDataPacket>, ISizeable, IByteWritable
+[StructLayout(LayoutKind.Sequential, Pack = 1, Size = 1218)]
+public sealed record LobbyInfoDataPacket() : IPacket, IByteParsable<LobbyInfoDataPacket>, ISizeable, IByteWritable
 {
 	public static int Size => 1218;
 	public PacketHeader Header { get; init; } = PacketHeader.Empty; // Header
 	public byte NumPlayers { get; init; } // Number of players in the lobby data
+	[field: MarshalAs(UnmanagedType.ByValArray, SizeConst = 22)]
 	public LobbyInfoData[] LobbyPlayers { get; init; } = [];
 
 	static LobbyInfoDataPacket IByteParsable<LobbyInfoDataPacket>.Parse(ref BytesReader reader)
@@ -21,8 +23,8 @@ public readonly record struct LobbyInfoDataPacket() : IPacket, IByteParsable<Lob
 
 	void IByteWritable.WriteBytes(ref BytesWriter writer)
 	{
-		writer.WriteObject(Header);
-		writer.WriteByte(NumPlayers);
-		writer.WriteObjects(LobbyPlayers);
+		writer.Write(Header);
+		writer.Write(NumPlayers);
+		writer.Write(LobbyPlayers);
 	}
 }

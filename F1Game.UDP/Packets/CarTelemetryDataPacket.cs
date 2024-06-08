@@ -3,10 +3,12 @@ using F1Game.UDP.Enums;
 
 namespace F1Game.UDP.Packets;
 
-public readonly record struct CarTelemetryDataPacket() : IPacket, IByteParsable<CarTelemetryDataPacket>, ISizeable, IByteWritable
+[StructLayout(LayoutKind.Sequential, Pack = 1, Size = 1352)]
+public sealed record CarTelemetryDataPacket() : IPacket, IByteParsable<CarTelemetryDataPacket>, ISizeable, IByteWritable
 {
 	public static int Size => 1352;
 	public PacketHeader Header { get; init; } = PacketHeader.Empty; // Header
+	[field: MarshalAs(UnmanagedType.ByValArray, SizeConst = 22)]
 	public CarTelemetryData[] CarTelemetryData { get; init; } = [];
 	public MfdPanel MfdPanelIndex { get; init; }
 	public MfdPanel MfdPanelIndexSecondaryPlayer { get; init; } // See above
@@ -26,10 +28,10 @@ public readonly record struct CarTelemetryDataPacket() : IPacket, IByteParsable<
 
 	void IByteWritable.WriteBytes(ref BytesWriter writer)
 	{
-		writer.WriteObject(Header);
-		writer.WriteObjects(CarTelemetryData);
+		writer.Write(Header);
+		writer.Write(CarTelemetryData);
 		writer.WriteEnum(MfdPanelIndex);
 		writer.WriteEnum(MfdPanelIndexSecondaryPlayer);
-		writer.WriteSByte(SuggestedGear);
+		writer.Write(SuggestedGear);
 	}
 }

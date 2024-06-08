@@ -11,99 +11,103 @@ ref struct BytesWriter(byte[] bytes)
 
 	public readonly int CurrentIndex => currentIndex;
 
-	public void WriteByte(byte value)
+	public void Write(byte value)
 	{
 		bytes[currentIndex++] = value;
 	}
 
-	public void WriteBytes(byte[] values)
+	public void Write(byte[] values)
 	{
 		foreach (var value in values)
-			WriteByte(value);
+			Write(value);
 	}
 
-	public void WriteSByte(sbyte value)
+	public void Write(sbyte value)
 	{
 		bytes[currentIndex++] = Unsafe.As<sbyte, byte>(ref value);
 	}
 
-	public void WriteBoolean(bool value)
+	public void Write(bool value)
 	{
-		bytes[currentIndex++] = value ? (byte)1 : (byte)0;
+		bytes[currentIndex++] = value.AsByte();
 	}
 
-	public void WriteShort(short value)
+	public void Write(short value)
 	{
 		BinaryPrimitives.WriteInt16LittleEndian(bytes[currentIndex..], value);
 		currentIndex += SizeConstants.ShortSize;
 	}
 
-	public void WriteUShort(ushort value)
+	public void Write(ushort value)
 	{
 		BinaryPrimitives.WriteUInt16LittleEndian(bytes[currentIndex..], value);
 		currentIndex += SizeConstants.UShortSize;
 	}
 
-	public void WriteInt(int value)
+	public void Write(int value)
 	{
 		BinaryPrimitives.WriteInt32LittleEndian(bytes[currentIndex..], value);
 		currentIndex += SizeConstants.IntSize;
 	}
 
-	public void WriteUInt(uint value)
+	public void Write(uint value)
 	{
 		BinaryPrimitives.WriteUInt32LittleEndian(bytes[currentIndex..], value);
 		currentIndex += SizeConstants.UIntSize;
 	}
 
-	public void WriteULong(ulong value)
+	public void Write(ulong value)
 	{
 		BinaryPrimitives.WriteUInt64LittleEndian(bytes[currentIndex..], value);
 		currentIndex += SizeConstants.ULongSize;
 	}
 
-	public void WriteFloat(float value)
+	public void Write(float value)
 	{
 		BinaryPrimitives.WriteSingleLittleEndian(bytes[currentIndex..], value);
 		currentIndex += SizeConstants.FloatSize;
 	}
 
-	public void WriteDouble(double value)
+	public void Write(double value)
 	{
 		BinaryPrimitives.WriteDoubleLittleEndian(bytes[currentIndex..], value);
 		currentIndex += SizeConstants.DoubleSize;
 	}
 
-	public void WriteString(string value, int count)
+	public void Write(string value, int count)
 	{
 		Encoding.UTF8.GetBytes(value, bytes[currentIndex..]);
 		currentIndex += count;
 	}
 
-	public void WriteObjects<T>(T[] values) where T : IByteWritable
+	public void Write<T>(T[] values) where T : IByteWritable
 	{
-		foreach (T value in values)
+		foreach (var value in values)
 			value.WriteBytes(ref this);
 	}
 
-	public void WriteObject<T>(T value) where T : IByteWritable
+	public void Write<T>(T value) where T : IByteWritable
 	{
 		value.WriteBytes(ref this);
 	}
 
 	public void WriteEnum<T>(T value) where T : struct, Enum, IConvertible
 	{
-		WriteByte(Unsafe.As<T, byte>(ref value));
+		var type = Enum.GetUnderlyingType(typeof(T));
+
+		if (type == typeof(byte))
+			Write(Unsafe.As<T, byte>(ref value));
+		if (type == typeof(sbyte))
+			Write(Unsafe.As<T, sbyte>(ref value));
+		if (type == typeof(int))
+			Write(Unsafe.As<T, int>(ref value));
+		if (type == typeof(uint))
+			Write(Unsafe.As<T, uint>(ref value));
 	}
 
 	public void WriteEnums<T>(T[] values) where T : struct, Enum, IConvertible
 	{
 		foreach (T value in values)
 			WriteEnum(value);
-	}
-
-	public void WriteUIntEnum<T>(T value) where T : struct, Enum, IConvertible
-	{
-		WriteUInt(Unsafe.As<T, uint>(ref value));
 	}
 }

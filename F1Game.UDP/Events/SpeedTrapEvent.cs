@@ -25,11 +25,11 @@ public readonly record struct SpeedTrapEvent() : IEventDetails, IByteParsable<Sp
 
 	void IByteWritable.WriteBytes(ref BytesWriter writer)
 	{
-		writer.WriteByte(VehicleIdx);
-		writer.WriteFloat(Speed);
-		writer.WriteBoolean(IsOverallFastestInSession);
-		writer.WriteBoolean(IsDriverFastestInSession);
-		writer.WriteByte(FastestVehicleIdxInSession);
-		writer.WriteFloat(FastestSpeedInSession);
+		writer.Write(VehicleIdx);
+		writer.Write(Speed);
+		writer.Write(IsOverallFastestInSession);
+		writer.Write(IsDriverFastestInSession);
+		writer.Write(FastestVehicleIdxInSession);
+		writer.Write(FastestSpeedInSession);
 	}
 }

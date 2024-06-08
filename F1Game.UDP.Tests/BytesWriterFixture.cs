@@ -21,7 +21,7 @@ sealed class BytesWriterFixture
 		var bytes = new byte[10];
 		var writer = new BytesWriter(bytes);
 
-		writer.WriteByte(byteToWrite);
+		writer.Write(byteToWrite);
 
 		writer.CurrentIndex.Should().Be(1);
 		bytes[0].Should().Be(byteToWrite);
@@ -34,7 +34,7 @@ sealed class BytesWriterFixture
 		var bytes = new byte[10];
 		var writer = new BytesWriter(bytes);
 
-		writer.WriteBytes(bytesToWrite);
+		writer.Write(bytesToWrite);
 
 		writer.CurrentIndex.Should().Be(2);
 		bytes[0].Should().Be(bytesToWrite[0]);
@@ -48,7 +48,7 @@ sealed class BytesWriterFixture
 		var bytes = new byte[10];
 		var writer = new BytesWriter(bytes);
 
-		writer.WriteSByte(sbyteToWrite);
+		writer.Write(sbyteToWrite);
 
 		writer.CurrentIndex.Should().Be(1);
 		bytes[0].Should().Be(0x80);
@@ -60,8 +60,8 @@ sealed class BytesWriterFixture
 		var bytes = new byte[10];
 		var writer = new BytesWriter(bytes);
 
-		writer.WriteBoolean(false);
-		writer.WriteBoolean(true);
+		writer.Write(false);
+		writer.Write(true);
 
 		writer.CurrentIndex.Should().Be(2);
 		bytes[0].Should().Be(0);
@@ -75,7 +75,7 @@ sealed class BytesWriterFixture
 		var bytes = new byte[4];
 		var writer = new BytesWriter(bytes);
 
-		writer.WriteShort(0x0201);
+		writer.Write((short)0x0201);
 
 		writer.CurrentIndex.Should().Be(2);
 		bytes.Should().BeEquivalentTo(expectedBytes, options => options.WithStrictOrdering());
@@ -88,7 +88,7 @@ sealed class BytesWriterFixture
 		var bytes = new byte[4];
 		var writer = new BytesWriter(bytes);
 
-		writer.WriteUShort(0x0201);
+		writer.Write((ushort)0x0201);
 
 		writer.CurrentIndex.Should().Be(2);
 		bytes.Should().BeEquivalentTo(expectedBytes, options => options.WithStrictOrdering());
@@ -101,7 +101,7 @@ sealed class BytesWriterFixture
 		var bytes = new byte[5];
 		var writer = new BytesWriter(bytes);
 
-		writer.WriteFloat(1.1f);
+		writer.Write(1.1f);
 
 		writer.CurrentIndex.Should().Be(4);
 		bytes.Should().BeEquivalentTo(expectedBytes, options => options.WithStrictOrdering());
@@ -114,7 +114,7 @@ sealed class BytesWriterFixture
 		var bytes = new byte[5];
 		var writer = new BytesWriter(bytes);
 
-		writer.WriteInt(0x04030201);
+		writer.Write(0x04030201);
 
 		writer.CurrentIndex.Should().Be(4);
 		bytes.Should().BeEquivalentTo(expectedBytes, options => options.WithStrictOrdering());
@@ -127,7 +127,7 @@ sealed class BytesWriterFixture
 		var bytes = new byte[5];
 		var writer = new BytesWriter(bytes);
 
-		writer.WriteUInt(0x04030201);
+		writer.Write((uint)0x04030201);
 
 		writer.CurrentIndex.Should().Be(4);
 		bytes.Should().BeEquivalentTo(expectedBytes, options => options.WithStrictOrdering());
@@ -140,7 +140,7 @@ sealed class BytesWriterFixture
 		var bytes = new byte[9];
 		var writer = new BytesWriter(bytes);
 
-		writer.WriteULong(0x0807060504030201ul);
+		writer.Write(0x0807060504030201ul);
 
 		writer.CurrentIndex.Should().Be(8);
 		bytes.Should().BeEquivalentTo(expectedBytes, options => options.WithStrictOrdering());
@@ -153,7 +153,7 @@ sealed class BytesWriterFixture
 		var bytes = new byte[9];
 		var writer = new BytesWriter(bytes);
 
-		writer.WriteDouble(3.3);
+		writer.Write(3.3);
 
 		writer.CurrentIndex.Should().Be(8);
 		bytes.Should().BeEquivalentTo(expectedBytes, options => options.WithStrictOrdering());
@@ -166,7 +166,7 @@ sealed class BytesWriterFixture
 		var bytes = new byte[14];
 		var writer = new BytesWriter(bytes);
 
-		writer.WriteString("Hello, World!", 14);
+		writer.Write("Hello, World!", 14);
 
 		writer.CurrentIndex.Should().Be(14);
 		bytes.Should().BeEquivalentTo(expectedBytes, options => options.WithStrictOrdering());
@@ -179,7 +179,7 @@ sealed class BytesWriterFixture
 		var bytes = new byte[9];
 		var writer = new BytesWriter(bytes);
 
-		writer.WriteObjects(new TestInt[] { new(0x04030201), new(0x04030205) });
+		writer.Write(new TestInt[] { new(0x04030201), new(0x04030205) });
 
 		writer.CurrentIndex.Should().Be(8);
 		bytes.Should().BeEquivalentTo(expectedBytes, options => options.WithStrictOrdering());
@@ -192,7 +192,7 @@ sealed class BytesWriterFixture
 		var bytes = new byte[5];
 		var writer = new BytesWriter(bytes);
 
-		writer.WriteObject(new TestInt(0x04030201));
+		writer.Write(new TestInt(0x04030201));
 
 		writer.CurrentIndex.Should().Be(4);
 		bytes.Should().BeEquivalentTo(expectedBytes, options => options.WithStrictOrdering());
@@ -205,7 +205,7 @@ sealed class BytesWriterFixture
 		var bytes = new byte[4];
 		var writer = new BytesWriter(bytes);
 
-		writer.WriteEnums(new[] { TestEnum.One, TestEnum.Two, TestEnum.Three });
+		writer.WriteEnums(new[] { TestByteEnum.One, TestByteEnum.Two, TestByteEnum.Three });
 
 		writer.CurrentIndex.Should().Be(3);
 		bytes.Should().BeEquivalentTo(expectedBytes, options => options.WithStrictOrdering());
@@ -218,7 +218,7 @@ sealed class BytesWriterFixture
 		var bytes = new byte[2];
 		var writer = new BytesWriter(bytes);
 
-		writer.WriteEnum(TestEnum.Two);
+		writer.WriteEnum(TestByteEnum.Two);
 
 		writer.CurrentIndex.Should().Be(1);
 		bytes.Should().BeEquivalentTo(expectedBytes, options => options.WithStrictOrdering());
@@ -231,13 +231,20 @@ sealed class BytesWriterFixture
 		var bytes = new byte[5];
 		var writer = new BytesWriter(bytes);
 
-		writer.WriteUIntEnum(TestEnum.Two);
+		writer.WriteEnum(TestEnum.Two);
 
 		writer.CurrentIndex.Should().Be(4);
 		bytes.Should().BeEquivalentTo(expectedBytes, options => options.WithStrictOrdering());
 	}
 
-	enum TestEnum
+	enum TestByteEnum : byte
+	{
+		One = 1,
+		Two = 2,
+		Three = 3
+	}
+
+	enum TestEnum : uint
 	{
 		One = 1,
 		Two = 2,
@@ -248,7 +255,7 @@ sealed class BytesWriterFixture
 	{
 		public void WriteBytes(ref BytesWriter writer)
 		{
-			writer.WriteInt(Value);
+			writer.Write(Value);
 		}
 	}
 }

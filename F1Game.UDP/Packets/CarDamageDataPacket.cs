@@ -2,11 +2,13 @@
 
 namespace F1Game.UDP.Packets;
 
-public readonly record struct CarDamageDataPacket() : IPacket, IByteParsable<CarDamageDataPacket>, ISizeable, IByteWritable
+[StructLayout(LayoutKind.Sequential, Pack = 1, Size = 953)]
+public sealed record CarDamageDataPacket() : IPacket, IByteParsable<CarDamageDataPacket>, ISizeable, IByteWritable
 {
 	public static int Size => 953;
 
 	public PacketHeader Header { get; init; } = PacketHeader.Empty;
+	[field: MarshalAs(UnmanagedType.ByValArray, SizeConst = 22)]
 	public CarDamageData[] CarDamageData { get; init; } = [];
 
 	static CarDamageDataPacket IByteParsable<CarDamageDataPacket>.Parse(ref BytesReader reader)
@@ -20,7 +22,7 @@ public readonly record struct CarDamageDataPacket() : IPacket, IByteParsable<Car
 
 	void IByteWritable.WriteBytes(ref BytesWriter writer)
 	{
-		writer.WriteObject(Header);
-		writer.WriteObjects(CarDamageData);
+		writer.Write(Header);
+		writer.Write(CarDamageData);
 	}
 }

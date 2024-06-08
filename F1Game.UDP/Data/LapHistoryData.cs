@@ -2,7 +2,8 @@
 
 namespace F1Game.UDP.Data;
 
-public readonly record struct LapHistoryData() : IByteParsable<LapHistoryData>
+[StructLayout(LayoutKind.Sequential, Pack = 1, Size = 14)]
+public readonly record struct LapHistoryData() : IByteParsable<LapHistoryData>, IByteWritable
 {
 	public uint LapTimeInMS { get; init; } // Lap time in milliseconds
 	public ushort Sector1TimeInMS { get; init; } // Sector 1 time in milliseconds
@@ -27,5 +28,17 @@ public readonly record struct LapHistoryData() : IByteParsable<LapHistoryData>
 			Sector3TimeMinutes = reader.GetNextByte(),
 			LapValidBitFlags = reader.GetNextEnum<LapValid>(),
 		};
+	}
+
+	void IByteWritable.WriteBytes(ref BytesWriter writer)
+	{
+		writer.Write(LapTimeInMS);
+		writer.Write(Sector1TimeInMS);
+		writer.Write(Sector1TimeMinutes);
+		writer.Write(Sector2TimeInMS);
+		writer.Write(Sector2TimeMinutes);
+		writer.Write(Sector3TimeInMS);
+		writer.Write(Sector3TimeMinutes);
+		writer.WriteEnum(LapValidBitFlags);
 	}
 }

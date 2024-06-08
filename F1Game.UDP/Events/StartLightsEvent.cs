@@ -14,6 +14,6 @@ public readonly record struct StartLightsEvent() : IEventDetails, IByteParsable<
 
 	void IByteWritable.WriteBytes(ref BytesWriter writer)
 	{
-		writer.WriteByte(NumLights);
+		writer.Write(NumLights);
 	}
 }

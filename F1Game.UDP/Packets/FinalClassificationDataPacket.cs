@@ -2,11 +2,13 @@
 
 namespace F1Game.UDP.Packets;
 
-public readonly record struct FinalClassificationDataPacket() : IPacket, IByteParsable<FinalClassificationDataPacket>, ISizeable, IByteWritable
+[StructLayout(LayoutKind.Sequential, Pack = 1, Size = 1020)]
+public sealed record FinalClassificationDataPacket() : IPacket, IByteParsable<FinalClassificationDataPacket>, ISizeable, IByteWritable
 {
 	public static int Size => 1020;
 	public PacketHeader Header { get; init; } = PacketHeader.Empty; // Header
 	public byte NumCars { get; init; } // Number of cars in the final classification
+	[field: MarshalAs(UnmanagedType.ByValArray, SizeConst = 22)]
 	public FinalClassificationData[] ClassificationData { get; init; } = [];
 
 	static FinalClassificationDataPacket IByteParsable<FinalClassificationDataPacket>.Parse(ref BytesReader reader)
@@ -21,8 +23,8 @@ public readonly record struct FinalClassificationDataPacket() : IPacket, IBytePa
 
 	void IByteWritable.WriteBytes(ref BytesWriter writer)
 	{
-		writer.WriteObject(Header);
-		writer.WriteByte(NumCars);
-		writer.WriteObjects(ClassificationData);
+		writer.Write(Header);
+		writer.Write(NumCars);
+		writer.Write(ClassificationData);
 	}
 }
