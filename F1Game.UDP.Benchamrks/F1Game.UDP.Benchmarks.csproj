@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="BenchmarkDotNet" Version="0.13.10" />
+    <PackageReference Include="BenchmarkDotNet" Version="0.13.12" />
     <PackageReference Include="F1Sharp" Version="1.3.0" />
     <PackageReference Include="SimRacing.Telemetry.Receiver.F1.23" Version="1.0.1" />
   </ItemGroup>

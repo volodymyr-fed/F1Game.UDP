@@ -30,3 +30,9 @@ using F1Game.UDP;
 
 IPacket packet = arrayOfBytes.ToPacket();
 ```
+
+# Benchmarks
+
+You can check performance of the library by running benchmarks in `F1Game.UDP.Benchmarks` project.
+
+Results on my machine are [here](../docs/F1Game.UDP.Benchmarks.ThirdPartyComparisonBenchmark-report-github.md).
