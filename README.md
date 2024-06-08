@@ -9,6 +9,10 @@ Library to parse UDP telemetry packets from F1 23 game.
 
 UDP specification is [here](https://answers.ea.com/t5/General-Discussion/F1-23-UDP-Specification/td-p/12632888).
 
+# Versioning
+
+Each major version of the `F1Game.UDP` library is designed to support a specific version of the F1 game. The major version number of the library corresponds to the version of the game it supports. For example, `F1Game.UDP` version 23.x supports F1 23 game, and version 24.x will support F1 24 game and so on.
+
 # Usages
 
 You can parse an array of bytes to packets with `ToPacket` extension method.
