@@ -3,15 +3,15 @@
 [![NuGet](https://img.shields.io/nuget/v/F1Game.UDP.svg)](https://www.nuget.org/packages/F1Game.UDP/)
 ![BuildStatus](https://github.com/volodymyr-fed/F1Game.UDP/actions/workflows/ci.yaml/badge.svg)
 
-Library to parse UDP telemetry packets from F1 23 game.
+Library to parse UDP telemetry packets from F1 24 game.
 
 # UDP Specification
 
-UDP specification is [here](https://answers.ea.com/t5/General-Discussion/F1-23-UDP-Specification/td-p/12632888).
+UDP specification is [here](https://answers.ea.com/t5/General-Discussion/F1-24-UDP-Specification/td-p/13745220).
 
 # Versioning
 
-Each major version of the `F1Game.UDP` library is designed to support a specific version of the F1 game. The major version number of the library corresponds to the version of the game it supports. For example, `F1Game.UDP` version 23.x supports F1 23 game, and version 24.x will support F1 24 game and so on.
+Each major version of the `F1Game.UDP` library is designed to support a specific version of the F1 game. The major version number of the library corresponds to the version of the game it supports. For example, `F1Game.UDP` version 23.x supports F1 23 game, and version 24.x supports F1 24 game and so on.
 
 # Usages
 
@@ -30,6 +30,7 @@ The `ToPacket` method returns a `UnionPacket` struct, which has properties for d
 - `ParticipantsDataPacket`
 - `SessionDataPacket`
 - `SessionHistoryDataPacket`
+* `TimeTrialDataPacket`
 - `TyreSetsDataPacket`
 
 You can access the specific packet data by accessing the corresponding property of the `UnionPacket` struct, you should check what packet type it is first using `PacketType` property.
@@ -63,4 +64,4 @@ switch (packet.PacketType)
 
 You can check performance of the library by running benchmarks in `F1Game.UDP.Benchmarks` project.
 
-Results on my machine are [here](./docs/F1Game.UDP.Benchmarks.ThirdPartyComparisonBenchmark-report-github.md).
+Results on my machine are [here](./docs/F1Game.UDP.Benchmarks.InternalBenchmark-report-github.md).
