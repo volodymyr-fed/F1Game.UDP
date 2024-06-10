@@ -30,6 +30,7 @@ public class ThirdPartyComparisonBenchmark
 		PacketType.SessionHistory,
 		PacketType.TyreSets,
 		PacketType.Event,
+		PacketType.TimeTrial
 		])]
 	public PacketType Type { get; set; }
 
@@ -55,19 +56,20 @@ public class ThirdPartyComparisonBenchmark
 			SetupCarTelemetryPacket(data, random);
 	}
 
-	[Benchmark(Baseline = true)]
+	// Not applicable, no libraries that support F1 24 UDP telemetry
+	//[Benchmark(Baseline = true)]
 	public UnionPacket ReadF1GameUDP()
 	{
 		return data.ToPacket();
 	}
 
-	[Benchmark]
+	//[Benchmark]
 	public void ReadF1Sharp()
 	{
 		F1SharpHelper.ReadPacket(data);
 	}
 
-	[Benchmark]
+	//[Benchmark]
 	public Packet ReadF1Simracing()
 	{
 		return SimRacingHelpers.ReadPacket(data);
@@ -152,6 +154,7 @@ public class ThirdPartyComparisonBenchmark
 			PacketType.SessionHistory => SessionHistoryDataPacket.Size,
 			PacketType.TyreSets => TyreSetsDataPacket.Size,
 			PacketType.MotionEx => MotionExDataPacket.Size,
+			PacketType.TimeTrial => TimeTrialDataPacket.Size,
 			_ => throw new NotImplementedException()
 		};
 	}
