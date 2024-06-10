@@ -28,7 +28,7 @@ public static class PacketReader
 			PacketType.SessionHistory => CreateWithMarshal<SessionHistoryDataPacket>(bytes),
 			PacketType.TyreSets => CreateWithMarshal<TyreSetsDataPacket>(bytes),
 			PacketType.MotionEx => CreateWithMarshal<MotionExDataPacket>(bytes),
-			_ => throw new ArgumentOutOfRangeException(nameof(packetType)),
+			_ => throw new InvalidPacketTypeException(packetType),
 		};
 	}
 
@@ -52,7 +52,7 @@ public static class PacketReader
 			PacketType.SessionHistory => CreateWithReader<SessionHistoryDataPacket>(bytes),
 			PacketType.TyreSets => CreateWithReader<TyreSetsDataPacket>(bytes),
 			PacketType.MotionEx => CreateWithReader<MotionExDataPacket>(bytes),
-			_ => throw new ArgumentOutOfRangeException(nameof(packetType)),
+			_ => throw new InvalidPacketTypeException(packetType),
 		};
 	}
 
@@ -75,14 +75,14 @@ public static class PacketReader
 			PacketType.SessionHistory => CreateWithMarshal<SessionHistoryDataPacket>(bytes),
 			PacketType.TyreSets => CreateWithMarshal<TyreSetsDataPacket>(bytes),
 			PacketType.MotionEx => CreateWithMarshal<MotionExDataPacket>(bytes),
-			_ => throw new ArgumentOutOfRangeException(nameof(packetType)),
+			_ => throw new InvalidPacketTypeException(packetType),
 		};
 	}
 
 	static PacketType GetPacketType(byte[] bytes)
 	{
 		if (bytes.Length < PacketHeader.Size)
-			throw new NotEnoughBytesException(PacketHeader.Size, bytes.Length, nameof(PacketHeader));
+			throw new NotEnoughBytesException(PacketHeader.Size, bytes.Length, typeof(PacketHeader));
 
 		var bytesReader = new BytesReader(bytes, PacketHeader.PacketTypeIndex);
 
@@ -92,7 +92,7 @@ public static class PacketReader
 	static T CreateWithReader<T>(byte[] bytes) where T : IByteParsable<T>, ISizeable
 	{
 		if (T.Size > bytes.Length)
-			throw new NotEnoughBytesException(T.Size, bytes.Length, typeof(T).Name);
+			throw new NotEnoughBytesException(T.Size, bytes.Length, typeof(T));
 
 		var reader = new BytesReader(bytes);
 		return reader.GetNextObject<T>();
@@ -101,7 +101,7 @@ public static class PacketReader
 	static unsafe T CreateWithMarshal<T>(Span<byte> span) where T : class, IPacket, ISizeable, new()
 	{
 		if (T.Size > span.Length)
-			throw new NotEnoughBytesException(T.Size, span.Length, typeof(T).Name);
+			throw new NotEnoughBytesException(T.Size, span.Length, typeof(T));
 
 		T result = new T();
 		ref byte r = ref MemoryMarshal.GetReference(span);
