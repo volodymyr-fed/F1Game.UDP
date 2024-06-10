@@ -82,7 +82,7 @@ public class ThirdPartyComparisonBenchmark
 			{
 				Gear = random.GetItems(new sbyte[] { 1, 2, 3, 4, 5, 6, 7, 8 }, 1)[0],
 			}).ToArray22(),
-			SuggestedGear = random.GetItems(new sbyte[] { 1, 2, 3, 4, 5, 6, 7, 8 }, 1)[0]
+			SuggestedGear = random.GetItems(new byte[] { 1, 2, 3, 4, 5, 6, 7, 8 }, 1)[0]
 		};
 
 		var writer = new BytesWriter(data);
@@ -127,7 +127,7 @@ public class ThirdPartyComparisonBenchmark
 				TrackTemperature = (sbyte)random.Next(127),
 				AirTemperatureChange = (sbyte)random.Next(127),
 				TrackTemperatureChange = (sbyte)random.Next(127),
-			}).ToArray56()
+			}).ToArray64()
 		};
 
 		var writer = new BytesWriter(data);

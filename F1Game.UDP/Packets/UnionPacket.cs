@@ -40,6 +40,8 @@ public readonly record struct UnionPacket : IByteWritable
 	public TyreSetsDataPacket TyreSetsDataPacket { get; init; }
 	[field: FieldOffset(0)]
 	public MotionExDataPacket MotionExDataPacket { get; init; }
+	[field: FieldOffset(0)]
+	public TimeTrialDataPacket TimeTrialDataPacket { get; init; }
 
 	void IByteWritable.WriteBytes(ref BytesWriter writer)
 	{
@@ -59,6 +61,7 @@ public readonly record struct UnionPacket : IByteWritable
 			PacketType.Session => SessionDataPacket,
 			PacketType.SessionHistory => SessionHistoryDataPacket,
 			PacketType.TyreSets => TyreSetsDataPacket,
+			PacketType.TimeTrial => TimeTrialDataPacket,
 			_ => throw new UnreachableException()
 		};
 
@@ -79,4 +82,5 @@ public readonly record struct UnionPacket : IByteWritable
 	public static implicit operator UnionPacket(SessionHistoryDataPacket packet) => new() { SessionHistoryDataPacket = packet, PacketType = PacketType.SessionHistory };
 	public static implicit operator UnionPacket(TyreSetsDataPacket packet) => new() { TyreSetsDataPacket = packet, PacketType = PacketType.TyreSets };
 	public static implicit operator UnionPacket(MotionExDataPacket packet) => new() { MotionExDataPacket = packet, PacketType = PacketType.MotionEx };
+	public static implicit operator UnionPacket(TimeTrialDataPacket packet) => new() { TimeTrialDataPacket = packet, PacketType = PacketType.TimeTrial };
 }

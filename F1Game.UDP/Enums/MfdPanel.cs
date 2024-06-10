@@ -6,6 +6,7 @@ public enum MfdPanel : byte
 	// Single player, race – 0 = Car setup, 1 = Pits
 	// 2 = Damage, 3 = Engine, 4 = Temperatures
 	// May vary depending on game mode
+	Closed = 255,
 	CarSetup = 0,
 	Pits = 1,
 	Damage = 2,

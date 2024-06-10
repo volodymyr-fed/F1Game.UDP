@@ -2,7 +2,7 @@
 
 namespace F1Game.UDP.Data;
 
-[StructLayout(LayoutKind.Sequential, Pack = 1, Size = 50)]
+[StructLayout(LayoutKind.Sequential, Pack = 1, Size = 57)]
 public readonly record struct LapData() : IByteParsable<LapData>, IByteWritable
 {
 	public uint LastLapTimeInMS { get; init; } // Last lap time in milliseconds
@@ -12,7 +12,9 @@ public readonly record struct LapData() : IByteParsable<LapData>, IByteWritable
 	public ushort Sector2TimeInMS { get; init; } // Sector 2 time in milliseconds
 	public byte Sector2TimeInMinutes { get; init; } // Sector 2 whole minute part
 	public ushort DeltaToCarInFrontInMS { get; init; } // Time delta to car in front in milliseconds
+	public byte DeltaToCarInFrontInMinutes { get; init; } // Time delta to car in front in minutes
 	public ushort DeltaToRaceLeaderInMS { get; init; } // Time delta to race leader in milliseconds
+	public byte DeltaToRaceLeaderInMinutes { get; init; } // Time delta to race leader in whole minutes
 	public float LapDistance { get; init; } // Distance vehicle is around current lap in metres – could
 											// be negative if line hasn’t been crossed yet
 	public float TotalDistance { get; init; } // Total distance travelled in session in metres – could
@@ -35,7 +37,9 @@ public readonly record struct LapData() : IByteParsable<LapData>, IByteWritable
 	public bool PitLaneTimerActive { get; init; } // Pit lane timing, 0 = inactive, 1 = active
 	public ushort PitLaneTimeInLaneInMS { get; init; } // If active, the current time spent in the pit lane in ms
 	public ushort PitStopTimerInMS { get; init; } // Time of the actual pit stop in ms
-	public byte PitStopShouldServePen { get; init; } // Whether the car should serve a penalty at this stop
+	public bool PitStopShouldServePen { get; init; } // Whether the car should serve a penalty at this stop
+	public float SpeedTrapFastestSpeed { get; init; } // Fastest speed through speed trap for this car in kmph
+	public byte SpeedTrapFastestLap { get; init; } // Lap no the fastest speed was achieved, 255 = not set
 
 	static LapData IByteParsable<LapData>.Parse(ref BytesReader reader)
 	{
@@ -48,7 +52,9 @@ public readonly record struct LapData() : IByteParsable<LapData>, IByteWritable
 			Sector2TimeInMS = reader.GetNextUShort(),
 			Sector2TimeInMinutes = reader.GetNextByte(),
 			DeltaToCarInFrontInMS = reader.GetNextUShort(),
+			DeltaToCarInFrontInMinutes = reader.GetNextByte(),
 			DeltaToRaceLeaderInMS = reader.GetNextUShort(),
+			DeltaToRaceLeaderInMinutes = reader.GetNextByte(),
 			LapDistance = reader.GetNextFloat(),
 			TotalDistance = reader.GetNextFloat(),
 			SafetyCarDelta = reader.GetNextFloat(),
@@ -69,7 +75,9 @@ public readonly record struct LapData() : IByteParsable<LapData>, IByteWritable
 			PitLaneTimerActive = reader.GetNextBoolean(),
 			PitLaneTimeInLaneInMS = reader.GetNextUShort(),
 			PitStopTimerInMS = reader.GetNextUShort(),
-			PitStopShouldServePen = reader.GetNextByte(),
+			PitStopShouldServePen = reader.GetNextBoolean(),
+			SpeedTrapFastestSpeed = reader.GetNextFloat(),
+			SpeedTrapFastestLap = reader.GetNextByte()
 		};
 	}
 
@@ -82,7 +90,9 @@ public readonly record struct LapData() : IByteParsable<LapData>, IByteWritable
 		writer.Write(Sector2TimeInMS);
 		writer.Write(Sector2TimeInMinutes);
 		writer.Write(DeltaToCarInFrontInMS);
+		writer.Write(DeltaToCarInFrontInMinutes);
 		writer.Write(DeltaToRaceLeaderInMS);
+		writer.Write(DeltaToRaceLeaderInMinutes);
 		writer.Write(LapDistance);
 		writer.Write(TotalDistance);
 		writer.Write(SafetyCarDelta);
@@ -104,5 +114,7 @@ public readonly record struct LapData() : IByteParsable<LapData>, IByteWritable
 		writer.Write(PitLaneTimeInLaneInMS);
 		writer.Write(PitStopTimerInMS);
 		writer.Write(PitStopShouldServePen);
+		writer.Write(SpeedTrapFastestSpeed);
+		writer.Write(SpeedTrapFastestLap);
 	}
 }

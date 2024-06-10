@@ -129,7 +129,7 @@ ref struct BytesWriter(byte[] bytes)
 			value.WriteBytes(ref this);
 	}
 
-	public void Write<T>(Array56<T> array) where T : IByteWritable
+	public void Write<T>(Array64<T> array) where T : IByteWritable
 	{
 		foreach (var value in array)
 			value.WriteBytes(ref this);
@@ -162,6 +162,12 @@ ref struct BytesWriter(byte[] bytes)
 	}
 
 	public void WriteEnums<T>(Array8<T> values) where T : struct, Enum, IConvertible
+	{
+		foreach (T value in values)
+			WriteEnum(value);
+	}
+
+	public void WriteEnums<T>(Array12<T> values) where T : struct, Enum, IConvertible
 	{
 		foreach (T value in values)
 			WriteEnum(value);

@@ -33,6 +33,8 @@ public readonly record struct EventDataPacket() : IByteParsable<EventDataPacket>
 				EventType.Flashback => reader.GetNextObject<FlashbackEvent>(),
 				EventType.ButtonStatus => reader.GetNextObject<ButtonsEvent>(),
 				EventType.Overtake => reader.GetNextObject<OvertakeEvent>(),
+				EventType.SafetyCar => reader.GetNextObject<SafetyCarEvent>(),
+				EventType.Collision => reader.GetNextObject<CollisionEvent>(),
 				EventType.ChequeredFlag => new EventDetails { EventType = eventType },
 				EventType.DRSEnabled => new EventDetails { EventType = eventType },
 				EventType.DRSDisabled => new EventDetails { EventType = eventType },
@@ -64,6 +66,8 @@ public readonly record struct EventDataPacket() : IByteParsable<EventDataPacket>
 			EventType.Flashback => EventDetails.FlashbackEvent,
 			EventType.ButtonStatus => EventDetails.ButtonsEvent,
 			EventType.Overtake => EventDetails.OvertakeEvent,
+			EventType.SafetyCar => EventDetails.SafetyCarEvent,
+			EventType.Collision => EventDetails.CollisionEvent,
 			_ => null,
 		};
 		if (byteWritable is not null)

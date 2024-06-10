@@ -2,10 +2,10 @@
 
 namespace F1Game.UDP.Packets;
 
-[StructLayout(LayoutKind.Sequential, Pack = 1, Size = 217)]
+[StructLayout(LayoutKind.Sequential, Pack = 1, Size = 237)]
 public readonly record struct MotionExDataPacket() : IByteParsable<MotionExDataPacket>, ISizeable, IByteWritable, IHaveHeader
 {
-	public static int Size => 217;
+	public static int Size => 237;
 
 	public PacketHeader Header { get; init; } = PacketHeader.Empty;
 	public Tyres<float> SuspensionPosition { get; init; } // Note: All wheel arrays have the following order:
@@ -28,6 +28,12 @@ public readonly record struct MotionExDataPacket() : IByteParsable<MotionExDataP
 	public float AngularAccelerationZ { get; init; } // Angular velocity z-component
 	public float FrontWheelsAngle { get; init; } // Current front wheels angle in radians
 	public Tyres<float> WheelVertForce { get; init; } // Vertical forces for each wheel
+	public float FrontAeroHeight { get; init; } // Front plank edge height above road surface
+	public float RearAeroHeight { get; init; } // Rear plank edge height above road surface
+	public float FrontRollAngle { get; init; } // Roll angle of the front suspension
+	public float RearRollAngle { get; init; } // Roll angle of the rear suspension
+	public float ChassisYaw { get; init; } // Yaw angle of the chassis relative to the direction
+						// of motion - radians
 
 	static MotionExDataPacket IByteParsable<MotionExDataPacket>.Parse(ref BytesReader reader)
 	{
@@ -54,6 +60,11 @@ public readonly record struct MotionExDataPacket() : IByteParsable<MotionExDataP
 			AngularAccelerationZ = reader.GetNextFloat(),
 			FrontWheelsAngle = reader.GetNextFloat(),
 			WheelVertForce = reader.GetNextTyresFloat(),
+			FrontAeroHeight = reader.GetNextFloat(),
+			RearAeroHeight = reader.GetNextFloat(),
+			FrontRollAngle = reader.GetNextFloat(),
+			RearRollAngle = reader.GetNextFloat(),
+			ChassisYaw = reader.GetNextFloat(),
 		};
 	}
 
@@ -80,5 +91,10 @@ public readonly record struct MotionExDataPacket() : IByteParsable<MotionExDataP
 		writer.Write(AngularAccelerationZ);
 		writer.Write(FrontWheelsAngle);
 		writer.WriteTyresFloat(WheelVertForce);
+		writer.Write(FrontAeroHeight);
+		writer.Write(RearAeroHeight);
+		writer.Write(FrontRollAngle);
+		writer.Write(RearRollAngle);
+		writer.Write(ChassisYaw);
 	}
 }

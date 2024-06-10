@@ -15,5 +15,6 @@ public enum PacketType : byte
 	CarDamage = 10,
 	SessionHistory = 11,
 	TyreSets = 12,
-	MotionEx = 13
+	MotionEx = 13,
+	TimeTrial = 14,
 }
