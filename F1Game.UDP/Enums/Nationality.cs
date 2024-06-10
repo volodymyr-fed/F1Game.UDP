@@ -68,7 +68,6 @@ public enum Nationality : byte
 	Portuguese = 64,
 	Qatari = 65,
 	Romanian = 66,
-	Russian = 67,
 	Salvadoran = 68,
 	Saudi = 69,
 	Scottish = 70,
@@ -89,4 +88,7 @@ public enum Nationality : byte
 	Barbadian = 85,
 	Welsh = 86,
 	Vietnamese = 87,
+	Algerian = 88,
+	Bosnian = 89,
+	Filipino = 90,
 }

@@ -3,7 +3,7 @@
 [Flags]
 public enum ButtonFlag : uint
 {
-	CrossOrA = 0x00000001,
+	CrossOrA = 0x00000001U,
 	TriangleOrY = 0x00000002U,
 	CircleOrB = 0x00000004U,
 	SquareOrX = 0x00000008U,
