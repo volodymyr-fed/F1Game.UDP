@@ -1,5 +1,8 @@
-﻿using BenchmarkDotNet.Attributes;
+﻿using System.Buffers.Binary;
 
+using BenchmarkDotNet.Attributes;
+
+using F1Game.UDP.Data;
 using F1Game.UDP.Enums;
 using F1Game.UDP.Events;
 using F1Game.UDP.Packets;
@@ -102,10 +105,7 @@ public class ThirdPartyComparisonBenchmark
 
 	static void SetupEventPacket(byte[] data)
 	{
-		data[29] = (byte)((uint)EventType.SpeedTrapTriggered & 0xFFu);
-		data[30] = (byte)((uint)EventType.SpeedTrapTriggered >> 8 & 0xFFu);
-		data[31] = (byte)((uint)EventType.SpeedTrapTriggered >> 16 & 0xFFu);
-		data[32] = (byte)((uint)EventType.SpeedTrapTriggered >> 24 & 0xFFu);
+		BinaryPrimitives.WriteUInt32LittleEndian(data.AsSpan()[PacketHeader.Size..], (uint)EventType.SpeedTrapTriggered);
 	}
 
 	static void SetupSessionPacket(byte[] data, Random random)

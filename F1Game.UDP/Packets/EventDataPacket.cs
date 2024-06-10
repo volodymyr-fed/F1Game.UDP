@@ -33,7 +33,14 @@ public sealed record EventDataPacket() : IPacket, IByteParsable<EventDataPacket>
 				EventType.Flashback => reader.GetNextObject<FlashbackEvent>(),
 				EventType.ButtonStatus => reader.GetNextObject<ButtonsEvent>(),
 				EventType.Overtake => reader.GetNextObject<OvertakeEvent>(),
-				_ => null,
+				EventType.ChequeredFlag => null,
+				EventType.DRSEnabled => null,
+				EventType.DRSDisabled => null,
+				EventType.LightsOut => null,
+				EventType.SessionStarted => null,
+				EventType.SessionEnded => null,
+				EventType.RedFlag => null,
+				_ => throw new InvalidEventTypeException(eventType),
 			}
 		};
 	}

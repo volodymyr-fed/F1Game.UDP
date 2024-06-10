@@ -14,6 +14,68 @@ sealed class PacketReaderFixture
 	readonly Fixture fixture = new();
 
 	[Test]
+	public void ToPacket_WithNotEnoughBytes_ThrowsNotEnoughBytesException()
+	{
+		byte[] bytes = []; // Not enough bytes for any packet
+
+		Action act = () => bytes.ToPacket();
+
+		act.Should().Throw<NotEnoughBytesException>()
+			.Which.TypeToParse.Should().Be(typeof(PacketHeader));
+	}
+
+	[Test]
+	public void ToPacket_WithInvalidPacketType_ThrowsInvalidPacketTypeException()
+	{
+		var bytes = new byte[PacketHeader.Size];
+		bytes[PacketHeader.PacketTypeIndex] = 255; // Invalid packet type
+
+		Action act = () => bytes.ToPacket();
+
+		act.Should().Throw<InvalidPacketTypeException>()
+			.Which.PacketType.Should().Be((PacketType)255);
+	}
+
+	[Test]
+	public void ToPacket_WithInvalidEventType_ThrowsInvalidEventTypeException()
+	{
+		var bytes = new byte[EventDataPacket.Size];
+		bytes[PacketHeader.PacketTypeIndex] = (byte) PacketType.Event;
+		bytes[PacketHeader.Size] = 255; // Invalid event type
+
+		Action act = () => bytes.ToPacket();
+
+		act.Should().Throw<InvalidEventTypeException>()
+			.Which.EventType.Should().Be((EventType)255);
+	}
+
+	[TestCase(PacketType.Motion, typeof(MotionDataPacket))]
+	[TestCase(PacketType.Session, typeof(SessionDataPacket))]
+	[TestCase(PacketType.LapData, typeof(LapDataPacket))]
+	[TestCase(PacketType.Event, typeof(EventDataPacket))]
+	[TestCase(PacketType.Participants, typeof(ParticipantsDataPacket))]
+	[TestCase(PacketType.CarSetups, typeof(CarSetupDataPacket))]
+	[TestCase(PacketType.CarTelemetry, typeof(CarTelemetryDataPacket))]
+	[TestCase(PacketType.CarStatus, typeof(CarStatusDataPacket))]
+	[TestCase(PacketType.FinalClassification, typeof(FinalClassificationDataPacket))]
+	[TestCase(PacketType.LobbyInfo, typeof(LobbyInfoDataPacket))]
+	[TestCase(PacketType.CarDamage, typeof(CarDamageDataPacket))]
+	[TestCase(PacketType.SessionHistory, typeof(SessionHistoryDataPacket))]
+	[TestCase(PacketType.TyreSets, typeof(TyreSetsDataPacket))]
+	[TestCase(PacketType.MotionEx, typeof(MotionExDataPacket))]
+	public void ToPacket_ThrowsNotEnoughBytesException(PacketType packetType, Type expectedType)
+	{
+		byte[] bytes = new byte[PacketHeader.Size];
+		bytes[PacketHeader.PacketTypeIndex] = (byte) packetType;
+
+		Action act = () => bytes.ToPacket();
+
+		// Assert
+		act.Should().Throw<NotEnoughBytesException>()
+			.Which.TypeToParse.Should().Be(expectedType);
+	}
+
+	[Test]
 	public void ReadCarDamageDataPacket()
 	{
 		var packet = BuildPacket<CarDamageDataPacket>()
