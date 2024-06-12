@@ -1,6 +1,7 @@
 ﻿namespace F1Game.UDP.Events;
 
-public readonly record struct SpeedTrapEvent() : IEventDetails, IByteParsable<SpeedTrapEvent>, IByteWritable
+[StructLayout(LayoutKind.Sequential, Pack = 1, Size = 12)]
+public readonly record struct SpeedTrapEvent() : IByteParsable<SpeedTrapEvent>, IByteWritable
 {
 	public byte VehicleIdx { get; init; } // Vehicle index of the vehicle triggering speed trap
 	public float Speed { get; init; } // Top speed achieved in kilometres per hour

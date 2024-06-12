@@ -12,8 +12,7 @@ public readonly record struct CarTelemetryData() : IByteParsable<CarTelemetryDat
 	public byte Clutch { get; init; } // Amount of clutch applied (0 to 100)
 	public sbyte Gear { get; init; } // Gear selected (1-8, N=0, R=-1)
 	public ushort EngineRPM { get; init; } // Engine RPM
-	private byte IsDrsOnByte { get; init; } // 0 = off, 1 = on
-	public bool IsDrsOn { get => IsDrsOnByte.AsBool(); init => IsDrsOnByte = value.AsByte(); }
+	public bool IsDrsOn { get; init; } // 0 = off, 1 = on
 	public byte RevLightsPercent { get; init; } // Rev lights indicator (percentage)
 	public ushort RevLightsBitValue { get; init; } // Rev lights (bit 0 = leftmost LED, bit 14 = rightmost LED)
 	public Tyres<ushort> BrakesTemperature { get; init; } // Brakes temperature (celsius)
@@ -34,7 +33,7 @@ public readonly record struct CarTelemetryData() : IByteParsable<CarTelemetryDat
 			Clutch = reader.GetNextByte(),
 			Gear = reader.GetNextSbyte(),
 			EngineRPM = reader.GetNextUShort(),
-			IsDrsOnByte = reader.GetNextByte(),
+			IsDrsOn = reader.GetNextBoolean(),
 			RevLightsPercent = reader.GetNextByte(),
 			RevLightsBitValue = reader.GetNextUShort(),
 			BrakesTemperature = reader.GetNextTyresUShort(),
@@ -55,7 +54,7 @@ public readonly record struct CarTelemetryData() : IByteParsable<CarTelemetryDat
 		writer.Write(Clutch);
 		writer.Write(Gear);
 		writer.Write(EngineRPM);
-		writer.Write(IsDrsOnByte);
+		writer.Write(IsDrsOn);
 		writer.Write(RevLightsPercent);
 		writer.Write(RevLightsBitValue);
 		writer.WriteTyresUShort(BrakesTemperature);

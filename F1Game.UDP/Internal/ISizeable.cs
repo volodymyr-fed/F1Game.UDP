@@ -1,4 +1,4 @@
-﻿namespace F1Game.UDP;
+﻿namespace F1Game.UDP.Internal;
 
 interface ISizeable
 {

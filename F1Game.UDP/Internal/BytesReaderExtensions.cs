@@ -2,7 +2,7 @@
 using System.Runtime.CompilerServices;
 using System.Text;
 
-namespace F1Game.UDP;
+namespace F1Game.UDP.Internal;
 
 static class BytesReaderExtensions
 {
@@ -68,38 +68,9 @@ static class BytesReaderExtensions
 	}
 
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-	public static byte[] GetNextStringBytes(this ref BytesReader reader, int count)
-	{
-		return reader.GetNextBytes(count).Trim((byte)'\0').ToArray();
-	}
-
-	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-	public static T[] GetNextObjects<T>(this ref BytesReader reader, int count) where T : IByteParsable<T>
-	{
-		var array = new T[count];
-
-		ref T first = ref MemoryMarshal.GetArrayDataReference(array);
-
-		for (var i = 0; i < count; i++)
-		{
-			ref T current = ref Unsafe.Add(ref first, i);
-			current = T.Parse(ref reader);
-		}
-
-		return array;
-	}
-
-	[MethodImpl(MethodImplOptions.AggressiveInlining)]
 	public static T GetNextObject<T>(this ref BytesReader reader) where T : IByteParsable<T>
 	{
 		return T.Parse(ref reader);
-	}
-
-	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-	public static T[] GetNextEnums<T>(this ref BytesReader reader, int count) where T : struct, Enum, IConvertible
-	{
-		var bytes = reader.GetNextBytes(count);
-		return MemoryMarshal.Cast<byte, T>(bytes).ToArray();
 	}
 
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]

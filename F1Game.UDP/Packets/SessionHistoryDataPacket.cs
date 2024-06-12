@@ -3,7 +3,7 @@
 namespace F1Game.UDP.Packets;
 
 [StructLayout(LayoutKind.Sequential, Pack = 1, Size = 1460)]
-public sealed record SessionHistoryDataPacket() : IPacket, IByteParsable<SessionHistoryDataPacket>, ISizeable, IByteWritable
+public readonly record struct SessionHistoryDataPacket() : IByteParsable<SessionHistoryDataPacket>, ISizeable, IByteWritable, IHaveHeader
 {
 	public static int Size => 1460;
 
@@ -15,10 +15,8 @@ public sealed record SessionHistoryDataPacket() : IPacket, IByteParsable<Session
 	public byte BestSector1LapNum { get; init; } // Lap the best Sector 1 time was achieved on
 	public byte BestSector2LapNum { get; init; } // Lap the best Sector 2 time was achieved on
 	public byte BestSector3LapNum { get; init; } // Lap the best Sector 3 time was achieved on
-	[field: MarshalAs(UnmanagedType.ByValArray, SizeConst = 100)]
-	public LapHistoryData[] LapHistoryData { get; init; } = []; // 100 laps of data max
-	[field: MarshalAs(UnmanagedType.ByValArray, SizeConst = 8)]
-	public TyreStintHistoryData[] TyreStintsHistoryData { get; init; } = []; // max 8
+	public Array100<LapHistoryData> LapHistoryData { get; init; } // 100 laps of data max
+	public Array8<TyreStintHistoryData> TyreStintsHistoryData { get; init; } // max 8
 
 	static SessionHistoryDataPacket IByteParsable<SessionHistoryDataPacket>.Parse(ref BytesReader reader)
 	{
@@ -32,8 +30,8 @@ public sealed record SessionHistoryDataPacket() : IPacket, IByteParsable<Session
 			BestSector1LapNum = reader.GetNextByte(),
 			BestSector2LapNum = reader.GetNextByte(),
 			BestSector3LapNum = reader.GetNextByte(),
-			LapHistoryData = reader.GetNextObjects<LapHistoryData>(100),
-			TyreStintsHistoryData = reader.GetNextObjects<TyreStintHistoryData>(8)
+			LapHistoryData = reader.GetNextArray100<LapHistoryData>(),
+			TyreStintsHistoryData = reader.GetNextArray8<TyreStintHistoryData>()
 		};
 	}
 

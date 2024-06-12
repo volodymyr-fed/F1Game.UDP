@@ -1,6 +1,4 @@
 ﻿using F1Game.UDP.Enums;
-using F1Game.UDP.Events;
-using F1Game.UDP.Packets;
 
 namespace F1Game.UDP;
 
@@ -12,12 +10,6 @@ public sealed class NotEnoughBytesException(int requiredSize, int inputSize, Typ
 	public Type TypeToParse => typeToParse;
 	public int RequiredSize => requiredSize;
 	public int InputSize => inputSize;
-}
-
-public sealed class InvalidEventTypeException(EventType eventType)
-	: ParsingException($"Invalid data. Event type {eventType} in {nameof(EventDataPacket)} does not exist in enum {nameof(EventType)}.")
-{
-	public EventType EventType => eventType;
 }
 
 public sealed class InvalidPacketTypeException(PacketType packetType)

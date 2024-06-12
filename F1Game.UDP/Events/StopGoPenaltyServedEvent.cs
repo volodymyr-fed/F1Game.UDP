@@ -1,6 +1,7 @@
 ﻿namespace F1Game.UDP.Events;
 
-public readonly record struct StopGoPenaltyServedEvent() : IEventDetails, IByteParsable<StopGoPenaltyServedEvent>, IByteWritable
+[StructLayout(LayoutKind.Sequential, Pack = 1, Size = 1)]
+public readonly record struct StopGoPenaltyServedEvent() : IByteParsable<StopGoPenaltyServedEvent>, IByteWritable
 {
 	public byte VehicleIdx { get; init; } // Vehicle index of the vehicle serving stop go
 

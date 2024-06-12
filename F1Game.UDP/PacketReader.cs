@@ -8,31 +8,34 @@ namespace F1Game.UDP;
 
 public static class PacketReader
 {
-	public static IPacket ToPacket(this byte[] bytes)
+	[MethodImpl(MethodImplOptions.AggressiveInlining)]
+	public static UnionPacket ToPacket(this byte[] bytes)
 	{
 		var packetType = GetPacketType(bytes);
+		var packet = new UnionPacket();
 
 		return packetType switch
 		{
-			PacketType.Motion => CreateWithMarshal<MotionDataPacket>(bytes),
-			PacketType.Session => CreateWithMarshal<SessionDataPacket>(bytes),
-			PacketType.LapData => CreateWithMarshal<LapDataPacket>(bytes),
-			PacketType.Event => CreateWithReader<EventDataPacket>(bytes),
-			PacketType.Participants => CreateWithReader<ParticipantsDataPacket>(bytes),
-			PacketType.CarSetups => CreateWithMarshal<CarSetupDataPacket>(bytes),
-			PacketType.CarTelemetry => CreateWithMarshal<CarTelemetryDataPacket>(bytes),
-			PacketType.CarStatus => CreateWithMarshal<CarStatusDataPacket>(bytes),
-			PacketType.FinalClassification => CreateWithReader<FinalClassificationDataPacket>(bytes),
-			PacketType.LobbyInfo => CreateWithReader<LobbyInfoDataPacket>(bytes),
-			PacketType.CarDamage => CreateWithMarshal<CarDamageDataPacket>(bytes),
-			PacketType.SessionHistory => CreateWithMarshal<SessionHistoryDataPacket>(bytes),
-			PacketType.TyreSets => CreateWithMarshal<TyreSetsDataPacket>(bytes),
-			PacketType.MotionEx => CreateWithMarshal<MotionExDataPacket>(bytes),
+			PacketType.Motion => CreateWithMarshal<MotionDataPacket>(bytes, ref packet),
+			PacketType.Session => CreateWithMarshal<SessionDataPacket>(bytes, ref packet),
+			PacketType.LapData => CreateWithMarshal<LapDataPacket>(bytes, ref packet),
+			PacketType.Event => CreateWithMarshal<EventDataPacket>(bytes, ref packet),
+			PacketType.Participants => CreateWithMarshal<ParticipantsDataPacket>(bytes, ref packet),
+			PacketType.CarSetups => CreateWithMarshal<CarSetupDataPacket>(bytes, ref packet),
+			PacketType.CarTelemetry => CreateWithMarshal<CarTelemetryDataPacket>(bytes, ref packet),
+			PacketType.CarStatus => CreateWithMarshal<CarStatusDataPacket>(bytes, ref packet),
+			PacketType.FinalClassification => CreateWithMarshal<FinalClassificationDataPacket>(bytes, ref packet),
+			PacketType.LobbyInfo => CreateWithMarshal<LobbyInfoDataPacket>(bytes, ref packet),
+			PacketType.CarDamage => CreateWithMarshal<CarDamageDataPacket>(bytes, ref packet),
+			PacketType.SessionHistory => CreateWithMarshal<SessionHistoryDataPacket>(bytes, ref packet),
+			PacketType.TyreSets => CreateWithMarshal<TyreSetsDataPacket>(bytes, ref packet),
+			PacketType.MotionEx => CreateWithMarshal<MotionExDataPacket>(bytes, ref packet),
 			_ => throw new InvalidPacketTypeException(packetType),
 		};
 	}
 
-	internal static IPacket ToPacketWithReader(this byte[] bytes)
+	[MethodImpl(MethodImplOptions.AggressiveInlining)]
+	internal static UnionPacket ToPacketWithReader(this byte[] bytes)
 	{
 		var packetType = GetPacketType(bytes);
 
@@ -56,39 +59,42 @@ public static class PacketReader
 		};
 	}
 
-	internal static IPacket ToPacketWithMarshal(this byte[] bytes)
+	[MethodImpl(MethodImplOptions.AggressiveInlining)]
+	internal static UnionPacket ToPacketWithMarshal(this byte[] bytes)
 	{
 		var packetType = GetPacketType(bytes);
+		var packet = new UnionPacket();
 
 		return packetType switch
 		{
-			PacketType.Motion => CreateWithMarshal<MotionDataPacket>(bytes),
-			PacketType.Session => CreateWithMarshal<SessionDataPacket>(bytes),
-			PacketType.LapData => CreateWithMarshal<LapDataPacket>(bytes),
-			PacketType.Participants => CreateWithMarshal<ParticipantsDataPacket>(bytes),
-			PacketType.CarSetups => CreateWithMarshal<CarSetupDataPacket>(bytes),
-			PacketType.CarTelemetry => CreateWithMarshal<CarTelemetryDataPacket>(bytes),
-			PacketType.CarStatus => CreateWithMarshal<CarStatusDataPacket>(bytes),
-			PacketType.FinalClassification => CreateWithMarshal<FinalClassificationDataPacket>(bytes),
-			PacketType.LobbyInfo => CreateWithMarshal<LobbyInfoDataPacket>(bytes),
-			PacketType.CarDamage => CreateWithMarshal<CarDamageDataPacket>(bytes),
-			PacketType.SessionHistory => CreateWithMarshal<SessionHistoryDataPacket>(bytes),
-			PacketType.TyreSets => CreateWithMarshal<TyreSetsDataPacket>(bytes),
-			PacketType.MotionEx => CreateWithMarshal<MotionExDataPacket>(bytes),
+			PacketType.Motion => CreateWithMarshal<MotionDataPacket>(bytes, ref packet),
+			PacketType.Session => CreateWithMarshal<SessionDataPacket>(bytes, ref packet),
+			PacketType.LapData => CreateWithMarshal<LapDataPacket>(bytes, ref packet),
+			PacketType.Event => CreateWithMarshal<EventDataPacket>(bytes, ref packet),
+			PacketType.Participants => CreateWithMarshal<ParticipantsDataPacket>(bytes, ref packet),
+			PacketType.CarSetups => CreateWithMarshal<CarSetupDataPacket>(bytes, ref packet),
+			PacketType.CarTelemetry => CreateWithMarshal<CarTelemetryDataPacket>(bytes, ref packet),
+			PacketType.CarStatus => CreateWithMarshal<CarStatusDataPacket>(bytes, ref packet),
+			PacketType.FinalClassification => CreateWithMarshal<FinalClassificationDataPacket>(bytes, ref packet),
+			PacketType.LobbyInfo => CreateWithMarshal<LobbyInfoDataPacket>(bytes, ref packet),
+			PacketType.CarDamage => CreateWithMarshal<CarDamageDataPacket>(bytes, ref packet),
+			PacketType.SessionHistory => CreateWithMarshal<SessionHistoryDataPacket>(bytes, ref packet),
+			PacketType.TyreSets => CreateWithMarshal<TyreSetsDataPacket>(bytes, ref packet),
+			PacketType.MotionEx => CreateWithMarshal<MotionExDataPacket>(bytes, ref packet),
 			_ => throw new InvalidPacketTypeException(packetType),
 		};
 	}
 
-	static PacketType GetPacketType(byte[] bytes)
+	[MethodImpl(MethodImplOptions.AggressiveInlining)]
+	static PacketType GetPacketType(Span<byte> bytes)
 	{
 		if (bytes.Length < PacketHeader.Size)
 			throw new NotEnoughBytesException(PacketHeader.Size, bytes.Length, typeof(PacketHeader));
 
-		var bytesReader = new BytesReader(bytes, PacketHeader.PacketTypeIndex);
-
-		return bytesReader.GetNextEnum<PacketType>();
+		return (PacketType) bytes[PacketHeader.PacketTypeIndex];
 	}
 
+	[MethodImpl(MethodImplOptions.AggressiveInlining)]
 	static T CreateWithReader<T>(byte[] bytes) where T : IByteParsable<T>, ISizeable
 	{
 		if (T.Size > bytes.Length)
@@ -98,16 +104,17 @@ public static class PacketReader
 		return reader.GetNextObject<T>();
 	}
 
-	static unsafe T CreateWithMarshal<T>(Span<byte> span) where T : class, IPacket, ISizeable, new()
+	[MethodImpl(MethodImplOptions.AggressiveInlining)]
+	static ref UnionPacket CreateWithMarshal<T>(Span<byte> span, ref UnionPacket packet) where T : struct, ISizeable
 	{
 		if (T.Size > span.Length)
 			throw new NotEnoughBytesException(T.Size, span.Length, typeof(T));
 
-		T result = new T();
-		ref byte r = ref MemoryMarshal.GetReference(span);
-		IntPtr ptr = (IntPtr)Unsafe.AsPointer(ref r);
-		Marshal.PtrToStructure(ptr, result);
+		var structSpan = MemoryMarshal.CreateSpan(ref packet, 1);
+		var bytesStructSpan = MemoryMarshal.AsBytes(structSpan);
 
-		return result;
+		span.Slice(0, T.Size).CopyTo(bytesStructSpan);
+
+		return ref packet;
 	}
 }

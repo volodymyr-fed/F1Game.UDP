@@ -1,6 +1,7 @@
 ﻿namespace F1Game.UDP.Events;
 
-public readonly record struct OvertakeEvent() : IEventDetails, IByteParsable<OvertakeEvent>, IByteWritable
+[StructLayout(LayoutKind.Sequential, Pack = 1, Size = 2)]
+public readonly record struct OvertakeEvent() : IByteParsable<OvertakeEvent>, IByteWritable
 {
 	public byte OvertakingVehicleIdx { get; init; } // Vehicle index of the vehicle overtaking
 	public byte BeingOvertakenVehicleIdx { get; init; }  // Vehicle index of the vehicle being overtaken

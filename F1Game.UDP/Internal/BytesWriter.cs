@@ -2,7 +2,9 @@
 using System.Runtime.CompilerServices;
 using System.Text;
 
-namespace F1Game.UDP;
+using F1Game.UDP.Data;
+
+namespace F1Game.UDP.Internal;
 
 ref struct BytesWriter(byte[] bytes)
 {
@@ -16,7 +18,13 @@ ref struct BytesWriter(byte[] bytes)
 		bytes[currentIndex++] = value;
 	}
 
-	public void Write(byte[] values)
+	public void Write(Span<byte> values)
+	{
+		foreach (var value in values)
+			Write(value);
+	}
+
+	public void Write(Array8<byte> values)
 	{
 		foreach (var value in values)
 			Write(value);
@@ -29,7 +37,7 @@ ref struct BytesWriter(byte[] bytes)
 
 	public void Write(bool value)
 	{
-		bytes[currentIndex++] = value.AsByte();
+		bytes[currentIndex++] = Unsafe.As<bool, byte>(ref value);
 	}
 
 	public void Write(short value)
@@ -80,7 +88,7 @@ ref struct BytesWriter(byte[] bytes)
 		currentIndex += count;
 	}
 
-	public void Write<T>(T[] values) where T : IByteWritable
+	public void Write<T>(Span<T> values) where T : IByteWritable
 	{
 		foreach (var value in values)
 			value.WriteBytes(ref this);
@@ -89,6 +97,48 @@ ref struct BytesWriter(byte[] bytes)
 	public void Write<T>(T value) where T : IByteWritable
 	{
 		value.WriteBytes(ref this);
+	}
+
+	public void Write<T>(Array8<T> array) where T : IByteWritable
+	{
+		foreach (var value in array)
+			value.WriteBytes(ref this);
+	}
+
+	public void Write<T>(Array20<T> array) where T : IByteWritable
+	{
+		foreach (var value in array)
+			value.WriteBytes(ref this);
+	}
+
+	public void Write<T>(Array21<T> array) where T : IByteWritable
+	{
+		foreach (var value in array)
+			value.WriteBytes(ref this);
+	}
+
+	public void Write<T>(Array22<T> array) where T : IByteWritable
+	{
+		foreach (var value in array)
+			value.WriteBytes(ref this);
+	}
+
+	public void Write<T>(Array48<T> array) where T : IByteWritable
+	{
+		foreach (var value in array)
+			value.WriteBytes(ref this);
+	}
+
+	public void Write<T>(Array56<T> array) where T : IByteWritable
+	{
+		foreach (var value in array)
+			value.WriteBytes(ref this);
+	}
+
+	public void Write<T>(Array100<T> array) where T : IByteWritable
+	{
+		foreach (var value in array)
+			value.WriteBytes(ref this);
 	}
 
 	public void WriteEnum<T>(T value) where T : struct, Enum, IConvertible
@@ -105,7 +155,13 @@ ref struct BytesWriter(byte[] bytes)
 			Write(Unsafe.As<T, uint>(ref value));
 	}
 
-	public void WriteEnums<T>(T[] values) where T : struct, Enum, IConvertible
+	public void WriteEnums<T>(Span<T> values) where T : struct, Enum, IConvertible
+	{
+		foreach (T value in values)
+			WriteEnum(value);
+	}
+
+	public void WriteEnums<T>(Array8<T> values) where T : struct, Enum, IConvertible
 	{
 		foreach (T value in values)
 			WriteEnum(value);

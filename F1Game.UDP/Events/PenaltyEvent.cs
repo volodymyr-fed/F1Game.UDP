@@ -2,7 +2,8 @@
 
 namespace F1Game.UDP.Events;
 
-public readonly record struct PenaltyEvent() : IEventDetails, IByteParsable<PenaltyEvent>, IByteWritable
+[StructLayout(LayoutKind.Sequential, Pack = 1, Size = 7)]
+public readonly record struct PenaltyEvent() : IByteParsable<PenaltyEvent>, IByteWritable
 {
 	public PenaltyType PenaltyType { get; init; } // Penalty type – see Appendices
 	public InfringementType InfringementType { get; init; } // Infringement type – see Appendices

@@ -1,4 +1,4 @@
-﻿namespace F1Game.UDP;
+﻿namespace F1Game.UDP.Internal;
 
 ref struct BytesReader(byte[] bytes, int startIndex)
 {
@@ -21,4 +21,5 @@ ref struct BytesReader(byte[] bytes, int startIndex)
 	public byte GetNextByte() => spanBytes[currentIndex++];
 
 	public void Skip(int count) => currentIndex += count;
+	public void Reset() => currentIndex = 0;
 }

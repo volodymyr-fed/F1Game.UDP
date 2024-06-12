@@ -1,4 +1,3 @@
-
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.6.33829.357
@@ -8,6 +7,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{04CF9191-965E-4037-97AD-27C099F52DF7}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
+		finecodecoverage-settings.xml = finecodecoverage-settings.xml
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "F1Game.UDP.Tests", "F1Game.UDP.Tests\F1Game.UDP.Tests.csproj", "{9A200C1C-5B68-4D37-B8C3-C4738A465693}"

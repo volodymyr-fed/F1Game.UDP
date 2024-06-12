@@ -1,6 +1,10 @@
-﻿using BenchmarkDotNet.Attributes;
+﻿using System.Buffers.Binary;
 
+using BenchmarkDotNet.Attributes;
+
+using F1Game.UDP.Data;
 using F1Game.UDP.Enums;
+using F1Game.UDP.Events;
 using F1Game.UDP.Packets;
 
 namespace F1Game.UDP.Benchmarks;
@@ -13,6 +17,7 @@ public class InternalBenchmark
 		PacketType.CarSetups,
 		PacketType.CarStatus,
 		PacketType.CarTelemetry,
+		PacketType.Event,
 		PacketType.FinalClassification,
 		PacketType.LapData,
 		PacketType.LobbyInfo,
@@ -53,16 +58,19 @@ public class InternalBenchmark
 
 		new Random(42).NextBytes(data);
 		data[6] = (byte)Type;
+
+		if (Type == PacketType.Event)
+			BinaryPrimitives.WriteUInt32LittleEndian(data.AsSpan()[PacketHeader.Size..], (uint) EventType.SpeedTrapTriggered);
 	}
 
 	[Benchmark]
-	public IPacket ReadF1GameUDPReader()
+	public UnionPacket ReadF1GameUDPReader()
 	{
 		return data.ToPacketWithReader();
 	}
 
 	[Benchmark(Baseline = true)]
-	public IPacket ReadF1GameUDPMarshal()
+	public UnionPacket ReadF1GameUDPMarshal()
 	{
 		return data.ToPacketWithMarshal();
 	}

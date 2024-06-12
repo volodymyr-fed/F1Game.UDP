@@ -1,6 +1,7 @@
 ﻿namespace F1Game.UDP.Events;
 
-public readonly record struct FlashbackEvent() : IEventDetails, IByteParsable<FlashbackEvent>, IByteWritable
+[StructLayout(LayoutKind.Sequential, Pack = 1, Size = 8)]
+public readonly record struct FlashbackEvent() : IByteParsable<FlashbackEvent>, IByteWritable
 {
 	public uint FlashbackFrameIdentifier { get; init; } // Frame identifier flashed back to
 	public float FlashbackSessionTime { get; init; } // Session time flashed back to

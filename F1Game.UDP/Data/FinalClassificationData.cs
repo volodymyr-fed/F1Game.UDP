@@ -18,12 +18,9 @@ public readonly record struct FinalClassificationData() : IByteParsable<FinalCla
 	public byte PenaltiesTime { get; init; } // Total penalties accumulated in seconds
 	public byte NumPenalties { get; init; } // Number of penalties applied to this driver
 	public byte NumTyreStints { get; init; } // Number of tyres stints up to maximum
-	[field: MarshalAs(UnmanagedType.ByValArray, SizeConst = 8)]
-	public ActualCompound[] TyreStintsActual { get; init; } = []; // Actual tyres used by this driver 8
-	[field: MarshalAs(UnmanagedType.ByValArray, SizeConst = 8)]
-	public VisualCompound[] TyreStintsVisual { get; init; } = []; // Visual tyres used by this driver 8
-	[field: MarshalAs(UnmanagedType.ByValArray, SizeConst = 8)]
-	public byte[] TyreStintsEndLaps { get; init; } = []; // The lap number stints end on 8
+	public Array8<ActualCompound> TyreStintsActual { get; init; } // Actual tyres used by this driver 8
+	public Array8<VisualCompound> TyreStintsVisual { get; init; } // Visual tyres used by this driver 8
+	public Array8<byte> TyreStintsEndLaps { get; init; } // The lap number stints end on 8
 
 	static FinalClassificationData IByteParsable<FinalClassificationData>.Parse(ref BytesReader reader)
 	{
@@ -40,9 +37,9 @@ public readonly record struct FinalClassificationData() : IByteParsable<FinalCla
 			PenaltiesTime = reader.GetNextByte(),
 			NumPenalties = reader.GetNextByte(),
 			NumTyreStints = reader.GetNextByte(),
-			TyreStintsActual = reader.GetNextEnums<ActualCompound>(8),
-			TyreStintsVisual = reader.GetNextEnums<VisualCompound>(8),
-			TyreStintsEndLaps = reader.GetNextBytes(8).ToArray(),
+			TyreStintsActual = reader.GetNextArray8Enum<ActualCompound>(),
+			TyreStintsVisual = reader.GetNextArray8Enum<VisualCompound>(),
+			TyreStintsEndLaps = reader.GetNextArray8Bytes(),
 		};
 	}
 

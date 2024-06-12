@@ -3,22 +3,22 @@ using F1Game.UDP.Events;
 
 namespace F1Game.UDP.Packets;
 
-public sealed record EventDataPacket() : IPacket, IByteParsable<EventDataPacket>, ISizeable, IByteWritable
+[StructLayout(LayoutKind.Sequential, Pack = 1, Size = 45)]
+public readonly record struct EventDataPacket() : IByteParsable<EventDataPacket>, ISizeable, IByteWritable, IHaveHeader
 {
 	public static int Size => 45;
 
 	public PacketHeader Header { get; init; } = PacketHeader.Empty; // Header
-	public EventType EventType { get; init; } // Event string code, see below 4 chars
-	public IEventDetails? EventDetails { get; init; } // Event details - should be interpreted differently
+	public EventDetails EventDetails { get; init; } // Event details - should be interpreted differently
 
 	static EventDataPacket IByteParsable<EventDataPacket>.Parse(ref BytesReader reader)
 	{
-		EventType eventType;
+		var packet = reader.GetNextObject<PacketHeader>();
+		var eventType = reader.GetNextUIntEnum<EventType>();
 
 		return new()
 		{
-			Header = reader.GetNextObject<PacketHeader>(),
-			EventType = eventType = reader.GetNextUIntEnum<EventType>(),
+			Header = packet,
 			EventDetails = eventType switch
 			{
 				EventType.FastestLap => reader.GetNextObject<FastestLapEvent>(),
@@ -33,14 +33,14 @@ public sealed record EventDataPacket() : IPacket, IByteParsable<EventDataPacket>
 				EventType.Flashback => reader.GetNextObject<FlashbackEvent>(),
 				EventType.ButtonStatus => reader.GetNextObject<ButtonsEvent>(),
 				EventType.Overtake => reader.GetNextObject<OvertakeEvent>(),
-				EventType.ChequeredFlag => null,
-				EventType.DRSEnabled => null,
-				EventType.DRSDisabled => null,
-				EventType.LightsOut => null,
-				EventType.SessionStarted => null,
-				EventType.SessionEnded => null,
-				EventType.RedFlag => null,
-				_ => throw new InvalidEventTypeException(eventType),
+				EventType.ChequeredFlag => new EventDetails { EventType = eventType },
+				EventType.DRSEnabled => new EventDetails { EventType = eventType },
+				EventType.DRSDisabled => new EventDetails { EventType = eventType },
+				EventType.LightsOut => new EventDetails { EventType = eventType },
+				EventType.SessionStarted => new EventDetails { EventType = eventType },
+				EventType.SessionEnded => new EventDetails { EventType = eventType },
+				EventType.RedFlag => new EventDetails { EventType = eventType },
+				_ => new EventDetails { EventType = eventType },
 			}
 		};
 	}
@@ -48,9 +48,25 @@ public sealed record EventDataPacket() : IPacket, IByteParsable<EventDataPacket>
 	void IByteWritable.WriteBytes(ref BytesWriter writer)
 	{
 		writer.Write(Header);
-		writer.WriteEnum(EventType);
+		writer.WriteEnum(EventDetails.EventType);
 
-		if (EventDetails is IByteWritable byteWritable)
+		IByteWritable? byteWritable = EventDetails.EventType switch
+		{
+			EventType.FastestLap => EventDetails.FastestLapEvent,
+			EventType.Retirement => EventDetails.RetirementEvent,
+			EventType.TeamMateInPits => EventDetails.TeamMateInPitsEvent,
+			EventType.RaceWinner => EventDetails.RaceWinnerEvent,
+			EventType.PenaltyIssued => EventDetails.PenaltyEvent,
+			EventType.SpeedTrapTriggered => EventDetails.SpeedTrapEvent,
+			EventType.StartLights => EventDetails.StartLightsEvent,
+			EventType.DriveThroughServed => EventDetails.DriveThroughPenaltyServedEvent,
+			EventType.StopGoServed => EventDetails.StopGoPenaltyServedEvent,
+			EventType.Flashback => EventDetails.FlashbackEvent,
+			EventType.ButtonStatus => EventDetails.ButtonsEvent,
+			EventType.Overtake => EventDetails.OvertakeEvent,
+			_ => null,
+		};
+		if (byteWritable is not null)
 			writer.Write(byteWritable);
 	}
 }
