@@ -3,7 +3,7 @@
 namespace F1Game.UDP.Packets;
 
 [StructLayout(LayoutKind.Sequential, Pack = 1, Size = 217)]
-public sealed record MotionExDataPacket() : IPacket, IByteParsable<MotionExDataPacket>, ISizeable, IByteWritable
+public readonly record struct MotionExDataPacket() : IByteParsable<MotionExDataPacket>, ISizeable, IByteWritable, IHaveHeader
 {
 	public static int Size => 217;
 

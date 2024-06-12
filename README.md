@@ -15,27 +15,48 @@ Each major version of the `F1Game.UDP` library is designed to support a specific
 
 # Usages
 
-You can parse an array of bytes to packets with `ToPacket` extension method.
-It returns instance of one of the classes:
-* `CarDamageDataPacket`
-* `CarSetupDataPacket`
-* `CarStatusDataPacket`
-* `CarTelemetryDataPacket`
-* `EventDataPacket`
-* `FinalClassificationDataPacket`
-* `LapDataPacket`
-* `LobbyInfoDataPacket`
-* `MotionDataPacket`
-* `MotionExDataPacket`
-* `ParticipantsDataPacket`
-* `SessionDataPacket`
-* `SessionHistoryDataPacket`
-* `TyreSetsDataPacket`
+You can parse an array of bytes to packets using the `ToPacket` extension method.
+The `ToPacket` method returns a `UnionPacket` struct, which has properties for different types of packets, such as:
+- `CarDamageDataPacket`
+- `CarSetupDataPacket`
+- `CarStatusDataPacket`
+- `CarTelemetryDataPacket`
+- `EventDataPacket`
+- `FinalClassificationDataPacket`
+- `LapDataPacket`
+- `LobbyInfoDataPacket`
+- `MotionDataPacket`
+- `MotionExDataPacket`
+- `ParticipantsDataPacket`
+- `SessionDataPacket`
+- `SessionHistoryDataPacket`
+- `TyreSetsDataPacket`
+
+You can access the specific packet data by accessing the corresponding property of the `UnionPacket` struct, you should check what packet type it is first using `PacketType` property.
 
 ```
 using F1Game.UDP;
 
-IPacket packet = arrayOfBytes.ToPacket();
+UnionPacket packet = arrayOfBytes.ToPacket();
+
+if (packet.PacketType == PacketType.CarTelemetry)
+{
+	CarTelemetryDataPacket carTelemetryData = packet.CarTelemetryData;
+	// Access car telemetry data
+}
+
+switch (packet.PacketType)
+{
+	case PacketType.CarTelemetry:
+		CarTelemetryDataPacket carTelemetryData = packet.CarTelemetryData;
+		// Access car telemetry data
+		break;
+	case PacketType.CarStatus:
+		CarStatusDataPacket carStatusData = packet.CarStatusData;
+		// Access car status data
+		break;
+	// Add other cases for different packet types
+}
 ```
 
 # Benchmarks

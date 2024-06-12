@@ -1,6 +1,7 @@
 ﻿namespace F1Game.UDP.Events;
 
-public readonly record struct RetirementEvent() : IEventDetails, IByteParsable<RetirementEvent>, IByteWritable
+[StructLayout(LayoutKind.Sequential, Pack = 1, Size = 1)]
+public readonly record struct RetirementEvent() : IByteParsable<RetirementEvent>, IByteWritable
 {
 	public byte VehicleIdx { get; init; } // Vehicle index of car retiring
 

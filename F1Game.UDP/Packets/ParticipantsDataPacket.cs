@@ -3,13 +3,12 @@
 namespace F1Game.UDP.Packets;
 
 [StructLayout(LayoutKind.Sequential, Pack = 1, Size = 1306)]
-public sealed record ParticipantsDataPacket() : IPacket, IByteParsable<ParticipantsDataPacket>, ISizeable, IByteWritable
+public readonly record struct ParticipantsDataPacket() : IByteParsable<ParticipantsDataPacket>, ISizeable, IByteWritable, IHaveHeader
 {
 	public static int Size => 1306;
 	public PacketHeader Header { get; init; } = PacketHeader.Empty; // Header
 	public byte NumActiveCars { get; init; } // Number of active cars in the data – should match number of cars on HUD
-	[field: MarshalAs(UnmanagedType.ByValArray, SizeConst = 22)]
-	public ParticipantData[] Participants { get; init; } = [];
+	public Array22<ParticipantData> Participants { get; init; }
 
 	static ParticipantsDataPacket IByteParsable<ParticipantsDataPacket>.Parse(ref BytesReader reader)
 	{
@@ -17,7 +16,7 @@ public sealed record ParticipantsDataPacket() : IPacket, IByteParsable<Participa
 		{
 			Header = reader.GetNextObject<PacketHeader>(),
 			NumActiveCars = reader.GetNextByte(),
-			Participants = reader.GetNextObjects<ParticipantData>(22)
+			Participants = reader.GetNextArray22<ParticipantData>()
 		};
 	}
 

@@ -3,20 +3,19 @@
 namespace F1Game.UDP.Packets;
 
 [StructLayout(LayoutKind.Sequential, Pack = 1, Size = 953)]
-public sealed record CarDamageDataPacket() : IPacket, IByteParsable<CarDamageDataPacket>, ISizeable, IByteWritable
+public readonly record struct CarDamageDataPacket() : IByteParsable<CarDamageDataPacket>, ISizeable, IByteWritable, IHaveHeader
 {
 	public static int Size => 953;
 
 	public PacketHeader Header { get; init; } = PacketHeader.Empty;
-	[field: MarshalAs(UnmanagedType.ByValArray, SizeConst = 22)]
-	public CarDamageData[] CarDamageData { get; init; } = [];
+	public Array22<CarDamageData> CarDamageData { get; init; }
 
 	static CarDamageDataPacket IByteParsable<CarDamageDataPacket>.Parse(ref BytesReader reader)
 	{
 		return new()
 		{
 			Header = reader.GetNextObject<PacketHeader>(),
-			CarDamageData = reader.GetNextObjects<CarDamageData>(22)
+			CarDamageData = reader.GetNextArray22<CarDamageData>()
 		};
 	}
 

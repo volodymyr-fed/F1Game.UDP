@@ -1,4 +1,6 @@
-﻿namespace F1Game.UDP.Tests;
+﻿using F1Game.UDP.Internal;
+
+namespace F1Game.UDP.Tests;
 
 [FixtureLifeCycle(LifeCycle.InstancePerTestCase)]
 sealed class BytesWriterFixture
@@ -179,7 +181,7 @@ sealed class BytesWriterFixture
 		var bytes = new byte[9];
 		var writer = new BytesWriter(bytes);
 
-		writer.Write(new TestInt[] { new(0x04030201), new(0x04030205) });
+		writer.Write(new TestInt[] { new(0x04030201), new(0x04030205) }.AsSpan());
 
 		writer.CurrentIndex.Should().Be(8);
 		bytes.Should().BeEquivalentTo(expectedBytes, options => options.WithStrictOrdering());
@@ -205,7 +207,7 @@ sealed class BytesWriterFixture
 		var bytes = new byte[4];
 		var writer = new BytesWriter(bytes);
 
-		writer.WriteEnums(new[] { TestByteEnum.One, TestByteEnum.Two, TestByteEnum.Three });
+		writer.WriteEnums(new[] { TestByteEnum.One, TestByteEnum.Two, TestByteEnum.Three }.AsSpan());
 
 		writer.CurrentIndex.Should().Be(3);
 		bytes.Should().BeEquivalentTo(expectedBytes, options => options.WithStrictOrdering());

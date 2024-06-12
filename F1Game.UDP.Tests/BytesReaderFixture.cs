@@ -1,4 +1,6 @@
-﻿namespace F1Game.UDP.Tests;
+﻿using F1Game.UDP.Internal;
+
+namespace F1Game.UDP.Tests;
 
 [FixtureLifeCycle(LifeCycle.InstancePerTestCase)]
 sealed class BytesReaderTests

@@ -4,12 +4,11 @@ using F1Game.UDP.Enums;
 namespace F1Game.UDP.Packets;
 
 [StructLayout(LayoutKind.Sequential, Pack = 1, Size = 1352)]
-public sealed record CarTelemetryDataPacket() : IPacket, IByteParsable<CarTelemetryDataPacket>, ISizeable, IByteWritable
+public readonly record struct CarTelemetryDataPacket() : IByteParsable<CarTelemetryDataPacket>, ISizeable, IByteWritable, IHaveHeader
 {
 	public static int Size => 1352;
 	public PacketHeader Header { get; init; } = PacketHeader.Empty; // Header
-	[field: MarshalAs(UnmanagedType.ByValArray, SizeConst = 22)]
-	public CarTelemetryData[] CarTelemetryData { get; init; } = [];
+	public Array22<CarTelemetryData> CarTelemetryData { get; init; }
 	public MfdPanel MfdPanelIndex { get; init; }
 	public MfdPanel MfdPanelIndexSecondaryPlayer { get; init; } // See above
 	public sbyte SuggestedGear { get; init; } // Suggested gear for the player (1-8) 0 if no gear suggested
@@ -19,7 +18,7 @@ public sealed record CarTelemetryDataPacket() : IPacket, IByteParsable<CarTeleme
 		return new()
 		{
 			Header = reader.GetNextObject<PacketHeader>(),
-			CarTelemetryData = reader.GetNextObjects<CarTelemetryData>(22),
+			CarTelemetryData = reader.GetNextArray22<CarTelemetryData>(),
 			MfdPanelIndex = reader.GetNextEnum<MfdPanel>(),
 			MfdPanelIndexSecondaryPlayer = reader.GetNextEnum<MfdPanel>(),
 			SuggestedGear = reader.GetNextSbyte(),

@@ -17,11 +17,11 @@
     <PackageTags>f1, formula-1, formula1, f1-game, f1game, f1-23, f123, game, udp, telemetry</PackageTags>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 
   <ItemGroup>
     <Using Include="System.Runtime.InteropServices" />
+    <Using Include="F1Game.UDP.Internal" />
   </ItemGroup>
 
   <ItemGroup>

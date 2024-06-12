@@ -1,8 +1,8 @@
 ﻿using F1Game.UDP.Data;
 
-namespace F1Game.UDP.Packets;
+namespace F1Game.UDP.Internal;
 
-public interface IPacket
+interface IHaveHeader
 {
 	public PacketHeader Header { get; init; }
 }

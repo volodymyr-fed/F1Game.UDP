@@ -5,6 +5,7 @@ using BenchmarkDotNet.Attributes;
 using F1Game.UDP.Data;
 using F1Game.UDP.Enums;
 using F1Game.UDP.Events;
+using F1Game.UDP.Internal;
 using F1Game.UDP.Packets;
 
 using Packet = F1_22_UDP_Telemetry_Receiver.Packets.Packet;
@@ -55,7 +56,7 @@ public class ThirdPartyComparisonBenchmark
 	}
 
 	[Benchmark(Baseline = true)]
-	public IPacket ReadF1GameUDP()
+	public UnionPacket ReadF1GameUDP()
 	{
 		return data.ToPacket();
 	}
@@ -74,13 +75,13 @@ public class ThirdPartyComparisonBenchmark
 
 	static void SetupCarTelemetryPacket(byte[] data, Random random)
 	{
-		var packet = (CarTelemetryDataPacket)data.ToPacket();
+		var packet = data.ToPacket().CarTelemetryDataPacket;
 		var updatedPacket = packet with
 		{
-			CarTelemetryData = packet.CarTelemetryData.Select(x => x with
+			CarTelemetryData = packet.CarTelemetryData.AsEnumerable().Select(x => x with
 			{
 				Gear = random.GetItems(new sbyte[] { 1, 2, 3, 4, 5, 6, 7, 8 }, 1)[0],
-			}).ToArray(),
+			}).ToArray22(),
 			SuggestedGear = random.GetItems(new sbyte[] { 1, 2, 3, 4, 5, 6, 7, 8 }, 1)[0]
 		};
 
@@ -90,13 +91,13 @@ public class ThirdPartyComparisonBenchmark
 
 	static void SetupCarStatusPacket(byte[] data, Random random)
 	{
-		var packet = (CarStatusDataPacket)data.ToPacket();
+		var packet = data.ToPacket().CarStatusDataPacket;
 		var updatedPacket = packet with
 		{
-			CarStatusData = packet.CarStatusData.Select(x => x with
+			CarStatusData = packet.CarStatusData.AsEnumerable().Select(x => x with
 			{
 				VehicleFiaFlags = random.GetItems([FiaFlag.Green, FiaFlag.Yellow, FiaFlag.None, FiaFlag.Blue], 1)[0]
-			}).ToArray()
+			}).ToArray22()
 		};
 
 		var writer = new BytesWriter(data);
@@ -110,23 +111,23 @@ public class ThirdPartyComparisonBenchmark
 
 	static void SetupSessionPacket(byte[] data, Random random)
 	{
-		var packet = (SessionDataPacket)data.ToPacket();
+		var packet = data.ToPacket().SessionDataPacket;
 		var updatedPacket = packet with
 		{
 			AirTemperature = (sbyte)random.Next(127),
 			TrackTemperature = (sbyte)random.Next(127),
 			Track = (Track)random.Next(127),
-			MarshalZones = packet.MarshalZones.Select(x => x with
+			MarshalZones = packet.MarshalZones.AsEnumerable().Select(x => x with
 			{
 				ZoneFlag = random.GetItems([FiaFlag.Green, FiaFlag.Yellow, FiaFlag.Blue, FiaFlag.None], 1)[0]
-			}).ToArray(),
-			WeatherForecastSamples = packet.WeatherForecastSamples.Select(x => x with
+			}).ToArray21(),
+			WeatherForecastSamples = packet.WeatherForecastSamples.AsEnumerable().Select(x => x with
 			{
 				AirTemperature = (sbyte)random.Next(127),
 				TrackTemperature = (sbyte)random.Next(127),
 				AirTemperatureChange = (sbyte)random.Next(127),
 				TrackTemperatureChange = (sbyte)random.Next(127),
-			}).ToArray()
+			}).ToArray56()
 		};
 
 		var writer = new BytesWriter(data);

@@ -9,16 +9,14 @@ public readonly record struct CarStatusData() : IByteParsable<CarStatusData>, IB
 	public AntiLockBrakesOptions AntiLockBrakes { get; init; } // 0 (off) - 1 (on)
 	public FuelMixOptions FuelMix { get; init; } // Fuel mix - 0 = lean, 1 = standard, 2 = rich, 3 = max
 	public byte FrontBrakeBias { get; init; } // Front brake bias (percentage)
-	private byte IsPitLimiterOnByte { get; init; } // Pit limiter status - 0 = off, 1 = on
-	public bool IsPitLimiterOn { get => IsPitLimiterOnByte.AsBool(); init => IsPitLimiterOnByte = value.AsByte(); }
+	public bool IsPitLimiterOn { get; init; } // Pit limiter status - 0 = off, 1 = on
 	public float FuelInTank { get; init; } // Current fuel mass
 	public float FuelCapacity { get; init; } // Fuel capacity
 	public float FuelRemainingLaps { get; init; } // Fuel remaining in terms of laps (value on MFD)
 	public ushort MaxRPM { get; init; } // Cars max RPM, point of rev limiter
 	public ushort IdleRPM { get; init; } // Cars idle RPM
 	public byte MaxGears { get; init; } // Maximum number of gears
-	private byte DrsAllowedByte { get; init; } // 0 = not allowed, 1 = allowed
-	public bool DrsAllowed { get => DrsAllowedByte.AsBool(); init => DrsAllowedByte = value.AsByte(); }
+	public bool DrsAllowed { get; init; } // 0 = not allowed, 1 = allowed
 	public ushort DrsActivationDistance { get; init; } // in meters
 	public ActualCompound ActualTyreCompound { get; init; }
 	public VisualCompound VisualTyreCompound { get; init; }
@@ -31,8 +29,7 @@ public readonly record struct CarStatusData() : IByteParsable<CarStatusData>, IB
 	public float ErsHarvestedThisLapMGUK { get; init; } // ERS energy harvested this lap by MGU-K
 	public float ErsHarvestedThisLapMGUH { get; init; } // ERS energy harvested this lap by MGU-H
 	public float ErsDeployedThisLap { get; init; } // ERS energy deployed this lap
-	private byte NetworkPausedByte { get; init; } // Whether the car is paused in a network game
-	public bool NetworkPaused { get => NetworkPausedByte.AsBool(); init => NetworkPausedByte = value.AsByte(); }
+	public bool NetworkPaused { get; init; } // Whether the car is paused in a network game
 
 	static CarStatusData IByteParsable<CarStatusData>.Parse(ref BytesReader reader)
 	{
@@ -42,14 +39,14 @@ public readonly record struct CarStatusData() : IByteParsable<CarStatusData>, IB
 			AntiLockBrakes = reader.GetNextEnum<AntiLockBrakesOptions>(),
 			FuelMix = reader.GetNextEnum<FuelMixOptions>(),
 			FrontBrakeBias = reader.GetNextByte(),
-			IsPitLimiterOnByte = reader.GetNextByte(),
+			IsPitLimiterOn = reader.GetNextBoolean(),
 			FuelInTank = reader.GetNextFloat(),
 			FuelCapacity = reader.GetNextFloat(),
 			FuelRemainingLaps = reader.GetNextFloat(),
 			MaxRPM = reader.GetNextUShort(),
 			IdleRPM = reader.GetNextUShort(),
 			MaxGears = reader.GetNextByte(),
-			DrsAllowedByte = reader.GetNextByte(),
+			DrsAllowed = reader.GetNextBoolean(),
 			DrsActivationDistance = reader.GetNextUShort(),
 			ActualTyreCompound = reader.GetNextEnum<ActualCompound>(),
 			VisualTyreCompound = reader.GetNextEnum<VisualCompound>(),
@@ -62,7 +59,7 @@ public readonly record struct CarStatusData() : IByteParsable<CarStatusData>, IB
 			ErsHarvestedThisLapMGUK = reader.GetNextFloat(),
 			ErsHarvestedThisLapMGUH = reader.GetNextFloat(),
 			ErsDeployedThisLap = reader.GetNextFloat(),
-			NetworkPausedByte = reader.GetNextByte()
+			NetworkPaused = reader.GetNextBoolean()
 		};
 	}
 
@@ -72,14 +69,14 @@ public readonly record struct CarStatusData() : IByteParsable<CarStatusData>, IB
 		writer.WriteEnum(AntiLockBrakes);
 		writer.WriteEnum(FuelMix);
 		writer.Write(FrontBrakeBias);
-		writer.Write(IsPitLimiterOnByte);
+		writer.Write(IsPitLimiterOn);
 		writer.Write(FuelInTank);
 		writer.Write(FuelCapacity);
 		writer.Write(FuelRemainingLaps);
 		writer.Write(MaxRPM);
 		writer.Write(IdleRPM);
 		writer.Write(MaxGears);
-		writer.Write(DrsAllowedByte);
+		writer.Write(DrsAllowed);
 		writer.Write(DrsActivationDistance);
 		writer.WriteEnum(ActualTyreCompound);
 		writer.WriteEnum(VisualTyreCompound);
@@ -92,6 +89,6 @@ public readonly record struct CarStatusData() : IByteParsable<CarStatusData>, IB
 		writer.Write(ErsHarvestedThisLapMGUK);
 		writer.Write(ErsHarvestedThisLapMGUH);
 		writer.Write(ErsDeployedThisLap);
-		writer.Write(NetworkPausedByte);
+		writer.Write(NetworkPaused);
 	}
 }

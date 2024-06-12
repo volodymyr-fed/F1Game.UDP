@@ -1,6 +1,7 @@
 ﻿namespace F1Game.UDP.Events;
 
-public readonly record struct TeamMateInPitsEvent() : IEventDetails, IByteParsable<TeamMateInPitsEvent>, IByteWritable
+[StructLayout(LayoutKind.Sequential, Pack = 1, Size = 1)]
+public readonly record struct TeamMateInPitsEvent() : IByteParsable<TeamMateInPitsEvent>, IByteWritable
 {
 	public byte VehicleIdx { get; init; } // Vehicle index of team mate
 
