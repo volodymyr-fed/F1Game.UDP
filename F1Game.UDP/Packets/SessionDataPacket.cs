@@ -65,12 +65,14 @@ public readonly record struct SessionDataPacket() : IByteParsable<SessionDataPac
 	public LowFuelMode LowFuelMode { get; init; }// 0 = Easy, 1 = Hard
 	public RaceStarts RaceStarts { get; init; } // 0 = Manual, 1 = Assisted
 	public TyreTemperatureSettings TyreTemperature { get; init; } // 0 = Surface only, 1 = Surface & Carcass
-	public bool PitLaneTyreSim { get; init; } // 0 = On, 1 = Off
+	private bool PitLaneTyreSimDisabled { get; init; } // PitLaneTyreSim 0 = On, 1 = Off
+	public bool PitLaneTyreSim { get => !PitLaneTyreSimDisabled; init => PitLaneTyreSimDisabled = !value; }
 	public CarDamageSetting CarDamage { get; init; } // 0 = Off, 1 = Reduced, 2 = Standard, 3 = Simulation
 	public CarDamageRateSetting CarDamageRate { get; init; } // 0 = Reduced, 1 = Standard, 2 = Simulation
 	public CollisionSettings Collisions { get; init; } // 0 = Off, 1 = Player-to-Player Off, 2 = On
 	public bool CollisionsOffForFirstLapOnly { get; init; } // 0 = Disabled, 1 = Enabled
-	public bool UnsafePitRelease { get; init; } // 0 = On, 1 = Off (Multiplayer)
+	private bool UnsafePitReleaseDisabled { get; init; } //UnsafePitRelease 0 = On, 1 = Off (Multiplayer)
+	public bool UnsafePitRelease { get => !UnsafePitReleaseDisabled; init => UnsafePitReleaseDisabled = !value; }
 	public bool OffForGriefing { get; init; } // 0 = Disabled, 1 = Enabled (Multiplayer)
 	public CornerCuttingSettings CornerCuttingStringency { get; init; } // 0 = Regular, 1 = Strict
 	public bool ParcFermeRules { get; init; } // 0 = Off, 1 = On
@@ -149,12 +151,12 @@ public readonly record struct SessionDataPacket() : IByteParsable<SessionDataPac
 			LowFuelMode = reader.GetNextEnum<LowFuelMode>(),
 			RaceStarts = reader.GetNextEnum<RaceStarts>(),
 			TyreTemperature = reader.GetNextEnum<TyreTemperatureSettings>(),
-			PitLaneTyreSim = reader.GetNextBoolean(),
+			PitLaneTyreSimDisabled = reader.GetNextBoolean(),
 			CarDamage = reader.GetNextEnum<CarDamageSetting>(),
 			CarDamageRate = reader.GetNextEnum<CarDamageRateSetting>(),
 			Collisions = reader.GetNextEnum<CollisionSettings>(),
 			CollisionsOffForFirstLapOnly = reader.GetNextBoolean(),
-			UnsafePitRelease = reader.GetNextBoolean(),
+			UnsafePitReleaseDisabled = reader.GetNextBoolean(),
 			OffForGriefing = reader.GetNextBoolean(),
 			CornerCuttingStringency = reader.GetNextEnum<CornerCuttingSettings>(),
 			ParcFermeRules = reader.GetNextBoolean(),
@@ -232,12 +234,12 @@ public readonly record struct SessionDataPacket() : IByteParsable<SessionDataPac
 		writer.WriteEnum(LowFuelMode);
 		writer.WriteEnum(RaceStarts);
 		writer.WriteEnum(TyreTemperature);
-		writer.Write(PitLaneTyreSim);
+		writer.Write(PitLaneTyreSimDisabled);
 		writer.WriteEnum(CarDamage);
 		writer.WriteEnum(CarDamageRate);
 		writer.WriteEnum(Collisions);
 		writer.Write(CollisionsOffForFirstLapOnly);
-		writer.Write(UnsafePitRelease);
+		writer.Write(UnsafePitReleaseDisabled);
 		writer.Write(OffForGriefing);
 		writer.WriteEnum(CornerCuttingStringency);
 		writer.Write(ParcFermeRules);

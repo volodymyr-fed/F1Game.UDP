@@ -14,7 +14,7 @@
     <Authors>Volodymyr Fed</Authors>
     <RepositoryUrl>https://github.com/volodymyr-fed/F1Game.UDP</RepositoryUrl>
     <Description>Library to parse UDP telemetry packets from F1 24 game.</Description>
-    <PackageTags>f1, formula-1, formula1, f1-game, f1game, f1-24, f124, game, udp, telemetry</PackageTags>
+    <PackageTags>f1, formula, formula-1, formula1, f1-game, f1game, f1-24, f124, 24, game, udp, telemetry</PackageTags>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
