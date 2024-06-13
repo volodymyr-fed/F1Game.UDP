@@ -30,7 +30,7 @@ The `ToPacket` method returns a `UnionPacket` struct, which has properties for d
 - `ParticipantsDataPacket`
 - `SessionDataPacket`
 - `SessionHistoryDataPacket`
-* `TimeTrialDataPacket`
+- `TimeTrialDataPacket`
 - `TyreSetsDataPacket`
 
 You can access the specific packet data by accessing the corresponding property of the `UnionPacket` struct, you should check what packet type it is first using `PacketType` property.
