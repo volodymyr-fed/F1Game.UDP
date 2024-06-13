@@ -11,7 +11,7 @@ public readonly record struct CarTelemetryDataPacket() : IByteParsable<CarTeleme
 	public Array22<CarTelemetryData> CarTelemetryData { get; init; }
 	public MfdPanel MfdPanelIndex { get; init; }
 	public MfdPanel MfdPanelIndexSecondaryPlayer { get; init; } // See above
-	public sbyte SuggestedGear { get; init; } // Suggested gear for the player (1-8) 0 if no gear suggested
+	public byte SuggestedGear { get; init; } // Suggested gear for the player (1-8) 0 if no gear suggested
 
 	static CarTelemetryDataPacket IByteParsable<CarTelemetryDataPacket>.Parse(ref BytesReader reader)
 	{
@@ -21,7 +21,7 @@ public readonly record struct CarTelemetryDataPacket() : IByteParsable<CarTeleme
 			CarTelemetryData = reader.GetNextArray22<CarTelemetryData>(),
 			MfdPanelIndex = reader.GetNextEnum<MfdPanel>(),
 			MfdPanelIndexSecondaryPlayer = reader.GetNextEnum<MfdPanel>(),
-			SuggestedGear = reader.GetNextSbyte(),
+			SuggestedGear = reader.GetNextByte(),
 		};
 	}
 

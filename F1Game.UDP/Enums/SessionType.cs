@@ -12,8 +12,13 @@ public enum SessionType : byte
 	QualSegment3 = 7,
 	ShortQual = 8,
 	OneShotQual = 9,
-	Race = 10,
-	Race2 = 11,
-	Race3 = 12,
-	TimeTrial = 13
+	SprintShootout1 = 10,
+	SprintShootout2 = 11,
+	SprintShootout3 = 12,
+	ShortSprintShootout = 13,
+	OneShotSprintShootout = 14,
+	Race = 15,
+	Race2 = 16,
+	Race3 = 17,
+	TimeTrial = 18,
 }

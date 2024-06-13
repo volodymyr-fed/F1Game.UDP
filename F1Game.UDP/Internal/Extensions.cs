@@ -31,6 +31,17 @@ static class Extensions
 		return array;
 	}
 
+	public static Array12<T> ToArray12<T>(this IEnumerable<T> source)
+	{
+		var array = new Array12<T>();
+		var enumerator = source.GetEnumerator();
+
+		for (var i = 0; i < array.Length && enumerator.MoveNext(); i++)
+			array[i] = enumerator.Current;
+
+		return array;
+	}
+
 	public static Array20<T> ToArray20<T>(this IEnumerable<T> source)
 	{
 		var array = new Array20<T>();
@@ -64,9 +75,9 @@ static class Extensions
 		return array;
 	}
 
-	public static Array56<T> ToArray56<T>(this IEnumerable<T> source)
+	public static Array64<T> ToArray64<T>(this IEnumerable<T> source)
 	{
-		var array = new Array56<T>();
+		var array = new Array64<T>();
 		var enumerator = source.GetEnumerator();
 
 		for (var i = 0; i < array.Length && enumerator.MoveNext(); i++)

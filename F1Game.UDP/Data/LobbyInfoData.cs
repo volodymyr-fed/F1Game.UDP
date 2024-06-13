@@ -2,6 +2,7 @@
 
 namespace F1Game.UDP.Data;
 
+[StructLayout(LayoutKind.Sequential, Pack = 1, Size = 58)]
 public readonly record struct LobbyInfoData() : IByteParsable<LobbyInfoData>, IByteWritable
 {
 	public bool IsAiControlled { get; init; } // Whether the vehicle is AI (1) or Human (0) controlled
@@ -12,6 +13,9 @@ public readonly record struct LobbyInfoData() : IByteParsable<LobbyInfoData>, IB
 	// Name of participant in UTF-8 format – null terminated Will be truncated with ... (U+2026) if too long; 48 chars
 	public string Name { get => NameBytes.AsString(); init => NameBytes = value.AsArray48Bytes(); }
 	public byte CarNumber { get; init; } // Car number of the player
+	public bool YourTelemetryPublic { get; init; }
+	public bool ShowOnlineNames { get; init; }
+	public ushort TechLevel { get; init; } // F1 World tech level
 	public ReadyStatus ReadyStatus { get; init; } // 0 = not ready, 1 = ready, 2 = spectating
 
 	static LobbyInfoData IByteParsable<LobbyInfoData>.Parse(ref BytesReader reader)
@@ -24,6 +28,9 @@ public readonly record struct LobbyInfoData() : IByteParsable<LobbyInfoData>, IB
 			Platform = reader.GetNextEnum<Platform>(),
 			NameBytes = reader.GetNextArray48Bytes(),
 			CarNumber = reader.GetNextByte(),
+			YourTelemetryPublic = reader.GetNextBoolean(),
+			ShowOnlineNames = reader.GetNextBoolean(),
+			TechLevel = reader.GetNextUShort(),
 			ReadyStatus = reader.GetNextEnum<ReadyStatus>(),
 		};
 	}
@@ -36,6 +43,9 @@ public readonly record struct LobbyInfoData() : IByteParsable<LobbyInfoData>, IB
 		writer.WriteEnum(Platform);
 		writer.Write(Name, 48);
 		writer.Write(CarNumber);
+		writer.Write(YourTelemetryPublic);
+		writer.Write(ShowOnlineNames);
+		writer.Write(TechLevel);
 		writer.WriteEnum(ReadyStatus);
 	}
 }

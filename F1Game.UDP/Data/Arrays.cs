@@ -17,6 +17,20 @@ public struct Array8<T>
 	}
 }
 
+[InlineArray(12)]
+public struct Array12<T>
+{
+	public int Length => 12;
+
+	T _0;
+
+	public IEnumerable<T> AsEnumerable()
+	{
+		foreach (var item in this)
+			yield return item;
+	}
+}
+
 [InlineArray(48)]
 public struct Array48<T>
 {
@@ -73,10 +87,10 @@ public struct Array22<T>
 	}
 }
 
-[InlineArray(56)]
-public struct Array56<T>
+[InlineArray(64)]
+public struct Array64<T>
 {
-	public int Length => 56;
+	public int Length => 64;
 
 	T _0;
 

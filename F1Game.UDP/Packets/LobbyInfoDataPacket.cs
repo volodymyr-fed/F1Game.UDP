@@ -2,10 +2,10 @@
 
 namespace F1Game.UDP.Packets;
 
-[StructLayout(LayoutKind.Sequential, Pack = 1, Size = 1218)]
+[StructLayout(LayoutKind.Sequential, Pack = 1, Size = 1306)]
 public readonly record struct LobbyInfoDataPacket() : IByteParsable<LobbyInfoDataPacket>, ISizeable, IByteWritable, IHaveHeader
 {
-	public static int Size => 1218;
+	public static int Size => 1306;
 	public PacketHeader Header { get; init; } = PacketHeader.Empty; // Header
 	public byte NumPlayers { get; init; } // Number of players in the lobby data
 	public Array22<LobbyInfoData> LobbyPlayers { get; init; }

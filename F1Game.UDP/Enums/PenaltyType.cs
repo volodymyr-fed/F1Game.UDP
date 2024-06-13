@@ -19,5 +19,5 @@ public enum PenaltyType : byte
 	ThisAndPreviousLapInvalidated = 14,
 	ThisAndPreviousLapInvalidatedWithoutReason = 15,
 	Retired = 16,
-	Blackflagtimer = 17,
+	BlackFlagTimer = 17,
 }

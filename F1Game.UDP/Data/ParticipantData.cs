@@ -2,7 +2,7 @@
 
 namespace F1Game.UDP.Data;
 
-[StructLayout(LayoutKind.Sequential, Pack = 1, Size = 58)]
+[StructLayout(LayoutKind.Sequential, Pack = 1, Size = 60)]
 public readonly record struct ParticipantData() : IByteParsable<ParticipantData>, IByteWritable
 {
 	public bool IsAiControlled { get; init; } // Whether the vehicle is AI (1) or Human (0) controlled
@@ -17,6 +17,7 @@ public readonly record struct ParticipantData() : IByteParsable<ParticipantData>
 	public string Name { get => NameBytes.AsString(); init => NameBytes = value.AsArray48Bytes(); }
 	public bool TelemetryIsNotRestricted { get; init; } // The player's UDP setting, 0 = restricted, 1 = public
 	public bool ShowOnlineNames { get; init; } // The player's show online names setting, 0 = off, 1 = o
+	public ushort TechLevel { get; init; } // F1 World tech level
 	public Platform Platform { get; init; }
 
 	static ParticipantData IByteParsable<ParticipantData>.Parse(ref BytesReader reader)
@@ -33,6 +34,7 @@ public readonly record struct ParticipantData() : IByteParsable<ParticipantData>
 			NameBytes = reader.GetNextArray48Bytes(),
 			TelemetryIsNotRestricted = reader.GetNextBoolean(),
 			ShowOnlineNames = reader.GetNextBoolean(),
+			TechLevel = reader.GetNextUShort(),
 			Platform = reader.GetNextEnum<Platform>()
 		};
 	}
@@ -49,6 +51,7 @@ public readonly record struct ParticipantData() : IByteParsable<ParticipantData>
 		writer.Write(Name, 48);
 		writer.Write(TelemetryIsNotRestricted);
 		writer.Write(ShowOnlineNames);
+		writer.Write(TechLevel);
 		writer.WriteEnum(Platform);
 	}
 }

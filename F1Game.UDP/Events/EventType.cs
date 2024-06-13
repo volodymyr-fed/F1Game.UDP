@@ -21,4 +21,6 @@ public enum EventType : uint
 	ButtonStatus = 'B' * 0x1U + 'U' * 0x100U + 'T' * 0x10000U + 'N' * 0x1000000U,
 	RedFlag = 'R' * 0x1U + 'D' * 0x100U + 'F' * 0x10000U + 'L' * 0x1000000U,
 	Overtake = 'O' * 0x1U + 'V' * 0x100U + 'T' * 0x10000U + 'K' * 0x1000000U,
+	SafetyCar = 'S' * 0x1U + 'C' * 0x100U + 'A' * 0x10000U + 'R' * 0x1000000U,
+	Collision = 'C' * 0x1U + 'O' * 0x100U + 'L' * 0x10000U + 'L' * 0x1000000U
 }

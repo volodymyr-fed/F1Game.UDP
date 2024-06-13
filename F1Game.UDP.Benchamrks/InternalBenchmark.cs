@@ -27,6 +27,7 @@ public class InternalBenchmark
 		PacketType.Session,
 		PacketType.SessionHistory,
 		PacketType.TyreSets,
+		PacketType.TimeTrial
 		])]
 	public PacketType Type { get; set; }
 
@@ -51,6 +52,7 @@ public class InternalBenchmark
 			PacketType.SessionHistory => SessionHistoryDataPacket.Size,
 			PacketType.TyreSets => TyreSetsDataPacket.Size,
 			PacketType.MotionEx => MotionExDataPacket.Size,
+			PacketType.TimeTrial => TimeTrialDataPacket.Size,
 			_ => throw new NotImplementedException()
 		};
 

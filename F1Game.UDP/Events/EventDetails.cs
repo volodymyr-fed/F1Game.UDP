@@ -29,6 +29,10 @@ public readonly record struct EventDetails
 	public StopGoPenaltyServedEvent StopGoPenaltyServedEvent { get; init; }
 	[field: FieldOffset(4)]
 	public TeamMateInPitsEvent TeamMateInPitsEvent { get; init; }
+	[field: FieldOffset(4)]
+	public CollisionEvent CollisionEvent { get; init; }
+	[field: FieldOffset(4)]
+	public SafetyCarEvent SafetyCarEvent { get; init; }
 
 	public static implicit operator EventDetails(ButtonsEvent buttonsEvent) => new() { EventType = EventType.ButtonStatus, ButtonsEvent = buttonsEvent };
 	public static implicit operator EventDetails(DriveThroughPenaltyServedEvent driveThroughPenaltyServedEvent) => new() { EventType = EventType.DriveThroughServed, DriveThroughPenaltyServedEvent = driveThroughPenaltyServedEvent };
@@ -42,4 +46,6 @@ public readonly record struct EventDetails
 	public static implicit operator EventDetails(StartLightsEvent startLightsEvent) => new() { EventType = EventType.StartLights, StartLightsEvent = startLightsEvent };
 	public static implicit operator EventDetails(StopGoPenaltyServedEvent stopGoPenaltyServedEvent) => new() { EventType = EventType.StopGoServed, StopGoPenaltyServedEvent = stopGoPenaltyServedEvent };
 	public static implicit operator EventDetails(TeamMateInPitsEvent teamMateInPitsEvent) => new() { EventType = EventType.TeamMateInPits, TeamMateInPitsEvent = teamMateInPitsEvent };
+	public static implicit operator EventDetails(CollisionEvent collisionEvent) => new() { EventType = EventType.Collision, CollisionEvent = collisionEvent };
+	public static implicit operator EventDetails(SafetyCarEvent safetyCarEvent) => new() { EventType = EventType.SafetyCar, SafetyCarEvent = safetyCarEvent };
 }

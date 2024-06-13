@@ -10,5 +10,5 @@ public enum RuleSet : byte
 	Autocross = 8,
 	Drift = 9,
 	AverageSpeedZone = 10,
-	RivalDue = 11,
+	RivalDuel = 11,
 }

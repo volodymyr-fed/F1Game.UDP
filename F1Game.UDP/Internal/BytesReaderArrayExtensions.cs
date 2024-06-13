@@ -46,6 +46,19 @@ static class BytesReaderArrayExtensions
 	}
 
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
+	public static Array12<T> GetNextArray12Enum<T>(this ref BytesReader reader) where T : struct, Enum, IConvertible
+	{
+		var array = new Array12<T>();
+
+		var byteValues = reader.GetNextBytes(array.Length);
+		var enumValues = MemoryMarshal.Cast<byte, T>(byteValues);
+
+		enumValues.CopyTo(array);
+
+		return array;
+	}
+
+	[MethodImpl(MethodImplOptions.AggressiveInlining)]
 	public static Array8<byte> GetNextArray8Bytes(this ref BytesReader reader)
 	{
 		var array = new Array8<byte>();
@@ -112,9 +125,9 @@ static class BytesReaderArrayExtensions
 	}
 
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-	public static Array56<T> GetNextArray56<T>(this ref BytesReader reader) where T : IByteParsable<T>
+	public static Array64<T> GetNextArray64<T>(this ref BytesReader reader) where T : IByteParsable<T>
 	{
-		var array = new Array56<T>();
+		var array = new Array64<T>();
 
 		for (var i = 0; i < array.Length; i++)
 			array[i] = T.Parse(ref reader);

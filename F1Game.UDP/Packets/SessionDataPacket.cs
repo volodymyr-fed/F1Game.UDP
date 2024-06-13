@@ -3,10 +3,10 @@ using F1Game.UDP.Enums;
 
 namespace F1Game.UDP.Packets;
 
-[StructLayout(LayoutKind.Sequential, Pack = 1, Size = 644)]
+[StructLayout(LayoutKind.Sequential, Pack = 1, Size = 753)]
 public readonly record struct SessionDataPacket() : IByteParsable<SessionDataPacket>, ISizeable, IByteWritable, IHaveHeader
 {
-	public static int Size => 644;
+	public static int Size => 753;
 	public PacketHeader Header { get; init; } = PacketHeader.Empty; // Header
 	public Weather Weather { get; init; } // Weather - 0 = clear, 1 = light cloud, 2 = overcast, 3 = light rain, 4 = heavy rain, 5 = storm
 	public sbyte TrackTemperature { get; init; } // Track temp. in degrees celsius
@@ -28,7 +28,7 @@ public readonly record struct SessionDataPacket() : IByteParsable<SessionDataPac
 	public SafetyCarStatus SafetyCarStatus { get; init; } // 0 = no safety car, 1 = full, 2 = virtual, 3 = formation lap
 	public bool IsNetworkGame { get; init; } // 0 = offline, 1 = online
 	public byte NumWeatherForecastSamples { get; init; } // Number of weather samples to follow
-	public Array56<WeatherForecastSample> WeatherForecastSamples { get; init; } // Array of weather forecast samples 56 cells
+	public Array64<WeatherForecastSample> WeatherForecastSamples { get; init; } // Array of weather forecast samples 64 cells
 	public ForecastAccuracy ForecastAccuracy { get; init; } // 0 = Perfect, 1 = Approximate
 	public byte AIDifficulty { get; init; } // AI Difficulty rating – 0-110
 	public uint SeasonLinkIdentifier { get; init; } // Identifier for season - persists across saves
@@ -56,7 +56,39 @@ public readonly record struct SessionDataPacket() : IByteParsable<SessionDataPac
 	public TemperatureUnit TemperatureUnitsSecondaryPlayer { get; init; }  // 0 = Celsius, 1 = Fahrenheit
 	public byte NumSafetyCarPeriods { get; init; } // Number of safety cars called during session
 	public byte NumVirtualSafetyCarPeriods { get; init; } // Number of virtual safety cars called
-	public byte NumRedFlagPeriods { get; init; } // Number of red flags called during sessio
+	public byte NumRedFlagPeriods { get; init; } // Number of red flags called during session
+
+	public bool EqualCarPerformance { get; init; } // 0 = off, 1 = on
+	public RecoveryMode RecoveryMode { get; init; } // 0 = None, 1 = Flashbacks, 2 = Auto-recovery
+	public FlashbackLimit FlashbackLimit { get; init; } // 0 = Low, 1 = Medium, 2 = High, 3 = Unlimited
+	public SurfaceSettings SurfaceTypeSettings { get; init; } // 0 = Simplified, 1 = Realistic
+	public LowFuelMode LowFuelMode { get; init; }// 0 = Easy, 1 = Hard
+	public RaceStarts RaceStarts { get; init; } // 0 = Manual, 1 = Assisted
+	public TyreTemperatureSettings TyreTemperature { get; init; } // 0 = Surface only, 1 = Surface & Carcass
+	private bool PitLaneTyreSimDisabled { get; init; } // PitLaneTyreSim 0 = On, 1 = Off
+	public bool PitLaneTyreSim { get => !PitLaneTyreSimDisabled; init => PitLaneTyreSimDisabled = !value; }
+	public CarDamageSetting CarDamage { get; init; } // 0 = Off, 1 = Reduced, 2 = Standard, 3 = Simulation
+	public CarDamageRateSetting CarDamageRate { get; init; } // 0 = Reduced, 1 = Standard, 2 = Simulation
+	public CollisionSettings Collisions { get; init; } // 0 = Off, 1 = Player-to-Player Off, 2 = On
+	public bool CollisionsOffForFirstLapOnly { get; init; } // 0 = Disabled, 1 = Enabled
+	private bool UnsafePitReleaseDisabled { get; init; } //UnsafePitRelease 0 = On, 1 = Off (Multiplayer)
+	public bool UnsafePitRelease { get => !UnsafePitReleaseDisabled; init => UnsafePitReleaseDisabled = !value; }
+	public bool OffForGriefing { get; init; } // 0 = Disabled, 1 = Enabled (Multiplayer)
+	public CornerCuttingSettings CornerCuttingStringency { get; init; } // 0 = Regular, 1 = Strict
+	public bool ParcFermeRules { get; init; } // 0 = Off, 1 = On
+	public PitStopExperienceSetting PitStopExperience { get; init; } // 0 = Automatic, 1 = Broadcast, 2 = Immersive
+	public SafetyCarSetting SafetyCarSetting { get; init; } // 0 = Off, 1 = Reduced, 2 = Standard, 3 = Increased
+	public ExperienceSetting SafetyCarExperience { get; init; } // 0 = Broadcast, 1 = Immersive
+	public bool FormationLap { get; init; } // 0 = Off, 1 = On
+	public ExperienceSetting FormationLapExperience { get; init; } // 0 = Broadcast, 1 = Immersive
+	public RedFlagSetting RedFlags { get; init; } // 0 = Off, 1 = Reduced, 2 = Standard, 3 = Increased
+	public bool AffectsLicenceLevelSolo { get; init; } // 0 = Off, 1 = On
+	public bool AffectsLicenceLevelMP { get; init; } // 0 = Off, 1 = On
+	public byte NumSessionsInWeekend { get; init; } // Number of session in following array
+	public Array12<SessionType> WeekendStructure { get; init; } // List of session types to show weekend
+
+	public float Sector2LapDistanceStart { get; init; } // Distance in m around track where sector 2 starts
+	public float Sector3LapDistanceStart { get; init; } // Distance in m around track where sector 3 start
 
 	static SessionDataPacket IByteParsable<SessionDataPacket>.Parse(ref BytesReader reader)
 	{
@@ -83,7 +115,7 @@ public readonly record struct SessionDataPacket() : IByteParsable<SessionDataPac
 			SafetyCarStatus = reader.GetNextEnum<SafetyCarStatus>(),
 			IsNetworkGame = reader.GetNextBoolean(),
 			NumWeatherForecastSamples = reader.GetNextByte(),
-			WeatherForecastSamples = reader.GetNextArray56<WeatherForecastSample>(),
+			WeatherForecastSamples = reader.GetNextArray64<WeatherForecastSample>(),
 			ForecastAccuracy = reader.GetNextEnum<ForecastAccuracy>(),
 			AIDifficulty = reader.GetNextByte(),
 			SeasonLinkIdentifier = reader.GetNextUInt(),
@@ -112,6 +144,34 @@ public readonly record struct SessionDataPacket() : IByteParsable<SessionDataPac
 			NumSafetyCarPeriods = reader.GetNextByte(),
 			NumVirtualSafetyCarPeriods = reader.GetNextByte(),
 			NumRedFlagPeriods = reader.GetNextByte(),
+			EqualCarPerformance = reader.GetNextBoolean(),
+			RecoveryMode = reader.GetNextEnum<RecoveryMode>(),
+			FlashbackLimit = reader.GetNextEnum<FlashbackLimit>(),
+			SurfaceTypeSettings = reader.GetNextEnum<SurfaceSettings>(),
+			LowFuelMode = reader.GetNextEnum<LowFuelMode>(),
+			RaceStarts = reader.GetNextEnum<RaceStarts>(),
+			TyreTemperature = reader.GetNextEnum<TyreTemperatureSettings>(),
+			PitLaneTyreSimDisabled = reader.GetNextBoolean(),
+			CarDamage = reader.GetNextEnum<CarDamageSetting>(),
+			CarDamageRate = reader.GetNextEnum<CarDamageRateSetting>(),
+			Collisions = reader.GetNextEnum<CollisionSettings>(),
+			CollisionsOffForFirstLapOnly = reader.GetNextBoolean(),
+			UnsafePitReleaseDisabled = reader.GetNextBoolean(),
+			OffForGriefing = reader.GetNextBoolean(),
+			CornerCuttingStringency = reader.GetNextEnum<CornerCuttingSettings>(),
+			ParcFermeRules = reader.GetNextBoolean(),
+			PitStopExperience = reader.GetNextEnum<PitStopExperienceSetting>(),
+			SafetyCarSetting = reader.GetNextEnum<SafetyCarSetting>(),
+			SafetyCarExperience = reader.GetNextEnum<ExperienceSetting>(),
+			FormationLap = reader.GetNextBoolean(),
+			FormationLapExperience = reader.GetNextEnum<ExperienceSetting>(),
+			RedFlags = reader.GetNextEnum<RedFlagSetting>(),
+			AffectsLicenceLevelSolo = reader.GetNextBoolean(),
+			AffectsLicenceLevelMP = reader.GetNextBoolean(),
+			NumSessionsInWeekend = reader.GetNextByte(),
+			WeekendStructure = reader.GetNextArray12Enum<SessionType>(),
+			Sector2LapDistanceStart = reader.GetNextFloat(),
+			Sector3LapDistanceStart = reader.GetNextFloat()
 		};
 	}
 
@@ -167,5 +227,33 @@ public readonly record struct SessionDataPacket() : IByteParsable<SessionDataPac
 		writer.Write(NumSafetyCarPeriods);
 		writer.Write(NumVirtualSafetyCarPeriods);
 		writer.Write(NumRedFlagPeriods);
+		writer.Write(EqualCarPerformance);
+		writer.WriteEnum(RecoveryMode);
+		writer.WriteEnum(FlashbackLimit);
+		writer.WriteEnum(SurfaceTypeSettings);
+		writer.WriteEnum(LowFuelMode);
+		writer.WriteEnum(RaceStarts);
+		writer.WriteEnum(TyreTemperature);
+		writer.Write(PitLaneTyreSimDisabled);
+		writer.WriteEnum(CarDamage);
+		writer.WriteEnum(CarDamageRate);
+		writer.WriteEnum(Collisions);
+		writer.Write(CollisionsOffForFirstLapOnly);
+		writer.Write(UnsafePitReleaseDisabled);
+		writer.Write(OffForGriefing);
+		writer.WriteEnum(CornerCuttingStringency);
+		writer.Write(ParcFermeRules);
+		writer.WriteEnum(PitStopExperience);
+		writer.WriteEnum(SafetyCarSetting);
+		writer.WriteEnum(SafetyCarExperience);
+		writer.Write(FormationLap);
+		writer.WriteEnum(FormationLapExperience);
+		writer.WriteEnum(RedFlags);
+		writer.Write(AffectsLicenceLevelSolo);
+		writer.Write(AffectsLicenceLevelMP);
+		writer.Write(NumSessionsInWeekend);
+		writer.WriteEnums(WeekendStructure);
+		writer.Write(Sector2LapDistanceStart);
+		writer.Write(Sector3LapDistanceStart);
 	}
 }

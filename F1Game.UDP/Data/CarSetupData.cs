@@ -1,6 +1,6 @@
 ﻿namespace F1Game.UDP.Data;
 
-[StructLayout(LayoutKind.Sequential, Pack = 1, Size = 49)]
+[StructLayout(LayoutKind.Sequential, Pack = 1, Size = 50)]
 public readonly record struct CarSetupData() : IByteParsable<CarSetupData>, IByteWritable
 {
 	public byte FrontWing { get; init; } // Front wing aero
@@ -19,6 +19,7 @@ public readonly record struct CarSetupData() : IByteParsable<CarSetupData>, IByt
 	public byte RearSuspensionHeight { get; init; } // Rear ride height
 	public byte BrakePressure { get; init; } // Brake pressure (percentage)
 	public byte BrakeBias { get; init; } // Brake bias (percentage)
+	public byte EngineBreaking { get; init; } // Engine braking (percentage)
 	public Tyres<float> TyresPressures { get; init; } // PSI
 	public byte Ballast { get; init; } // Ballast
 	public float FuelLoad { get; init; } // Fuel load
@@ -43,6 +44,7 @@ public readonly record struct CarSetupData() : IByteParsable<CarSetupData>, IByt
 			RearSuspensionHeight = reader.GetNextByte(),
 			BrakePressure = reader.GetNextByte(),
 			BrakeBias = reader.GetNextByte(),
+			EngineBreaking = reader.GetNextByte(),
 			TyresPressures = reader.GetNextTyresFloat(),
 			Ballast = reader.GetNextByte(),
 			FuelLoad = reader.GetNextFloat(),
@@ -67,10 +69,8 @@ public readonly record struct CarSetupData() : IByteParsable<CarSetupData>, IByt
 		writer.Write(RearSuspensionHeight);
 		writer.Write(BrakePressure);
 		writer.Write(BrakeBias);
-		writer.Write(TyresPressures.RearLeft);
-		writer.Write(TyresPressures.RearRight);
-		writer.Write(TyresPressures.FrontLeft);
-		writer.Write(TyresPressures.FrontRight);
+		writer.Write(EngineBreaking);
+		writer.WriteTyresFloat(TyresPressures);
 		writer.Write(Ballast);
 		writer.Write(FuelLoad);
 	}
