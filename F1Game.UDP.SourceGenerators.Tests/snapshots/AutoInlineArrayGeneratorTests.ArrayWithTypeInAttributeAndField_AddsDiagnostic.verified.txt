@@ -2,7 +2,7 @@
   Diagnostics: [
     {
       Location: /*
-[AutoInlineArray(42, typeof(byte)]
+[AutoInlineArray(42, typeof(byte))]
 public partial struct ByteInlineArray
                       ^^^^^^^^^^^^^^^
 {

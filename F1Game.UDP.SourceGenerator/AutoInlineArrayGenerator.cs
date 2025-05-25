@@ -43,7 +43,7 @@ sealed class AutoInlineArrayGenerator : IIncrementalGenerator
 		if (context.Attributes[0] is not { } attributeData)
 			return null;
 
-		if (attributeData.ConstructorArguments[0].Value is not int length || length < 0)
+		if (attributeData.ConstructorArguments[0].Value is not int length || length <= 0)
 			return Diagnostic.Create(DiagnosticDescriptors.LengthShouldBePositiveNumber, type.Locations[0], type.Name);
 
 		var elementTypeFromAttribute = attributeData.ConstructorArguments.Length > 1

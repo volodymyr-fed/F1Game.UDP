@@ -116,7 +116,7 @@ sealed class AutoInlineArrayGeneratorTests
 
 			namespace MyCode;
 
-			[AutoInlineArray(42, typeof(byte)]
+			[AutoInlineArray(42, typeof(byte))]
 			public partial record struct ByteInlineArray;
 			""";
 
@@ -133,7 +133,7 @@ sealed class AutoInlineArrayGeneratorTests
 
 			namespace MyCode;
 
-			[AutoInlineArray(42, typeof(byte)]
+			[AutoInlineArray(42, typeof(byte))]
 			public partial struct ByteInlineArray
 			{
 				private byte _field;
@@ -210,6 +210,23 @@ sealed class AutoInlineArrayGeneratorTests
 			namespace MyCode;
 
 			[AutoInlineArray(-42)]
+			public partial struct InlineArray<T>;
+			""";
+
+		var runResult = RunGenerator<AutoInlineArrayGenerator>(inputCode);
+
+		return Verify(runResult, _settings);
+	}
+
+	[Test]
+	public Task ArrayWithZeroLength_AddsDiagnostic()
+	{
+		var inputCode = """
+			using F1Game.UDP.SourceGenerator;
+
+			namespace MyCode;
+
+			[AutoInlineArray(0)]
 			public partial struct InlineArray<T>;
 			""";
 
