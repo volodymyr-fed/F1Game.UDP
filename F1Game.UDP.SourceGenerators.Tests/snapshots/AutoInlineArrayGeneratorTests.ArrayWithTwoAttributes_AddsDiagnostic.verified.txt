@@ -1,0 +1,22 @@
+﻿{
+  Diagnostics: [
+    {
+      Location: /*
+[AutoInlineArray(69)]
+public partial struct InlineArray<T>;
+                      ^^^^^^^^^^^
+*/
+ : (6,22)-(6,33),
+      Message: Only one attribute is allowed on the partial struct 'InlineArray',
+      Severity: Error,
+      Descriptor: {
+        Id: F1GUSG002,
+        Title: Only one attribute is allowed,
+        MessageFormat: Only one attribute is allowed on the partial struct '{0}',
+        Category: Usage,
+        DefaultSeverity: Error,
+        IsEnabledByDefault: true
+      }
+    }
+  ]
+}

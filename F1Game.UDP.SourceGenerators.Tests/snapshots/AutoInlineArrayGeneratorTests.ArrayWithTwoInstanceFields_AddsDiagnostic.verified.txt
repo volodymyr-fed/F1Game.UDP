@@ -1,0 +1,23 @@
+﻿{
+  Diagnostics: [
+    {
+      Location: /*
+[AutoInlineArray(42)]
+public partial struct InlineArray
+                      ^^^^^^^^^^^
+{
+*/
+ : (5,22)-(5,33),
+      Message: Too many instance fields on the partial struct 'InlineArray',
+      Severity: Error,
+      Descriptor: {
+        Id: F1GUSG004,
+        Title: Too many instance fields,
+        MessageFormat: Too many instance fields on the partial struct '{0}',
+        Category: Usage,
+        DefaultSeverity: Error,
+        IsEnabledByDefault: true
+      }
+    }
+  ]
+}

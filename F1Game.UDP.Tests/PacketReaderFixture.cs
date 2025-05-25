@@ -68,7 +68,7 @@ sealed class PacketReaderFixture
 	public void ReadCarDamageDataPacket()
 	{
 		UnionPacket packet = BuildPacket<CarDamageDataPacket>()
-			.With(x => x.CarDamageData, fixture.CreateMany<CarDamageData>(22).ToArray22())
+			.With(x => x.CarDamageData, fixture.CreateMany<CarDamageData>(22).ToArray())
 			.Create();
 
 		var bytes = new byte[CarDamageDataPacket.Size];
@@ -84,7 +84,7 @@ sealed class PacketReaderFixture
 	public void ReadCarSetupDataPacket()
 	{
 		UnionPacket packet = BuildPacket<CarSetupDataPacket>()
-			.With(x => x.CarSetups, fixture.CreateMany<CarSetupData>(22).ToArray22())
+			.With(x => x.CarSetups, fixture.CreateMany<CarSetupData>(22).ToArray())
 			.Create();
 
 		var bytes = new byte[CarSetupDataPacket.Size];
@@ -100,7 +100,7 @@ sealed class PacketReaderFixture
 	public void ReadCarStatusDataPacket()
 	{
 		UnionPacket packet = BuildPacket<CarStatusDataPacket>()
-			.With(x => x.CarStatusData, fixture.CreateMany<CarStatusData>(22).ToArray22())
+			.With(x => x.CarStatusData, fixture.CreateMany<CarStatusData>(22).ToArray())
 			.Create();
 
 		var bytes = new byte[CarStatusDataPacket.Size];
@@ -116,7 +116,7 @@ sealed class PacketReaderFixture
 	public void ReadCarTelemetryDataPacket()
 	{
 		UnionPacket packet = BuildPacket<CarTelemetryDataPacket>()
-			.With(x => x.CarTelemetryData, fixture.CreateMany<CarTelemetryData>(22).ToArray22())
+			.With(x => x.CarTelemetryData, fixture.CreateMany<CarTelemetryData>(22).ToArray())
 			.Create();
 
 		var bytes = new byte[CarTelemetryDataPacket.Size];
@@ -187,11 +187,11 @@ sealed class PacketReaderFixture
 	public void ReadFinalClassificationDataPacket()
 	{
 		var classificationData = fixture.Build<FinalClassificationData>()
-			.With(x => x.TyreStintsActual, () => fixture.CreateMany<ActualCompound>(8).ToArray8())
-			.With(x => x.TyreStintsVisual, () => fixture.CreateMany<VisualCompound>(8).ToArray8())
-			.With(x => x.TyreStintsEndLaps, () => fixture.CreateMany<byte>(8).ToArray8())
+			.With(x => x.TyreStintsActual, () => fixture.CreateMany<ActualCompound>(8).ToArray())
+			.With(x => x.TyreStintsVisual, () => fixture.CreateMany<VisualCompound>(8).ToArray())
+			.With(x => x.TyreStintsEndLaps, () => fixture.CreateMany<byte>(8).ToArray())
 			.CreateMany(22)
-			.ToArray22();
+			.ToArray();
 
 		UnionPacket packet = BuildPacket<FinalClassificationDataPacket>()
 			.With(x => x.ClassificationData, classificationData)
@@ -210,7 +210,7 @@ sealed class PacketReaderFixture
 	public void ReadLapDataPacket()
 	{
 		UnionPacket packet = BuildPacket<LapDataPacket>()
-			.With(x => x.LapData, fixture.CreateMany<LapData>(22).ToArray22())
+			.With(x => x.LapData, fixture.CreateMany<LapData>(22).ToArray())
 			.Create();
 
 		var bytes = new byte[LapDataPacket.Size];
@@ -228,7 +228,7 @@ sealed class PacketReaderFixture
 		var lobbyPlayers = fixture.Build<LobbyInfoData>()
 			.With(x => x.NameBytes, fixture.Create<string>().AsArray48Bytes())
 			.CreateMany(22)
-			.ToArray22();
+			.ToArray();
 
 		UnionPacket packet = BuildPacket<LobbyInfoDataPacket>()
 			.With(x => x.LobbyPlayers, lobbyPlayers)
@@ -247,7 +247,7 @@ sealed class PacketReaderFixture
 	public void ReadMotionDataPacket()
 	{
 		UnionPacket packet = BuildPacket<MotionDataPacket>()
-			.With(x => x.CarMotionData, fixture.CreateMany<CarMotionData>(22).ToArray22())
+			.With(x => x.CarMotionData, fixture.CreateMany<CarMotionData>(22).ToArray())
 			.Create();
 
 		var bytes = new byte[MotionDataPacket.Size];
@@ -280,7 +280,7 @@ sealed class PacketReaderFixture
 		var participants = fixture.Build<ParticipantData>()
 			.With(x => x.NameBytes, fixture.Create<string>().AsArray48Bytes())
 			.CreateMany(22)
-			.ToArray22();
+			.ToArray();
 
 		UnionPacket packet = BuildPacket<ParticipantsDataPacket>()
 			.With(x => x.Participants, participants)
@@ -299,9 +299,9 @@ sealed class PacketReaderFixture
 	public void ReadSessionDataPacket()
 	{
 		UnionPacket packet = BuildPacket<SessionDataPacket>()
-			.With(x => x.MarshalZones, fixture.CreateMany<MarshalZone>(21).ToArray21())
-			.With(x => x.WeatherForecastSamples, fixture.CreateMany<WeatherForecastSample>(64).ToArray64())
-			.With(x => x.WeekendStructure, fixture.CreateMany<SessionType>(12).ToArray12())
+			.With(x => x.MarshalZones, fixture.CreateMany<MarshalZone>(21).ToArray())
+			.With(x => x.WeatherForecastSamples, fixture.CreateMany<WeatherForecastSample>(64).ToArray())
+			.With(x => x.WeekendStructure, fixture.CreateMany<SessionType>(12).ToArray())
 			.Create();
 
 		var bytes = new byte[SessionDataPacket.Size];
@@ -317,8 +317,8 @@ sealed class PacketReaderFixture
 	public void ReadSessionHistoryDataPacket()
 	{
 		UnionPacket packet = BuildPacket<SessionHistoryDataPacket>()
-			.With(x => x.LapHistoryData, fixture.CreateMany<LapHistoryData>(100).ToArray100())
-			.With(x => x.TyreStintsHistoryData, fixture.CreateMany<TyreStintHistoryData>(8).ToArray8())
+			.With(x => x.LapHistoryData, fixture.CreateMany<LapHistoryData>(100).ToArray())
+			.With(x => x.TyreStintsHistoryData, fixture.CreateMany<TyreStintHistoryData>(8).ToArray())
 			.Create();
 
 		var bytes = new byte[SessionHistoryDataPacket.Size];
@@ -334,7 +334,7 @@ sealed class PacketReaderFixture
 	public void ReadTyreSetsDataPacket()
 	{
 		UnionPacket packet = BuildPacket<TyreSetsDataPacket>()
-			.With(x => x.TyreSetDatas, fixture.CreateMany<TyreSetData>(20).ToArray20())
+			.With(x => x.TyreSetDatas, fixture.CreateMany<TyreSetData>(20).ToArray())
 			.Create();
 
 		var bytes = new byte[TyreSetsDataPacket.Size];

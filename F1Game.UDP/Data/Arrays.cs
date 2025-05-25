@@ -1,117 +1,27 @@
-﻿using System.Runtime.CompilerServices;
+﻿using F1Game.UDP.SourceGenerator;
 
 namespace F1Game.UDP.Data;
 
-#pragma warning disable IDE0044 // Add readonly modifier
-[InlineArray(8)]
-public struct Array8<T>
-{
-	public int Length => 8;
+[AutoInlineArray(8)]
+public partial struct Array8<T>;
 
-	T _0;
+[AutoInlineArray(12)]
+public partial struct Array12<T>;
 
-	public IEnumerable<T> AsEnumerable()
-	{
-		foreach (var item in this)
-			yield return item;
-	}
-}
+[AutoInlineArray(20)]
+public partial struct Array20<T>;
 
-[InlineArray(12)]
-public struct Array12<T>
-{
-	public int Length => 12;
+[AutoInlineArray(21)]
+public partial struct Array21<T>;
 
-	T _0;
+[AutoInlineArray(22)]
+public partial struct Array22<T>;
 
-	public IEnumerable<T> AsEnumerable()
-	{
-		foreach (var item in this)
-			yield return item;
-	}
-}
+[AutoInlineArray(48)]
+public partial struct Array48<T>;
 
-[InlineArray(48)]
-public struct Array48<T>
-{
-	public int Length => 48;
+[AutoInlineArray(64)]
+public partial struct Array64<T>;
 
-	T _0;
-
-	public IEnumerable<T> AsEnumerable()
-	{
-		foreach (var item in this)
-			yield return item;
-	}
-}
-
-[InlineArray(20)]
-public struct Array20<T>
-{
-	public int Length => 20;
-
-	T _0;
-
-	public IEnumerable<T> AsEnumerable()
-	{
-		foreach (var item in this)
-			yield return item;
-	}
-}
-
-[InlineArray(21)]
-public struct Array21<T>
-{
-	public int Length => 21;
-
-	T _0;
-
-	public IEnumerable<T> AsEnumerable()
-	{
-		foreach (var item in this)
-			yield return item;
-	}
-}
-
-[InlineArray(22)]
-public struct Array22<T>
-{
-	public int Length => 22;
-
-	T _0;
-
-	public IEnumerable<T> AsEnumerable()
-	{
-		foreach (var item in this)
-			yield return item;
-	}
-}
-
-[InlineArray(64)]
-public struct Array64<T>
-{
-	public int Length => 64;
-
-	T _0;
-
-	public IEnumerable<T> AsEnumerable()
-	{
-		foreach (var item in this)
-			yield return item;
-	}
-}
-
-[InlineArray(100)]
-public struct Array100<T>
-{
-	public int Length => 100;
-
-	T _0;
-
-	public IEnumerable<T> AsEnumerable()
-	{
-		foreach (var item in this)
-			yield return item;
-	}
-}
-#pragma warning restore IDE0044 // Add readonly modifier
+[AutoInlineArray(100)]
+public partial struct Array100<T>;

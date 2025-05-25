@@ -5,10 +5,10 @@ namespace F1Game.UDP.Data;
 [StructLayout(LayoutKind.Sequential, Pack = 1)]
 public readonly record struct Tyres<TValue>()
 {
-	public TValue RearLeft { get; init; }
-	public TValue RearRight { get; init; }
-	public TValue FrontLeft { get; init; }
-	public TValue FrontRight { get; init; }
+	public required TValue RearLeft { get; init; }
+	public required TValue RearRight { get; init; }
+	public required TValue FrontLeft { get; init; }
+	public required TValue FrontRight { get; init; }
 }
 
 static class TyresBytesReaderExtensions

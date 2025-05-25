@@ -83,7 +83,7 @@ public class ThirdPartyComparisonBenchmark
 			CarTelemetryData = packet.CarTelemetryData.AsEnumerable().Select(x => x with
 			{
 				Gear = random.GetItems(new sbyte[] { 1, 2, 3, 4, 5, 6, 7, 8 }, 1)[0],
-			}).ToArray22(),
+			}).ToArray(),
 			SuggestedGear = random.GetItems(new byte[] { 1, 2, 3, 4, 5, 6, 7, 8 }, 1)[0]
 		};
 
@@ -99,7 +99,7 @@ public class ThirdPartyComparisonBenchmark
 			CarStatusData = packet.CarStatusData.AsEnumerable().Select(x => x with
 			{
 				VehicleFiaFlags = random.GetItems([FiaFlag.Green, FiaFlag.Yellow, FiaFlag.None, FiaFlag.Blue], 1)[0]
-			}).ToArray22()
+			}).ToArray()
 		};
 
 		var writer = new BytesWriter(data);
@@ -122,14 +122,14 @@ public class ThirdPartyComparisonBenchmark
 			MarshalZones = packet.MarshalZones.AsEnumerable().Select(x => x with
 			{
 				ZoneFlag = random.GetItems([FiaFlag.Green, FiaFlag.Yellow, FiaFlag.Blue, FiaFlag.None], 1)[0]
-			}).ToArray21(),
+			}).ToArray(),
 			WeatherForecastSamples = packet.WeatherForecastSamples.AsEnumerable().Select(x => x with
 			{
 				AirTemperature = (sbyte)random.Next(127),
 				TrackTemperature = (sbyte)random.Next(127),
 				AirTemperatureChange = (sbyte)random.Next(127),
 				TrackTemperatureChange = (sbyte)random.Next(127),
-			}).ToArray64()
+			}).ToArray()
 		};
 
 		var writer = new BytesWriter(data);
