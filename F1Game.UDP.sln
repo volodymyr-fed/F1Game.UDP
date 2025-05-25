@@ -16,7 +16,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "F1Game.UDP.Benchmarks", "F1
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "F1Game.UDP.SourceGenerator", "F1Game.UDP.SourceGenerator\F1Game.UDP.SourceGenerator.csproj", "{CE6BA0A0-26EF-6BE1-354B-FB29FC753E4A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "F1Game.UDP.SourceGenerator.Tests", "F1Game.UDP.SourceGenerators.Tests\F1Game.UDP.SourceGenerator.Tests.csproj", "{E5688739-81D3-F14F-8CE1-4A87D3B9214E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "F1Game.UDP.SourceGenerator.Tests", "F1Game.UDP.SourceGenerator.Tests\F1Game.UDP.SourceGenerator.Tests.csproj", "{E5688739-81D3-F14F-8CE1-4A87D3B9214E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
