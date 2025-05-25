@@ -1,6 +1,6 @@
 ﻿namespace F1Game.UDP.Internal;
 
-ref struct BytesReader(byte[] bytes, int startIndex)
+ref struct BytesReader(ReadOnlySpan<byte> bytes, int startIndex)
 {
 	readonly ReadOnlySpan<byte> spanBytes = bytes;
 	int currentIndex = startIndex;
@@ -8,7 +8,7 @@ ref struct BytesReader(byte[] bytes, int startIndex)
 	public readonly int CurrentIndex => currentIndex;
 	public readonly int TotalCount => spanBytes.Length;
 
-	public BytesReader(byte[] bytes) : this(bytes, 0) { }
+	public BytesReader(ReadOnlySpan<byte> bytes) : this(bytes, 0) { }
 
 	public ReadOnlySpan<byte> GetNextBytes(int count)
 	{

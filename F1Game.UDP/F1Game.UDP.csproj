@@ -20,6 +20,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\F1Game.UDP.SourceGenerator\F1Game.UDP.SourceGenerator.csproj">
+      <OutputItemType>Analyzer</OutputItemType>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+  </ItemGroup>
+
+  <ItemGroup>
     <Using Include="System.Runtime.InteropServices" />
     <Using Include="F1Game.UDP.Internal" />
   </ItemGroup>

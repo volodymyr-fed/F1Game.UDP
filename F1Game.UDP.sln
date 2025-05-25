@@ -14,6 +14,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "F1Game.UDP.Tests", "F1Game.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "F1Game.UDP.Benchmarks", "F1Game.UDP.Benchamrks\F1Game.UDP.Benchmarks.csproj", "{480429B0-6373-4151-AD33-6CCD4D55CC6F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "F1Game.UDP.SourceGenerator", "F1Game.UDP.SourceGenerator\F1Game.UDP.SourceGenerator.csproj", "{CE6BA0A0-26EF-6BE1-354B-FB29FC753E4A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "F1Game.UDP.SourceGenerator.Tests", "F1Game.UDP.SourceGenerators.Tests\F1Game.UDP.SourceGenerator.Tests.csproj", "{E5688739-81D3-F14F-8CE1-4A87D3B9214E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -32,6 +36,14 @@ Global
 		{480429B0-6373-4151-AD33-6CCD4D55CC6F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{480429B0-6373-4151-AD33-6CCD4D55CC6F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{480429B0-6373-4151-AD33-6CCD4D55CC6F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CE6BA0A0-26EF-6BE1-354B-FB29FC753E4A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CE6BA0A0-26EF-6BE1-354B-FB29FC753E4A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CE6BA0A0-26EF-6BE1-354B-FB29FC753E4A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CE6BA0A0-26EF-6BE1-354B-FB29FC753E4A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E5688739-81D3-F14F-8CE1-4A87D3B9214E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E5688739-81D3-F14F-8CE1-4A87D3B9214E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E5688739-81D3-F14F-8CE1-4A87D3B9214E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E5688739-81D3-F14F-8CE1-4A87D3B9214E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

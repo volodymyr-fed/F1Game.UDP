@@ -1,0 +1,22 @@
+﻿{
+  Diagnostics: [
+    {
+      Location: /*
+[AutoInlineArray(42)]
+public struct InlineArray<T>;
+              ^^^^^^^^^^^
+*/
+ : (5,14)-(5,25),
+      Message: Type 'InlineArray' must be declared as partial,
+      Severity: Error,
+      Descriptor: {
+        Id: F1GUSG001,
+        Title: Type must be partial,
+        MessageFormat: Type '{0}' must be declared as partial,
+        Category: Usage,
+        DefaultSeverity: Error,
+        IsEnabledByDefault: true
+      }
+    }
+  ]
+}

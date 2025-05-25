@@ -9,7 +9,10 @@ namespace F1Game.UDP;
 public static class PacketReader
 {
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-	public static UnionPacket ToPacket(this byte[] bytes)
+	public static UnionPacket ToPacket(this byte[] bytes) => ToPacket(bytes.AsSpan());
+
+	[MethodImpl(MethodImplOptions.AggressiveInlining)]
+	public static UnionPacket ToPacket(this ReadOnlySpan<byte> bytes)
 	{
 		var packetType = GetPacketType(bytes);
 		var packet = new UnionPacket();
@@ -36,7 +39,10 @@ public static class PacketReader
 	}
 
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-	internal static UnionPacket ToPacketWithReader(this byte[] bytes)
+	internal static UnionPacket ToPacketWithReader(this byte[] bytes) => ToPacketWithReader(bytes.AsSpan());
+
+	[MethodImpl(MethodImplOptions.AggressiveInlining)]
+	internal static UnionPacket ToPacketWithReader(this ReadOnlySpan<byte> bytes)
 	{
 		var packetType = GetPacketType(bytes);
 
@@ -62,7 +68,10 @@ public static class PacketReader
 	}
 
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-	internal static UnionPacket ToPacketWithMarshal(this byte[] bytes)
+	internal static UnionPacket ToPacketWithMarshal(this byte[] bytes) => ToPacketWithMarshal(bytes.AsSpan());
+
+	[MethodImpl(MethodImplOptions.AggressiveInlining)]
+	internal static UnionPacket ToPacketWithMarshal(this ReadOnlySpan<byte> bytes)
 	{
 		var packetType = GetPacketType(bytes);
 		var packet = new UnionPacket();
@@ -89,7 +98,7 @@ public static class PacketReader
 	}
 
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-	static PacketType GetPacketType(Span<byte> bytes)
+	static PacketType GetPacketType(ReadOnlySpan<byte> bytes)
 	{
 		if (bytes.Length < PacketHeader.Size)
 			throw new NotEnoughBytesException(PacketHeader.Size, bytes.Length, typeof(PacketHeader));
@@ -98,7 +107,7 @@ public static class PacketReader
 	}
 
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-	static T CreateWithReader<T>(byte[] bytes) where T : IByteParsable<T>, ISizeable
+	static T CreateWithReader<T>(ReadOnlySpan<byte> bytes) where T : IByteParsable<T>, ISizeable
 	{
 		if (T.Size > bytes.Length)
 			throw new NotEnoughBytesException(T.Size, bytes.Length, typeof(T));
@@ -108,7 +117,7 @@ public static class PacketReader
 	}
 
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-	static ref UnionPacket CreateWithMarshal<T>(Span<byte> span, ref UnionPacket packet) where T : struct, ISizeable
+	static ref UnionPacket CreateWithMarshal<T>(ReadOnlySpan<byte> span, ref UnionPacket packet) where T : struct, ISizeable
 	{
 		if (T.Size > span.Length)
 			throw new NotEnoughBytesException(T.Size, span.Length, typeof(T));
@@ -116,7 +125,7 @@ public static class PacketReader
 		var structSpan = MemoryMarshal.CreateSpan(ref packet, 1);
 		var bytesStructSpan = MemoryMarshal.AsBytes(structSpan);
 
-		span.Slice(0, T.Size).CopyTo(bytesStructSpan);
+		span[..T.Size].CopyTo(bytesStructSpan);
 
 		return ref packet;
 	}

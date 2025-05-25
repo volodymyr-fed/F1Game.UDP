@@ -1,0 +1,22 @@
+﻿{
+  Diagnostics: [
+    {
+      Location: /*
+[AutoInlineArray(0)]
+public partial struct InlineArray<T>;
+                      ^^^^^^^^^^^
+*/
+ : (5,22)-(5,33),
+      Message: Length should be a positive number on the partial struct 'InlineArray',
+      Severity: Error,
+      Descriptor: {
+        Id: F1GUSG003,
+        Title: Length should be a positive number,
+        MessageFormat: Length should be a positive number on the partial struct '{0}',
+        Category: Usage,
+        DefaultSeverity: Error,
+        IsEnabledByDefault: true
+      }
+    }
+  ]
+}
