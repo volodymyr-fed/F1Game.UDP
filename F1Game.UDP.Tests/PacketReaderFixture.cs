@@ -7,6 +7,8 @@ using F1Game.UDP.Events;
 using F1Game.UDP.Internal;
 using F1Game.UDP.Packets;
 
+using AwesomeAssertions.Equivalency;
+
 namespace F1Game.UDP.Tests;
 
 [FixtureLifeCycle(LifeCycle.InstancePerTestCase)]
@@ -75,9 +77,9 @@ sealed class PacketReaderFixture
 		var writer = new BytesWriter(bytes);
 		writer.Write(packet);
 
-		bytes.ToPacket().Should().BeEquivalentTo(packet);
-		bytes.ToPacketWithReader().Should().BeEquivalentTo(packet);
-		bytes.ToPacketWithMarshal().Should().BeEquivalentTo(packet);
+		bytes.ToPacket().Should().BeEquivalentTo(packet, Configure);
+		bytes.ToPacketWithReader().Should().BeEquivalentTo(packet, Configure);
+		bytes.ToPacketWithMarshal().Should().BeEquivalentTo(packet, Configure);
 	}
 
 	[Test]
@@ -91,9 +93,9 @@ sealed class PacketReaderFixture
 		var writer = new BytesWriter(bytes);
 		writer.Write(packet);
 
-		bytes.ToPacket().Should().BeEquivalentTo(packet);
-		bytes.ToPacketWithReader().Should().BeEquivalentTo(packet);
-		bytes.ToPacketWithMarshal().Should().BeEquivalentTo(packet);
+		bytes.ToPacket().Should().BeEquivalentTo(packet, Configure);
+		bytes.ToPacketWithReader().Should().BeEquivalentTo(packet, Configure);
+		bytes.ToPacketWithMarshal().Should().BeEquivalentTo(packet, Configure);
 	}
 
 	[Test]
@@ -107,9 +109,9 @@ sealed class PacketReaderFixture
 		var writer = new BytesWriter(bytes);
 		writer.Write(packet);
 
-		bytes.ToPacket().Should().BeEquivalentTo(packet);
-		bytes.ToPacketWithReader().Should().BeEquivalentTo(packet);
-		bytes.ToPacketWithMarshal().Should().BeEquivalentTo(packet);
+		bytes.ToPacket().Should().BeEquivalentTo(packet, Configure);
+		bytes.ToPacketWithReader().Should().BeEquivalentTo(packet, Configure);
+		bytes.ToPacketWithMarshal().Should().BeEquivalentTo(packet, Configure);
 	}
 
 	[Test]
@@ -123,9 +125,9 @@ sealed class PacketReaderFixture
 		var writer = new BytesWriter(bytes);
 		writer.Write(packet);
 
-		bytes.ToPacket().Should().BeEquivalentTo(packet);
-		bytes.ToPacketWithReader().Should().BeEquivalentTo(packet);
-		bytes.ToPacketWithMarshal().Should().BeEquivalentTo(packet);
+		bytes.ToPacket().Should().BeEquivalentTo(packet, Configure);
+		bytes.ToPacketWithReader().Should().BeEquivalentTo(packet, Configure);
+		bytes.ToPacketWithMarshal().Should().BeEquivalentTo(packet, Configure);
 	}
 
 	[TestCase(EventType.ButtonStatus)]
@@ -178,9 +180,9 @@ sealed class PacketReaderFixture
 		var writer = new BytesWriter(bytes);
 		writer.Write(packet);
 
-		bytes.ToPacket().Should().BeEquivalentTo(packet);
-		bytes.ToPacketWithReader().Should().BeEquivalentTo(packet);
-		bytes.ToPacketWithMarshal().Should().BeEquivalentTo(packet);
+		bytes.ToPacket().Should().BeEquivalentTo(packet, Configure);
+		bytes.ToPacketWithReader().Should().BeEquivalentTo(packet, Configure);
+		bytes.ToPacketWithMarshal().Should().BeEquivalentTo(packet, Configure);
 	}
 
 	[Test]
@@ -201,9 +203,9 @@ sealed class PacketReaderFixture
 		var writer = new BytesWriter(bytes);
 		writer.Write(packet);
 
-		bytes.ToPacket().Should().BeEquivalentTo(packet);
-		bytes.ToPacketWithReader().Should().BeEquivalentTo(packet);
-		bytes.ToPacketWithMarshal().Should().BeEquivalentTo(packet);
+		bytes.ToPacket().Should().BeEquivalentTo(packet, Configure);
+		bytes.ToPacketWithReader().Should().BeEquivalentTo(packet, Configure);
+		bytes.ToPacketWithMarshal().Should().BeEquivalentTo(packet, Configure);
 	}
 
 	[Test]
@@ -217,9 +219,9 @@ sealed class PacketReaderFixture
 		var writer = new BytesWriter(bytes);
 		writer.Write(packet);
 
-		bytes.ToPacket().Should().BeEquivalentTo(packet);
-		bytes.ToPacketWithReader().Should().BeEquivalentTo(packet);
-		bytes.ToPacketWithMarshal().Should().BeEquivalentTo(packet);
+		bytes.ToPacket().Should().BeEquivalentTo(packet, Configure);
+		bytes.ToPacketWithReader().Should().BeEquivalentTo(packet, Configure);
+		bytes.ToPacketWithMarshal().Should().BeEquivalentTo(packet, Configure);
 	}
 
 	[Test]
@@ -238,9 +240,9 @@ sealed class PacketReaderFixture
 		var writer = new BytesWriter(bytes);
 		writer.Write(packet);
 
-		bytes.ToPacket().Should().BeEquivalentTo(packet);
-		bytes.ToPacketWithReader().Should().BeEquivalentTo(packet);
-		bytes.ToPacketWithMarshal().Should().BeEquivalentTo(packet);
+		bytes.ToPacket().Should().BeEquivalentTo(packet, Configure);
+		bytes.ToPacketWithReader().Should().BeEquivalentTo(packet, Configure);
+		bytes.ToPacketWithMarshal().Should().BeEquivalentTo(packet, Configure);
 	}
 
 	[Test]
@@ -254,9 +256,9 @@ sealed class PacketReaderFixture
 		var writer = new BytesWriter(bytes);
 		writer.Write(packet);
 
-		bytes.ToPacket().Should().BeEquivalentTo(packet);
-		bytes.ToPacketWithReader().Should().BeEquivalentTo(packet);
-		bytes.ToPacketWithMarshal().Should().BeEquivalentTo(packet);
+		bytes.ToPacket().Should().BeEquivalentTo(packet, Configure);
+		bytes.ToPacketWithReader().Should().BeEquivalentTo(packet, Configure);
+		bytes.ToPacketWithMarshal().Should().BeEquivalentTo(packet, Configure);
 	}
 
 	[Test]
@@ -269,9 +271,9 @@ sealed class PacketReaderFixture
 		var writer = new BytesWriter(bytes);
 		writer.Write(packet);
 
-		bytes.ToPacket().Should().BeEquivalentTo(packet);
-		bytes.ToPacketWithReader().Should().BeEquivalentTo(packet);
-		bytes.ToPacketWithMarshal().Should().BeEquivalentTo(packet);
+		bytes.ToPacket().Should().BeEquivalentTo(packet, Configure);
+		bytes.ToPacketWithReader().Should().BeEquivalentTo(packet, Configure);
+		bytes.ToPacketWithMarshal().Should().BeEquivalentTo(packet, Configure);
 	}
 
 	[Test]
@@ -290,9 +292,9 @@ sealed class PacketReaderFixture
 		var writer = new BytesWriter(bytes);
 		writer.Write(packet);
 
-		bytes.ToPacket().Should().BeEquivalentTo(packet);
-		bytes.ToPacketWithReader().Should().BeEquivalentTo(packet);
-		bytes.ToPacketWithMarshal().Should().BeEquivalentTo(packet);
+		bytes.ToPacket().Should().BeEquivalentTo(packet, Configure);
+		bytes.ToPacketWithReader().Should().BeEquivalentTo(packet, Configure);
+		bytes.ToPacketWithMarshal().Should().BeEquivalentTo(packet, Configure);
 	}
 
 	[Test]
@@ -308,9 +310,9 @@ sealed class PacketReaderFixture
 		var writer = new BytesWriter(bytes);
 		writer.Write(packet);
 
-		bytes.ToPacket().Should().BeEquivalentTo(packet);
-		bytes.ToPacketWithReader().Should().BeEquivalentTo(packet);
-		bytes.ToPacketWithMarshal().Should().BeEquivalentTo(packet);
+		bytes.ToPacket().Should().BeEquivalentTo(packet, Configure);
+		bytes.ToPacketWithReader().Should().BeEquivalentTo(packet, Configure);
+		bytes.ToPacketWithMarshal().Should().BeEquivalentTo(packet, Configure);
 	}
 
 	[Test]
@@ -325,9 +327,9 @@ sealed class PacketReaderFixture
 		var writer = new BytesWriter(bytes);
 		writer.Write(packet);
 
-		bytes.ToPacket().Should().BeEquivalentTo(packet);
-		bytes.ToPacketWithReader().Should().BeEquivalentTo(packet);
-		bytes.ToPacketWithMarshal().Should().BeEquivalentTo(packet);
+		bytes.ToPacket().Should().BeEquivalentTo(packet, Configure);
+		bytes.ToPacketWithReader().Should().BeEquivalentTo(packet, Configure);
+		bytes.ToPacketWithMarshal().Should().BeEquivalentTo(packet, Configure);
 	}
 
 	[Test]
@@ -341,9 +343,9 @@ sealed class PacketReaderFixture
 		var writer = new BytesWriter(bytes);
 		writer.Write(packet);
 
-		bytes.ToPacket().Should().BeEquivalentTo(packet);
-		bytes.ToPacketWithReader().Should().BeEquivalentTo(packet);
-		bytes.ToPacketWithMarshal().Should().BeEquivalentTo(packet);
+		bytes.ToPacket().Should().BeEquivalentTo(packet, Configure);
+		bytes.ToPacketWithReader().Should().BeEquivalentTo(packet, Configure);
+		bytes.ToPacketWithMarshal().Should().BeEquivalentTo(packet, Configure);
 	}
 
 	[Test]
@@ -355,9 +357,9 @@ sealed class PacketReaderFixture
 		var writer = new BytesWriter(bytes);
 		writer.Write(packet);
 
-		bytes.ToPacket().Should().BeEquivalentTo(packet);
-		bytes.ToPacketWithReader().Should().BeEquivalentTo(packet);
-		bytes.ToPacketWithMarshal().Should().BeEquivalentTo(packet);
+		bytes.ToPacket().Should().BeEquivalentTo(packet, Configure);
+		bytes.ToPacketWithReader().Should().BeEquivalentTo(packet, Configure);
+		bytes.ToPacketWithMarshal().Should().BeEquivalentTo(packet, Configure);
 	}
 
 	IPostprocessComposer<T> BuildPacket<T>() where T : IHaveHeader, new()
@@ -388,4 +390,7 @@ sealed class PacketReaderFixture
 		return fixture.Build<T>()
 			.With(x => x.Header, header);
 	}
+
+	static EquivalencyOptions<UnionPacket> Configure(EquivalencyOptions<UnionPacket> options)
+		=> options.IncludingInternalFields();
 }
