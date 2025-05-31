@@ -33,31 +33,35 @@ The `ToPacket` method returns a `UnionPacket` struct, which has properties for d
 - `TimeTrialDataPacket`
 - `TyreSetsDataPacket`
 
-You can access the specific packet data by accessing the corresponding property of the `UnionPacket` struct, you should check what packet type it is first using `PacketType` property.
+First, check the packet type using the `PacketType` property. Then, access the specific packet data by calling the corresponding `TryGet<PacketName>` method of the `UnionPacket` struct.
 
 ```
 using F1Game.UDP;
 
 UnionPacket packet = arrayOfBytes.ToPacket();
 
-if (packet.PacketType == PacketType.CarTelemetry)
+if (packet.TryGetCarTelemetryDataPacket(out var carTelemetryData))
 {
-	CarTelemetryDataPacket carTelemetryData = packet.CarTelemetryData;
 	// Access car telemetry data
 }
 
 switch (packet.PacketType)
 {
-	case PacketType.CarTelemetry:
-		CarTelemetryDataPacket carTelemetryData = packet.CarTelemetryData;
+	case PacketType.CarTelemetry when packet.TryGetCarTelemetryDataPacket(out var carTelemetryData):
 		// Access car telemetry data
 		break;
-	case PacketType.CarStatus:
-		CarStatusDataPacket carStatusData = packet.CarStatusData;
+	case PacketType.CarStatus when packet.TryGetCarStatusDataPacket(out var carStatusData):
 		// Access car status data
 		break;
 	// Add other cases for different packet types
 }
+
+var someResult = packet.PacketType switch
+{
+	PacketType.CarTelemetry when packet.TryGetCarTelemetryDataPacket(out var carTelemetryData) => // Access car telemetry data,
+	PacketType.CarStatus when packet.TryGetCarStatusDataPacket(out var carStatusData) => // Access car status data,
+	_ => "default"
+};
 ```
 
 # Benchmarks

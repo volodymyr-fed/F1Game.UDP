@@ -77,7 +77,9 @@ public class ThirdPartyComparisonBenchmark
 
 	static void SetupCarTelemetryPacket(byte[] data, Random random)
 	{
-		var packet = data.ToPacket().CarTelemetryDataPacket;
+		if (!data.ToPacket().TryGetCarTelemetryDataPacket(out var packet))
+			return;
+
 		var updatedPacket = packet with
 		{
 			CarTelemetryData = packet.CarTelemetryData.AsEnumerable().Select(x => x with
@@ -93,7 +95,9 @@ public class ThirdPartyComparisonBenchmark
 
 	static void SetupCarStatusPacket(byte[] data, Random random)
 	{
-		var packet = data.ToPacket().CarStatusDataPacket;
+		if (!data.ToPacket().TryGetCarStatusDataPacket(out var packet))
+			return;
+
 		var updatedPacket = packet with
 		{
 			CarStatusData = packet.CarStatusData.AsEnumerable().Select(x => x with
@@ -113,7 +117,9 @@ public class ThirdPartyComparisonBenchmark
 
 	static void SetupSessionPacket(byte[] data, Random random)
 	{
-		var packet = data.ToPacket().SessionDataPacket;
+		if (!data.ToPacket().TryGetSessionDataPacket(out var packet))
+			return;
+
 		var updatedPacket = packet with
 		{
 			AirTemperature = (sbyte)random.Next(127),

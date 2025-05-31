@@ -8,8 +8,8 @@ public readonly record struct EventDataPacket() : IByteParsable<EventDataPacket>
 {
 	public static int Size => 45;
 
-	public PacketHeader Header { get; init; } = PacketHeader.Empty; // Header
-	public EventDetails EventDetails { get; init; } // Event details - should be interpreted differently
+	public PacketHeader Header { get; init; } = PacketHeader.Empty;
+	public EventDetails EventDetails { get; init; }
 
 	static EventDataPacket IByteParsable<EventDataPacket>.Parse(ref BytesReader reader)
 	{
@@ -50,27 +50,6 @@ public readonly record struct EventDataPacket() : IByteParsable<EventDataPacket>
 	void IByteWritable.WriteBytes(ref BytesWriter writer)
 	{
 		writer.Write(Header);
-		writer.WriteEnum(EventDetails.EventType);
-
-		IByteWritable? byteWritable = EventDetails.EventType switch
-		{
-			EventType.FastestLap => EventDetails.FastestLapEvent,
-			EventType.Retirement => EventDetails.RetirementEvent,
-			EventType.TeamMateInPits => EventDetails.TeamMateInPitsEvent,
-			EventType.RaceWinner => EventDetails.RaceWinnerEvent,
-			EventType.PenaltyIssued => EventDetails.PenaltyEvent,
-			EventType.SpeedTrapTriggered => EventDetails.SpeedTrapEvent,
-			EventType.StartLights => EventDetails.StartLightsEvent,
-			EventType.DriveThroughServed => EventDetails.DriveThroughPenaltyServedEvent,
-			EventType.StopGoServed => EventDetails.StopGoPenaltyServedEvent,
-			EventType.Flashback => EventDetails.FlashbackEvent,
-			EventType.ButtonStatus => EventDetails.ButtonsEvent,
-			EventType.Overtake => EventDetails.OvertakeEvent,
-			EventType.SafetyCar => EventDetails.SafetyCarEvent,
-			EventType.Collision => EventDetails.CollisionEvent,
-			_ => null,
-		};
-		if (byteWritable is not null)
-			writer.Write(byteWritable);
+		writer.Write(EventDetails);
 	}
 }
