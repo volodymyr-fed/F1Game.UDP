@@ -2,12 +2,21 @@
 
 namespace F1Game.UDP.Packets;
 
-[StructLayout(LayoutKind.Sequential, Pack = 1, Size = 1306)]
+/// <summary>
+/// This packet details the players currently in a multiplayer lobby.
+/// It details each player’s selected car, any AI involved in the game and also the ready status of each of the participants.
+/// <para>Frequency: Two every second when in the lobby</para>
+/// </summary>
+[StructLayout(LayoutKind.Sequential, Pack = 1)]
 public readonly record struct LobbyInfoDataPacket() : IByteParsable<LobbyInfoDataPacket>, ISizeable, IByteWritable, IHaveHeader
 {
-	public static int Size => 1306;
-	public PacketHeader Header { get; init; } = PacketHeader.Empty; // Header
-	public byte NumPlayers { get; init; } // Number of players in the lobby data
+	static int ISizeable.Size => 1306;
+
+	public PacketHeader Header { get; init; }
+	/// <summary>
+	/// Number of players in the <see cref="LobbyPlayers"/>
+	/// </summary>
+	public byte NumPlayers { get; init; }
 	public Array22<LobbyInfoData> LobbyPlayers { get; init; }
 
 	static LobbyInfoDataPacket IByteParsable<LobbyInfoDataPacket>.Parse(ref BytesReader reader)

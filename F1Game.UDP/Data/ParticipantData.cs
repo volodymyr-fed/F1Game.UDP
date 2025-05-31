@@ -2,22 +2,63 @@
 
 namespace F1Game.UDP.Data;
 
-[StructLayout(LayoutKind.Sequential, Pack = 1, Size = 60)]
-public readonly record struct ParticipantData() : IByteParsable<ParticipantData>, IByteWritable
+[StructLayout(LayoutKind.Sequential, Pack = 1)]
+public readonly record struct ParticipantData() : IByteParsable<ParticipantData>, IByteWritable, ISizeable
 {
-	public bool IsAiControlled { get; init; } // Whether the vehicle is AI (1) or Human (0) controlled
-	public Driver Driver { get; init; } // Driver id - see appendix, ifnetworkhuman = 255,
-	public byte NetworkId { get; init; } // Network id – unique identifier for network players
-	public Team Team { get; init; } // Team id - see appendix
-	public bool IsMyTeam { get; init; } // My team flag – 1 = My Team, 0 = otherwise
-	public byte RaceNumber { get; init; } // Race number of the car
-	public Nationality Nationality { get; init; } // Nationality of the driver
+	/// <inheritdoc/>
+	static int ISizeable.Size => 60;
+
+	/// <summary>
+	/// Gets whether the vehicle is AI or Human.
+	/// </summary>
+	public bool IsAiControlled { get; init; }
+	/// <summary>
+	/// Gets the driver id.
+	/// </summary>
+	public Driver Driver { get; init; }
+	/// <summary>
+	/// Gets the network id – unique identifier for network players.
+	/// </summary>
+	public byte NetworkId { get; init; }
+	/// <summary>
+	/// Gets the team.
+	/// </summary>
+	public Team Team { get; init; }
+	/// <summary>
+	/// Gets a value indicating whether this is the player's team (true = My Team, false = otherwise).
+	/// </summary>
+	public bool IsMyTeam { get; init; }
+	/// <summary>
+	/// Gets the race number of the car.
+	/// </summary>
+	public byte RaceNumber { get; init; }
+	/// <summary>
+	/// Gets the nationality of the driver.
+	/// </summary>
+	public Nationality Nationality { get; init; }
+	/// <summary>
+	/// The name of participant in UTF-8 bytes – null terminated. Will be truncated with ... (U+2026) if too long; 48 chars.
+	/// </summary>
 	public Array48<byte> NameBytes { get; init; }
-	// Name of participant in UTF-8 format – null terminated Will be truncated with ... (U+2026) if too long; 48 chars
+	/// <summary>
+	/// The name of participant in UTF-8 format – null terminated. Will be truncated with ... (U+2026) if too long; 48 chars.
+	/// </summary>
 	public string Name { get => NameBytes.AsString(); init => NameBytes = value.AsArray48Bytes(); }
-	public bool TelemetryIsNotRestricted { get; init; } // The player's UDP setting, 0 = restricted, 1 = public
-	public bool ShowOnlineNames { get; init; } // The player's show online names setting, 0 = off, 1 = o
-	public ushort TechLevel { get; init; } // F1 World tech level
+	/// <summary>
+	/// The player's telemetry publicity setting.
+	/// </summary>
+	public bool IsTelemetryPublic { get; init; }
+	/// <summary>
+	/// The player's show online names setting.
+	/// </summary>
+	public bool ShowOnlineNames { get; init; }
+	/// <summary>
+	/// Gets the F1 World tech level.
+	/// </summary>
+	public ushort TechLevel { get; init; }
+	/// <summary>
+	/// Gets the platform.
+	/// </summary>
 	public Platform Platform { get; init; }
 
 	static ParticipantData IByteParsable<ParticipantData>.Parse(ref BytesReader reader)
@@ -32,7 +73,7 @@ public readonly record struct ParticipantData() : IByteParsable<ParticipantData>
 			RaceNumber = reader.GetNextByte(),
 			Nationality = reader.GetNextEnum<Nationality>(),
 			NameBytes = reader.GetNextArray48Bytes(),
-			TelemetryIsNotRestricted = reader.GetNextBoolean(),
+			IsTelemetryPublic = reader.GetNextBoolean(),
 			ShowOnlineNames = reader.GetNextBoolean(),
 			TechLevel = reader.GetNextUShort(),
 			Platform = reader.GetNextEnum<Platform>()
@@ -49,7 +90,7 @@ public readonly record struct ParticipantData() : IByteParsable<ParticipantData>
 		writer.Write(RaceNumber);
 		writer.WriteEnum(Nationality);
 		writer.Write(Name, 48);
-		writer.Write(TelemetryIsNotRestricted);
+		writer.Write(IsTelemetryPublic);
 		writer.Write(ShowOnlineNames);
 		writer.Write(TechLevel);
 		writer.WriteEnum(Platform);

@@ -1,28 +1,90 @@
 ﻿namespace F1Game.UDP.Data;
 
-[StructLayout(LayoutKind.Sequential, Pack = 1, Size = 50)]
-public readonly record struct CarSetupData() : IByteParsable<CarSetupData>, IByteWritable
+[StructLayout(LayoutKind.Sequential, Pack = 1)]
+public readonly record struct CarSetupData() : IByteParsable<CarSetupData>, IByteWritable, ISizeable
 {
-	public byte FrontWing { get; init; } // Front wing aero
-	public byte RearWing { get; init; } // Rear wing aero
-	public byte OnThrottle { get; init; } // Differential adjustment on throttle (percentage)
-	public byte OffThrottle { get; init; } // Differential adjustment off throttle (percentage)
-	public float FrontCamber { get; init; } // Front camber angle (suspension geometry)
-	public float RearCamber { get; init; } // Rear camber angle (suspension geometry)
-	public float FrontToe { get; init; } // Front toe angle (suspension geometry)
-	public float RearToe { get; init; } // Rear toe angle (suspension geometry)
-	public byte FrontSuspension { get; init; } // Front suspension
-	public byte RearSuspension { get; init; } // Rear suspension
-	public byte FrontAntiRollBar { get; init; } // Front anti-roll bar
-	public byte RearAntiRollBar { get; init; } // Front anti-roll bar
-	public byte FrontSuspensionHeight { get; init; } // Front ride height
-	public byte RearSuspensionHeight { get; init; } // Rear ride height
-	public byte BrakePressure { get; init; } // Brake pressure (percentage)
-	public byte BrakeBias { get; init; } // Brake bias (percentage)
-	public byte EngineBreaking { get; init; } // Engine braking (percentage)
-	public Tyres<float> TyresPressures { get; init; } // PSI
-	public byte Ballast { get; init; } // Ballast
-	public float FuelLoad { get; init; } // Fuel load
+	static int ISizeable.Size => 50;
+
+	/// <summary>
+	/// Front wing aero.
+	/// </summary>
+	public byte FrontWing { get; init; }
+	/// <summary>
+	/// Rear wing aero.
+	/// </summary>
+	public byte RearWing { get; init; }
+	/// <summary>
+	/// Differential adjustment on throttle (percentage).
+	/// </summary>
+	public byte OnThrottle { get; init; }
+	/// <summary>
+	/// Differential adjustment off throttle (percentage).
+	/// </summary>
+	public byte OffThrottle { get; init; }
+	/// <summary>
+	/// Front camber angle (suspension geometry).
+	/// </summary>
+	public float FrontCamber { get; init; }
+	/// <summary>
+	/// Rear camber angle (suspension geometry).
+	/// </summary>
+	public float RearCamber { get; init; }
+	/// <summary>
+	/// Front toe angle (suspension geometry).
+	/// </summary>
+	public float FrontToe { get; init; }
+	/// <summary>
+	/// Rear toe angle (suspension geometry).
+	/// </summary>
+	public float RearToe { get; init; }
+	/// <summary>
+	/// Front suspension.
+	/// </summary>
+	public byte FrontSuspension { get; init; }
+	/// <summary>
+	/// Rear suspension.
+	/// </summary>
+	public byte RearSuspension { get; init; }
+	/// <summary>
+	/// Front anti-roll bar.
+	/// </summary>
+	public byte FrontAntiRollBar { get; init; }
+	/// <summary>
+	/// Rear anti-roll bar.
+	/// </summary>
+	public byte RearAntiRollBar { get; init; }
+	/// <summary>
+	/// Front ride height.
+	/// </summary>
+	public byte FrontSuspensionHeight { get; init; }
+	/// <summary>
+	/// Rear ride height.
+	/// </summary>
+	public byte RearSuspensionHeight { get; init; }
+	/// <summary>
+	/// Brake pressure (percentage).
+	/// </summary>
+	public byte BrakePressure { get; init; }
+	/// <summary>
+	/// Brake bias (percentage).
+	/// </summary>
+	public byte BrakeBias { get; init; }
+	/// <summary>
+	/// Engine braking (percentage).
+	/// </summary>
+	public byte EngineBraking { get; init; }
+	/// <summary>
+	/// Tyre pressures in PSI.
+	/// </summary>
+	public Tyres<float> TyresPressure { get; init; }
+	/// <summary>
+	/// Ballast.
+	/// </summary>
+	public byte Ballast { get; init; }
+	/// <summary>
+	/// Fuel load.
+	/// </summary>
+	public float FuelLoad { get; init; }
 
 	static CarSetupData IByteParsable<CarSetupData>.Parse(ref BytesReader reader)
 	{
@@ -44,8 +106,8 @@ public readonly record struct CarSetupData() : IByteParsable<CarSetupData>, IByt
 			RearSuspensionHeight = reader.GetNextByte(),
 			BrakePressure = reader.GetNextByte(),
 			BrakeBias = reader.GetNextByte(),
-			EngineBreaking = reader.GetNextByte(),
-			TyresPressures = reader.GetNextTyresFloat(),
+			EngineBraking = reader.GetNextByte(),
+			TyresPressure = reader.GetNextTyresFloat(),
 			Ballast = reader.GetNextByte(),
 			FuelLoad = reader.GetNextFloat(),
 		};
@@ -69,8 +131,8 @@ public readonly record struct CarSetupData() : IByteParsable<CarSetupData>, IByt
 		writer.Write(RearSuspensionHeight);
 		writer.Write(BrakePressure);
 		writer.Write(BrakeBias);
-		writer.Write(EngineBreaking);
-		writer.WriteTyresFloat(TyresPressures);
+		writer.Write(EngineBraking);
+		writer.WriteTyresFloat(TyresPressure);
 		writer.Write(Ballast);
 		writer.Write(FuelLoad);
 	}

@@ -1,12 +1,18 @@
 ﻿namespace F1Game.UDP.Events;
 
-// The event details packet is different for each type of event.
-// Make sure only the correct type is interpreted.
-[StructLayout(LayoutKind.Sequential, Pack = 1, Size = 5)]
-public readonly record struct FastestLapEvent() : IByteParsable<FastestLapEvent>, IByteWritable
+[StructLayout(LayoutKind.Sequential, Pack = 1)]
+public readonly record struct FastestLapEvent() : IByteParsable<FastestLapEvent>, IByteWritable, ISizeable
 {
-	public byte VehicleIdx { get; init; } // Vehicle index of car achieving fastest lap
-	public float LapTime { get; init; } // Lap time is in seconds
+	static int ISizeable.Size => 5;
+
+	/// <summary>
+	/// Vehicle index of car achieving fastest lap
+	/// </summary>
+	public byte VehicleIdx { get; init; }
+	/// <summary>
+	/// Lap time is in seconds
+	/// </summary>
+	public float LapTime { get; init; }
 
 	static FastestLapEvent IByteParsable<FastestLapEvent>.Parse(ref BytesReader reader)
 	{

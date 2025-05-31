@@ -1,26 +1,82 @@
 ﻿namespace F1Game.UDP.Data;
 
-[StructLayout(LayoutKind.Sequential, Pack = 1, Size = 60)]
-public readonly record struct CarMotionData() : IByteParsable<CarMotionData>, IByteWritable
+[StructLayout(LayoutKind.Sequential, Pack = 1)]
+public readonly record struct CarMotionData() : IByteParsable<CarMotionData>, IByteWritable, ISizeable
 {
-	public float WorldPositionX { get; init; } // World space X position
-	public float WorldPositionY { get; init; } // World space Y position
-	public float WorldPositionZ { get; init; } // World space Z position
-	public float WorldVelocityX { get; init; } // Velocity in world space X
-	public float WorldVelocityY { get; init; } // Velocity in world space Y
-	public float WorldVelocityZ { get; init; } // Velocity in world space Z
-	public short WorldForwardDirX { get; init; } // World space forward X direction (normalised)
-	public short WorldForwardDirY { get; init; } // World space forward Y direction (normalised)
-	public short WorldForwardDirZ { get; init; } // World space forward Z direction (normalised)
-	public short WorldRightDirX { get; init; } // World space right X direction (normalised)
-	public short WorldRightDirY { get; init; } // World space right Y direction (normalised)
-	public short WorldRightDirZ { get; init; } // World space right Z direction (normalised)
-	public float GForceLateral { get; init; } // Lateral G-Force component
-	public float GForceLongitudinal { get; init; } // Longitudinal G-Force component
-	public float GForceVertical { get; init; } // Vertical G-Force component
-	public float Yaw { get; init; } // Yaw angle in radians
-	public float Pitch { get; init; } // Pitch angle in radians
-	public float Roll { get; init; } // Roll angle in radians
+	static int ISizeable.Size => 60;
+
+	/// <summary>
+	/// World space X position.
+	/// </summary>
+	public float WorldPositionX { get; init; }
+	/// <summary>
+	/// World space Y position.
+	/// </summary>
+	public float WorldPositionY { get; init; }
+	/// <summary>
+	/// World space Z position.
+	/// </summary>
+	public float WorldPositionZ { get; init; }
+	/// <summary>
+	/// Velocity in world space X.
+	/// </summary>
+	public float WorldVelocityX { get; init; }
+	/// <summary>
+	/// Velocity in world space Y.
+	/// </summary>
+	public float WorldVelocityY { get; init; }
+	/// <summary>
+	/// Velocity in world space Z.
+	/// </summary>
+	public float WorldVelocityZ { get; init; }
+	/// <summary>
+	/// World space forward X direction (normalized).
+	/// </summary>
+	public short WorldForwardDirX { get; init; }
+	/// <summary>
+	/// World space forward Y direction (normalized).
+	/// </summary>
+	public short WorldForwardDirY { get; init; }
+	/// <summary>
+	/// World space forward Z direction (normalized).
+	/// </summary>
+	public short WorldForwardDirZ { get; init; }
+	/// <summary>
+	/// World space right X direction (normalized).
+	/// </summary>
+	public short WorldRightDirX { get; init; }
+	/// <summary>
+	/// World space right Y direction (normalized).
+	/// </summary>
+	public short WorldRightDirY { get; init; }
+	/// <summary>
+	/// World space right Z direction (normalized).
+	/// </summary>
+	public short WorldRightDirZ { get; init; }
+	/// <summary>
+	/// Lateral G-Force component.
+	/// </summary>
+	public float GForceLateral { get; init; }
+	/// <summary>
+	/// Longitudinal G-Force component.
+	/// </summary>
+	public float GForceLongitudinal { get; init; }
+	/// <summary>
+	/// Vertical G-Force component.
+	/// </summary>
+	public float GForceVertical { get; init; }
+	/// <summary>
+	/// Yaw angle in radians.
+	/// </summary>
+	public float Yaw { get; init; }
+	/// <summary>
+	/// Pitch angle in radians.
+	/// </summary>
+	public float Pitch { get; init; }
+	/// <summary>
+	/// Roll angle in radians.
+	/// </summary>
+	public float Roll { get; init; }
 
 	static CarMotionData IByteParsable<CarMotionData>.Parse(ref BytesReader reader)
 	{

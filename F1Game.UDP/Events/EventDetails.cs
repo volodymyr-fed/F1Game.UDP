@@ -1,10 +1,12 @@
 ﻿namespace F1Game.UDP.Events;
 
-[StructLayout(LayoutKind.Explicit, Pack = 1, Size = 26)]
-public readonly record struct EventDetails : IByteWritable
+[StructLayout(LayoutKind.Explicit, Pack = 1)]
+public readonly record struct EventDetails : IByteWritable, ISizeable
 {
+	static int ISizeable.Size => 16;
+
 	[field: FieldOffset(0)]
-	public EventType EventType { get; init; } // Event string code, see below 4 chars
+	public EventType EventType { get; init; }
 	[field: FieldOffset(4)]
 	private readonly ButtonsEvent buttonsEvent;
 	[field: FieldOffset(4)]

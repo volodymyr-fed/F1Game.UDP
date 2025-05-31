@@ -2,12 +2,16 @@
 
 namespace F1Game.UDP.Packets;
 
-[StructLayout(LayoutKind.Sequential, Pack = 1, Size = 953)]
+/// <summary>
+/// This packet details car damage parameters for all the cars in the race.
+/// <para>Frequency: 10 per second</para>
+/// </summary>
+[StructLayout(LayoutKind.Sequential, Pack = 1)]
 public readonly record struct CarDamageDataPacket() : IByteParsable<CarDamageDataPacket>, ISizeable, IByteWritable, IHaveHeader
 {
-	public static int Size => 953;
+	static int ISizeable.Size => 953;
 
-	public PacketHeader Header { get; init; } = PacketHeader.Empty;
+	public PacketHeader Header { get; init; }
 	public Array22<CarDamageData> CarDamageData { get; init; }
 
 	static CarDamageDataPacket IByteParsable<CarDamageDataPacket>.Parse(ref BytesReader reader)

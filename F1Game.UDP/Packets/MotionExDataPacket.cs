@@ -2,38 +2,107 @@
 
 namespace F1Game.UDP.Packets;
 
-[StructLayout(LayoutKind.Sequential, Pack = 1, Size = 237)]
+/// <summary>
+/// The motion packet gives extended data for the car being driven with the goal of being able to drive a motion platform setup.
+/// <para>Frequency: Rate as specified in menus</para>
+/// </summary>
+[StructLayout(LayoutKind.Sequential, Pack = 1)]
 public readonly record struct MotionExDataPacket() : IByteParsable<MotionExDataPacket>, ISizeable, IByteWritable, IHaveHeader
 {
-	public static int Size => 237;
+	static int ISizeable.Size => 237;
 
-	public PacketHeader Header { get; init; } = PacketHeader.Empty;
-	public Tyres<float> SuspensionPosition { get; init; } // Note: All wheel arrays have the following order:
-	public Tyres<float> SuspensionVelocity { get; init; } // RL, RR, FL, FR
-	public Tyres<float> SuspensionAcceleration { get; init; } // RL, RR, FL, FR
-	public Tyres<float> WheelSpeed { get; init; } // Speed of each wheel
-	public Tyres<float> WheelSlipRatio { get; init; } // Slip ratio for each wheel
-	public Tyres<float> WheelSlipAngle { get; init; } // Slip angles for each whee
-	public Tyres<float> WheelLatForce { get; init; } // Lateral forces for each wheel
-	public Tyres<float> WheelLongForce { get; init; } // Longitudinal forces for each wheel
-	public float HeightOfCOGAboveGround { get; init; } // Height of centre of gravity above ground
-	public float LocalVelocityX { get; init; } // Velocity in local space
-	public float LocalVelocityY { get; init; } // Velocity in local space
-	public float LocalVelocityZ { get; init; } // Velocity in local space
-	public float AngularVelocityX { get; init; } // Angular velocity x-component
-	public float AngularVelocityY { get; init; } // Angular velocity y-component
-	public float AngularVelocityZ { get; init; } // Angular velocity z-component
-	public float AngularAccelerationX { get; init; } // Angular velocity x-component
-	public float AngularAccelerationY { get; init; } // Angular velocity y-component
-	public float AngularAccelerationZ { get; init; } // Angular velocity z-component
-	public float FrontWheelsAngle { get; init; } // Current front wheels angle in radians
-	public Tyres<float> WheelVertForce { get; init; } // Vertical forces for each wheel
-	public float FrontAeroHeight { get; init; } // Front plank edge height above road surface
-	public float RearAeroHeight { get; init; } // Rear plank edge height above road surface
-	public float FrontRollAngle { get; init; } // Roll angle of the front suspension
-	public float RearRollAngle { get; init; } // Roll angle of the rear suspension
-	public float ChassisYaw { get; init; } // Yaw angle of the chassis relative to the direction
-						// of motion - radians
+	public PacketHeader Header { get; init; }
+	public Tyres<float> SuspensionPosition { get; init; }
+	public Tyres<float> SuspensionVelocity { get; init; }
+	public Tyres<float> SuspensionAcceleration { get; init; }
+	/// <summary>
+	/// Speed of each wheel
+	/// </summary>
+	public Tyres<float> WheelSpeed { get; init; }
+	/// <summary>
+	/// Slip ratio for each wheel
+	/// </summary>
+	public Tyres<float> WheelSlipRatio { get; init; }
+	/// <summary>
+	/// Slip angles for each wheel
+	/// </summary>
+	public Tyres<float> WheelSlipAngle { get; init; }
+	/// <summary>
+	/// Lateral forces for each wheel
+	/// </summary>
+	public Tyres<float> WheelLateralForce { get; init; }
+	/// <summary>
+	/// Longitudinal forces for each wheel
+	/// </summary>
+	public Tyres<float> WheelLongitudinalForce { get; init; }
+	/// <summary>
+	/// Height of centre of gravity above ground
+	/// </summary>
+	public float HeightOfCOGAboveGround { get; init; }
+	/// <summary>
+	/// Velocity in local space
+	/// </summary>
+	public float LocalVelocityX { get; init; }
+	/// <summary>
+	/// Velocity in local space
+	/// </summary>
+	public float LocalVelocityY { get; init; }
+	/// <summary>
+	/// Velocity in local space
+	/// </summary>
+	public float LocalVelocityZ { get; init; }
+	/// <summary>
+	/// Angular velocity x-component
+	/// </summary>
+	public float AngularVelocityX { get; init; }
+	/// <summary>
+	/// Angular velocity y-component
+	/// </summary>
+	public float AngularVelocityY { get; init; }
+	/// <summary>
+	/// Angular velocity z-component
+	/// </summary>
+	public float AngularVelocityZ { get; init; }
+	/// <summary>
+	/// Angular velocity x-component
+	/// </summary>
+	public float AngularAccelerationX { get; init; }
+	/// <summary>
+	/// Angular velocity y-component
+	/// </summary>
+	public float AngularAccelerationY { get; init; }
+	/// <summary>
+	/// Angular velocity z-component
+	/// </summary>
+	public float AngularAccelerationZ { get; init; }
+	/// <summary>
+	/// Current front wheels angle in radians
+	/// </summary>
+	public float FrontWheelsAngle { get; init; }
+	/// <summary>
+	/// Vertical forces for each wheel
+	/// </summary>
+	public Tyres<float> WheelVerticalForce { get; init; }
+	/// <summary>
+	/// Front plank edge height above road surface
+	/// </summary>
+	public float FrontAeroHeight { get; init; }
+	/// <summary>
+	/// Rear plank edge height above road surface
+	/// </summary>
+	public float RearAeroHeight { get; init; }
+	/// <summary>
+	/// Roll angle of the front suspension
+	/// </summary>
+	public float FrontRollAngle { get; init; }
+	/// <summary>
+	/// Roll angle of the rear suspension
+	/// </summary>
+	public float RearRollAngle { get; init; }
+	/// <summary>
+	/// aw angle of the chassis relative to the direction of motion in radians
+	/// </summary>
+	public float ChassisYaw { get; init; }
 
 	static MotionExDataPacket IByteParsable<MotionExDataPacket>.Parse(ref BytesReader reader)
 	{
@@ -46,8 +115,8 @@ public readonly record struct MotionExDataPacket() : IByteParsable<MotionExDataP
 			WheelSpeed = reader.GetNextTyresFloat(),
 			WheelSlipRatio = reader.GetNextTyresFloat(),
 			WheelSlipAngle = reader.GetNextTyresFloat(),
-			WheelLatForce = reader.GetNextTyresFloat(),
-			WheelLongForce = reader.GetNextTyresFloat(),
+			WheelLateralForce = reader.GetNextTyresFloat(),
+			WheelLongitudinalForce = reader.GetNextTyresFloat(),
 			HeightOfCOGAboveGround = reader.GetNextFloat(),
 			LocalVelocityX = reader.GetNextFloat(),
 			LocalVelocityY = reader.GetNextFloat(),
@@ -59,7 +128,7 @@ public readonly record struct MotionExDataPacket() : IByteParsable<MotionExDataP
 			AngularAccelerationY = reader.GetNextFloat(),
 			AngularAccelerationZ = reader.GetNextFloat(),
 			FrontWheelsAngle = reader.GetNextFloat(),
-			WheelVertForce = reader.GetNextTyresFloat(),
+			WheelVerticalForce = reader.GetNextTyresFloat(),
 			FrontAeroHeight = reader.GetNextFloat(),
 			RearAeroHeight = reader.GetNextFloat(),
 			FrontRollAngle = reader.GetNextFloat(),
@@ -77,8 +146,8 @@ public readonly record struct MotionExDataPacket() : IByteParsable<MotionExDataP
 		writer.WriteTyresFloat(WheelSpeed);
 		writer.WriteTyresFloat(WheelSlipRatio);
 		writer.WriteTyresFloat(WheelSlipAngle);
-		writer.WriteTyresFloat(WheelLatForce);
-		writer.WriteTyresFloat(WheelLongForce);
+		writer.WriteTyresFloat(WheelLateralForce);
+		writer.WriteTyresFloat(WheelLongitudinalForce);
 		writer.Write(HeightOfCOGAboveGround);
 		writer.Write(LocalVelocityX);
 		writer.Write(LocalVelocityY);
@@ -90,7 +159,7 @@ public readonly record struct MotionExDataPacket() : IByteParsable<MotionExDataP
 		writer.Write(AngularAccelerationY);
 		writer.Write(AngularAccelerationZ);
 		writer.Write(FrontWheelsAngle);
-		writer.WriteTyresFloat(WheelVertForce);
+		writer.WriteTyresFloat(WheelVerticalForce);
 		writer.Write(FrontAeroHeight);
 		writer.Write(RearAeroHeight);
 		writer.Write(FrontRollAngle);

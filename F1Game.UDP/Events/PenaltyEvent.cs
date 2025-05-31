@@ -2,16 +2,39 @@
 
 namespace F1Game.UDP.Events;
 
-[StructLayout(LayoutKind.Sequential, Pack = 1, Size = 7)]
-public readonly record struct PenaltyEvent() : IByteParsable<PenaltyEvent>, IByteWritable
+[StructLayout(LayoutKind.Sequential, Pack = 1)]
+public readonly record struct PenaltyEvent() : IByteParsable<PenaltyEvent>, IByteWritable, ISizeable
 {
-	public PenaltyType PenaltyType { get; init; } // Penalty type – see Appendices
-	public InfringementType InfringementType { get; init; } // Infringement type – see Appendices
-	public byte VehicleIdx { get; init; } // Vehicle index of the car the penalty is applied to
-	public byte OtherVehicleIdx { get; init; } // Vehicle index of the other car involved
-	public byte Time { get; init; } // Time gained, or time spent doing action in seconds
-	public byte LapNum { get; init; } // Lap the penalty occurred on
-	public byte PlacesGained { get; init; } // Number of places gained by this
+	static int ISizeable.Size => 7;
+
+	/// <summary>
+	/// Penalty type
+	/// </summary>
+	public PenaltyType PenaltyType { get; init; }
+	/// <summary>
+	/// Infringement type
+	/// </summary>
+	public InfringementType InfringementType { get; init; }
+	/// <summary>
+	/// Vehicle index of the car the penalty is applied to
+	/// </summary>
+	public byte VehicleIdx { get; init; }
+	/// <summary>
+	/// Vehicle index of the other car involved
+	/// </summary>
+	public byte OtherVehicleIdx { get; init; }
+	/// <summary>
+	/// Time gained, or time spent doing action in seconds
+	/// </summary>
+	public byte Time { get; init; }
+	/// <summary>
+	/// Lap the penalty occurred on
+	/// </summary>
+	public byte LapNum { get; init; }
+	/// <summary>
+	/// Number of places gained by this
+	/// </summary>
+	public byte PlacesGained { get; init; }
 
 	static PenaltyEvent IByteParsable<PenaltyEvent>.Parse(ref BytesReader reader)
 	{

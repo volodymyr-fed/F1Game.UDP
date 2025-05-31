@@ -2,21 +2,59 @@
 
 namespace F1Game.UDP.Data;
 
-[StructLayout(LayoutKind.Sequential, Pack = 1, Size = 24)]
-public readonly record struct TimeTrialDataSet() : IByteParsable<TimeTrialDataSet>, IByteWritable
+[StructLayout(LayoutKind.Sequential, Pack = 1)]
+public readonly record struct TimeTrialDataSet() : IByteParsable<TimeTrialDataSet>, IByteWritable, ISizeable
 {
-	public byte CarIndex { get; init; } // Index of the car this data relates to
-	public Team Team { get; init; } // Team id - see appendix
-	public uint LapTimeInMS { get; init; } // Lap time in milliseconds
-	public uint Sector1TimeInMS { get; init; } // Sector 1 time in milliseconds
-	public uint Sector2TimeInMS { get; init; } // Sector 2 time in milliseconds
-	public uint Sector3TimeInMS { get; init; } // Sector 3 time in milliseconds
-	public TractionOptions TractionControl { get; init; } // 0 = off, 1 = medium, 2 = full
-	public GearboxAssist GearboxAssist { get; init; } // 1 = manual, 2 = manual & suggested gear, 3 = auto
-	public AntiLockBrakesOptions AntiLockBrakes { get; init; } // 0 (off) - 1 (on)
-	public bool EqualCarPerformance { get; init; } // 0 = Realistic, 1 = Equal
-	public bool CustomSetup { get; init; } // 0 = No, 1 = Yes
-	public bool Valid { get; init; } // 0 = Invalid, 1 = Valid
+	static int ISizeable.Size => 24;
+
+	/// <summary>
+	/// Index of the car this data relates to.
+	/// </summary>
+	public byte CarIndex { get; init; }
+	/// <summary>
+	/// Team
+	/// </summary>
+	public Team Team { get; init; }
+	/// <summary>
+	/// Lap time in milliseconds.
+	/// </summary>
+	public uint LapTimeInMS { get; init; }
+	/// <summary>
+	/// Sector 1 time in milliseconds.
+	/// </summary>
+	public uint Sector1TimeInMS { get; init; }
+	/// <summary>
+	/// Sector 2 time in milliseconds.
+	/// </summary>
+	public uint Sector2TimeInMS { get; init; }
+	/// <summary>
+	/// Sector 3 time in milliseconds.
+	/// </summary>
+	public uint Sector3TimeInMS { get; init; }
+	/// <summary>
+	/// Traction control setting.
+	/// </summary>
+	public TractionOptions TractionControl { get; init; }
+	/// <summary>
+	/// Gearbox assist.
+	/// </summary>
+	public GearboxAssist GearboxAssist { get; init; }
+	/// <summary>
+	/// Anti-lock brakes.
+	/// </summary>
+	public AntiLockBrakesOptions AntiLockBrakes { get; init; }
+	/// <summary>
+	/// Is car performance equal.
+	/// </summary>
+	public bool IsEqualCarPerformance { get; init; }
+	/// <summary>
+	/// Custom setup enabled.
+	/// </summary>
+	public bool IsCustomSetupEnabled { get; init; }
+	/// <summary>
+	/// Lap validity.
+	/// </summary>
+	public bool IsValid { get; init; }
 
 	static TimeTrialDataSet IByteParsable<TimeTrialDataSet>.Parse(ref BytesReader reader)
 	{
@@ -31,9 +69,9 @@ public readonly record struct TimeTrialDataSet() : IByteParsable<TimeTrialDataSe
 			TractionControl = reader.GetNextEnum<TractionOptions>(),
 			GearboxAssist = reader.GetNextEnum<GearboxAssist>(),
 			AntiLockBrakes = reader.GetNextEnum<AntiLockBrakesOptions>(),
-			EqualCarPerformance = reader.GetNextBoolean(),
-			CustomSetup = reader.GetNextBoolean(),
-			Valid = reader.GetNextBoolean(),
+			IsEqualCarPerformance = reader.GetNextBoolean(),
+			IsCustomSetupEnabled = reader.GetNextBoolean(),
+			IsValid = reader.GetNextBoolean(),
 		};
 	}
 
@@ -48,8 +86,8 @@ public readonly record struct TimeTrialDataSet() : IByteParsable<TimeTrialDataSe
 		writer.WriteEnum(TractionControl);
 		writer.WriteEnum(GearboxAssist);
 		writer.WriteEnum(AntiLockBrakes);
-		writer.Write(EqualCarPerformance);
-		writer.Write(CustomSetup);
-		writer.Write(Valid);
+		writer.Write(IsEqualCarPerformance);
+		writer.Write(IsCustomSetupEnabled);
+		writer.Write(IsValid);
 	}
 }

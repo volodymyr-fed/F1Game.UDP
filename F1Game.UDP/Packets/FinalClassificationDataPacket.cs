@@ -2,12 +2,21 @@
 
 namespace F1Game.UDP.Packets;
 
-[StructLayout(LayoutKind.Sequential, Pack = 1, Size = 1020)]
+/// <summary>
+/// This packet details the final classification at the end of the race, and the data will match with the post race results screen.
+/// <para>This is especially useful for multiplayer games where it is not always possible to send lap times on the final frame because of network delay.</para>
+/// <para>Frequency: Once at the end of a race</para>
+/// </summary>
+[StructLayout(LayoutKind.Sequential, Pack = 1)]
 public readonly record struct FinalClassificationDataPacket() : IByteParsable<FinalClassificationDataPacket>, ISizeable, IByteWritable, IHaveHeader
 {
-	public static int Size => 1020;
-	public PacketHeader Header { get; init; } = PacketHeader.Empty; // Header
-	public byte NumCars { get; init; } // Number of cars in the final classification
+	static int ISizeable.Size => 1020;
+
+	public PacketHeader Header { get; init; }
+	/// <summary>
+	/// Number of cars in the <see cref="ClassificationData" />
+	/// </summary>
+	public byte NumCars { get; init; }
 	public Array22<FinalClassificationData> ClassificationData { get; init; }
 
 	static FinalClassificationDataPacket IByteParsable<FinalClassificationDataPacket>.Parse(ref BytesReader reader)

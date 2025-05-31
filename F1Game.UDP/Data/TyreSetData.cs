@@ -2,18 +2,47 @@
 
 namespace F1Game.UDP.Data;
 
-[StructLayout(LayoutKind.Sequential, Pack = 1, Size = 10)]
-public readonly record struct TyreSetData() : IByteParsable<TyreSetData>, IByteWritable
+[StructLayout(LayoutKind.Sequential, Pack = 1)]
+public readonly record struct TyreSetData() : IByteParsable<TyreSetData>, IByteWritable, ISizeable
 {
-	public ActualCompound ActualTyreCompound { get; init; } // Actual tyre compound used
-	public VisualCompound VisualTyreCompound { get; init; } // Visual tyre compound used
-	public byte Wear { get; init; } // Tyre wear (percentage)
-	public bool IsAvailable { get; init; } // Whether this set is currently available
-	public SessionType RecommendedSession { get; init; } // Recommended session for tyre set
-	public byte LifeSpan { get; init; } // Laps left in this tyre set
-	public byte UsableLife { get; init; } // Max number of laps recommended for this compound
-	public short LapDeltaTime { get; init; } // Lap delta time in milliseconds compared to fitted set
-	public bool IsFitted { get; init; } // Whether the set is fitted or not
+	static int ISizeable.Size => 10;
+
+	/// <summary>
+	/// Gets the actual tyre compound used.
+	/// </summary>
+	public ActualCompound ActualTyreCompound { get; init; }
+	/// <summary>
+	/// Gets the visual tyre compound used.
+	/// </summary>
+	public VisualCompound VisualTyreCompound { get; init; }
+	/// <summary>
+	/// Gets the tyre wear as a percentage.
+	/// </summary>
+	public byte Wear { get; init; }
+	/// <summary>
+	/// Gets a value indicating whether this set is currently available.
+	/// </summary>
+	public bool IsAvailable { get; init; }
+	/// <summary>
+	/// Gets the recommended session for this tyre set.
+	/// </summary>
+	public SessionType RecommendedSession { get; init; }
+	/// <summary>
+	/// Gets the number of laps left in this tyre set.
+	/// </summary>
+	public byte LifeSpan { get; init; }
+	/// <summary>
+	/// Gets the maximum number of laps recommended for this compound.
+	/// </summary>
+	public byte UsableLife { get; init; }
+	/// <summary>
+	/// Gets the lap delta time in milliseconds compared to the fitted set.
+	/// </summary>
+	public short LapDeltaTime { get; init; }
+	/// <summary>
+	/// Gets a value indicating whether the set is fitted or not.
+	/// </summary>
+	public bool IsFitted { get; init; }
 
 	static TyreSetData IByteParsable<TyreSetData>.Parse(ref BytesReader reader)
 	{
