@@ -2,10 +2,15 @@
 
 namespace F1Game.UDP.Events;
 
-[StructLayout(LayoutKind.Sequential, Pack = 1, Size = 4)]
-public readonly record struct ButtonsEvent() : IByteParsable<ButtonsEvent>, IByteWritable
+[StructLayout(LayoutKind.Sequential, Pack = 1)]
+public readonly record struct ButtonsEvent() : IByteParsable<ButtonsEvent>, IByteWritable, ISizeable
 {
-	public ButtonFlag ButtonStatus { get; init; } // Bit flags specifying which buttons are being pressed
+	static int ISizeable.Size => 4; // Size of the ButtonsEvent in bytes
+
+	/// <summary>
+	/// Bit flags specifying which buttons are being pressed
+	/// </summary>
+	public ButtonFlag ButtonStatus { get; init; } 
 
 	static ButtonsEvent IByteParsable<ButtonsEvent>.Parse(ref BytesReader reader)
 	{

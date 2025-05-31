@@ -2,44 +2,143 @@
 
 namespace F1Game.UDP.Data;
 
-[StructLayout(LayoutKind.Sequential, Pack = 1, Size = 57)]
-public readonly record struct LapData() : IByteParsable<LapData>, IByteWritable
+[StructLayout(LayoutKind.Sequential, Pack = 1)]
+public readonly record struct LapData() : IByteParsable<LapData>, IByteWritable, ISizeable
 {
-	public uint LastLapTimeInMS { get; init; } // Last lap time in milliseconds
-	public uint CurrentLapTimeInMS { get; init; } // Current time around the lap in milliseconds
-	public ushort Sector1TimeInMS { get; init; } // Sector 1 time in milliseconds
-	public byte Sector1TimeInMinutes { get; init; } // Sector 1 whole minute part
-	public ushort Sector2TimeInMS { get; init; } // Sector 2 time in milliseconds
-	public byte Sector2TimeInMinutes { get; init; } // Sector 2 whole minute part
-	public ushort DeltaToCarInFrontInMS { get; init; } // Time delta to car in front in milliseconds
-	public byte DeltaToCarInFrontInMinutes { get; init; } // Time delta to car in front in minutes
-	public ushort DeltaToRaceLeaderInMS { get; init; } // Time delta to race leader in milliseconds
-	public byte DeltaToRaceLeaderInMinutes { get; init; } // Time delta to race leader in whole minutes
-	public float LapDistance { get; init; } // Distance vehicle is around current lap in metres – could
-											// be negative if line hasn’t been crossed yet
-	public float TotalDistance { get; init; } // Total distance travelled in session in metres – could
-											  // be negative if line hasn’t been crossed yet
-	public float SafetyCarDelta { get; init; } // Delta in seconds for safety car
-	public byte CarPosition { get; init; } // Car race position
-	public byte CurrentLapNum { get; init; } // Current lap number
-	public PitStatus PitStatus { get; init; } // 0 = none, 1 = pitting, 2 = in pit area
-	public byte NumPitStops { get; init; } // Number of pit stops taken in this race
-	public Sector Sector { get; init; } // 0 = sector1, 1 = sector2, 2 = sector3
-	public bool CurrentLapInvalid { get; init; } // Current lap invalid - 0 = valid, 1 = invalid
-	public byte Penalties { get; init; } // Accumulated time penalties in seconds to be added
-	public byte TotalWarnings { get; init; } // Accumulated number of warnings issued
-	public byte CornerCuttingWarnings { get; init; } // Accumulated number of corner cutting warnings issued
-	public byte NumUnservedDriveThroughPens { get; init; } // Num drive through pens left to serve
-	public byte NumUnservedStopGoPens { get; init; } // Num stop go pens left to serve
-	public byte GridPosition { get; init; } // Grid position the vehicle started the race in
+	static int ISizeable.Size => 57;
+
+	/// <summary>
+	/// Last lap time in milliseconds.
+	/// </summary>
+	public uint LastLapTimeInMS { get; init; }
+	/// <summary>
+	/// Current time around the lap in milliseconds.
+	/// </summary>
+	public uint CurrentLapTimeInMS { get; init; }
+	/// <summary>
+	/// Sector 1 time in milliseconds.
+	/// </summary>
+	public ushort Sector1TimeInMS { get; init; }
+	/// <summary>
+	/// Sector 1 whole minute part.
+	/// </summary>
+	public byte Sector1TimeInMinutes { get; init; }
+	/// <summary>
+	/// Sector 2 time in milliseconds.
+	/// </summary>
+	public ushort Sector2TimeInMS { get; init; }
+	/// <summary>
+	/// Sector 2 whole minute part.
+	/// </summary>
+	public byte Sector2TimeInMinutes { get; init; }
+	/// <summary>
+	/// Time delta to car in front in milliseconds.
+	/// </summary>
+	public ushort DeltaToCarInFrontInMS { get; init; }
+	/// <summary>
+	/// Time delta to car in front in minutes.
+	/// </summary>
+	public byte DeltaToCarInFrontInMinutes { get; init; }
+	/// <summary>
+	/// Time delta to race leader in milliseconds.
+	/// </summary>
+	public ushort DeltaToRaceLeaderInMS { get; init; }
+	/// <summary>
+	/// Time delta to race leader in whole minutes.
+	/// </summary>
+	public byte DeltaToRaceLeaderInMinutes { get; init; }
+	/// <summary>
+	/// Distance vehicle is around current lap in metres – could be negative if line hasn’t been crossed yet.
+	/// </summary>
+	public float LapDistance { get; init; }
+	/// <summary>
+	/// Total distance travelled in session in metres – could be negative if line hasn’t been crossed yet.
+	/// </summary>
+	public float TotalDistance { get; init; }
+	/// <summary>
+	/// Delta in seconds for safety car.
+	/// </summary>
+	public float SafetyCarDelta { get; init; }
+	/// <summary>
+	/// Car race position.
+	/// </summary>
+	public byte CarPosition { get; init; }
+	/// <summary>
+	/// Current lap number.
+	/// </summary>
+	public byte CurrentLapNum { get; init; }
+	/// <summary>
+	/// Pit status
+	/// </summary>
+	public PitStatus PitStatus { get; init; }
+	/// <summary>
+	/// Number of pit stops taken in this race.
+	/// </summary>
+	public byte NumPitStops { get; init; }
+	/// <summary>
+	/// Sector.
+	/// </summary>
+	public Sector Sector { get; init; }
+	/// <summary>
+	/// Validity of the current lap.
+	/// </summary>
+	public bool CurrentLapInvalid { get; init; }
+	/// <summary>
+	/// Accumulated time penalties in seconds to be added.
+	/// </summary>
+	public byte Penalties { get; init; }
+	/// <summary>
+	/// Accumulated number of warnings issued.
+	/// </summary>
+	public byte TotalWarnings { get; init; }
+	/// <summary>
+	/// Accumulated number of corner cutting warnings issued.
+	/// </summary>
+	public byte CornerCuttingWarnings { get; init; }
+	/// <summary>
+	/// Number of drive through penalties left to serve.
+	/// </summary>
+	public byte NumUnservedDriveThroughPens { get; init; }
+	/// <summary>
+	/// Number of stop go penalties left to serve.
+	/// </summary>
+	public byte NumUnservedStopGoPens { get; init; }
+	/// <summary>
+	/// Grid position the vehicle started the race in.
+	/// </summary>
+	public byte GridPosition { get; init; }
+	/// <summary>
+	/// Status of the driver.
+	/// </summary>
 	public DriverStatus DriverStatus { get; init; }
+	/// <summary>
+	/// Result status of the driver.
+	/// </summary>
 	public ResultStatus ResultStatus { get; init; }
-	public bool PitLaneTimerActive { get; init; } // Pit lane timing, 0 = inactive, 1 = active
-	public ushort PitLaneTimeInLaneInMS { get; init; } // If active, the current time spent in the pit lane in ms
-	public ushort PitStopTimerInMS { get; init; } // Time of the actual pit stop in ms
-	public bool PitStopShouldServePen { get; init; } // Whether the car should serve a penalty at this stop
-	public float SpeedTrapFastestSpeed { get; init; } // Fastest speed through speed trap for this car in kmph
-	public byte SpeedTrapFastestLap { get; init; } // Lap no the fastest speed was achieved, 255 = not set
+	/// <summary>
+	/// Pit lane timer status
+	/// </summary>
+	public bool PitLaneTimerActive { get; init; }
+	/// <summary>
+	/// If active, the current time spent in the pit lane in milliseconds.
+	/// </summary>
+	public ushort PitLaneTimeInLaneInMS { get; init; }
+	/// <summary>
+	/// Time of the actual pit stop in milliseconds.
+	/// </summary>
+	public ushort PitStopTimerInMS { get; init; }
+	/// <summary>
+	/// Whether the car should serve a penalty at this stop.
+	/// </summary>
+	public bool PitStopShouldServePen { get; init; }
+	/// <summary>
+	/// Fastest speed through speed trap for this car in km/h.
+	/// </summary>
+	public float SpeedTrapFastestSpeed { get; init; }
+	/// <summary>
+	/// Lap number the fastest speed was achieved, 255 = not set.
+	/// </summary>
+	public byte SpeedTrapFastestLap { get; init; }
 
 	static LapData IByteParsable<LapData>.Parse(ref BytesReader reader)
 	{

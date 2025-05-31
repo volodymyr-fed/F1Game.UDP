@@ -73,7 +73,7 @@ sealed class PacketReaderFixture
 			.With(x => x.CarDamageData, fixture.CreateMany<CarDamageData>(22).ToArray())
 			.Create();
 
-		var bytes = new byte[CarDamageDataPacket.Size];
+		var bytes = new byte[GetSize<CarDamageDataPacket>()];
 		var writer = new BytesWriter(bytes);
 		writer.Write(packet);
 
@@ -89,7 +89,7 @@ sealed class PacketReaderFixture
 			.With(x => x.CarSetups, fixture.CreateMany<CarSetupData>(22).ToArray())
 			.Create();
 
-		var bytes = new byte[CarSetupDataPacket.Size];
+		var bytes = new byte[GetSize<CarSetupDataPacket>()];
 		var writer = new BytesWriter(bytes);
 		writer.Write(packet);
 
@@ -105,7 +105,7 @@ sealed class PacketReaderFixture
 			.With(x => x.CarStatusData, fixture.CreateMany<CarStatusData>(22).ToArray())
 			.Create();
 
-		var bytes = new byte[CarStatusDataPacket.Size];
+		var bytes = new byte[GetSize<CarStatusDataPacket>()];
 		var writer = new BytesWriter(bytes);
 		writer.Write(packet);
 
@@ -121,7 +121,7 @@ sealed class PacketReaderFixture
 			.With(x => x.CarTelemetryData, fixture.CreateMany<CarTelemetryData>(22).ToArray())
 			.Create();
 
-		var bytes = new byte[CarTelemetryDataPacket.Size];
+		var bytes = new byte[GetSize<CarTelemetryDataPacket>()];
 		var writer = new BytesWriter(bytes);
 		writer.Write(packet);
 
@@ -176,7 +176,7 @@ sealed class PacketReaderFixture
 			.With(x => x.EventDetails, eventDetails)
 			.Create();
 
-		var bytes = new byte[EventDataPacket.Size];
+		var bytes = new byte[GetSize<EventDataPacket>()];
 		var writer = new BytesWriter(bytes);
 		writer.Write(packet);
 
@@ -199,7 +199,7 @@ sealed class PacketReaderFixture
 			.With(x => x.ClassificationData, classificationData)
 			.Create();
 
-		var bytes = new byte[FinalClassificationDataPacket.Size];
+		var bytes = new byte[GetSize<FinalClassificationDataPacket>()];
 		var writer = new BytesWriter(bytes);
 		writer.Write(packet);
 
@@ -215,7 +215,7 @@ sealed class PacketReaderFixture
 			.With(x => x.LapData, fixture.CreateMany<LapData>(22).ToArray())
 			.Create();
 
-		var bytes = new byte[LapDataPacket.Size];
+		var bytes = new byte[GetSize<LapDataPacket>()];
 		var writer = new BytesWriter(bytes);
 		writer.Write(packet);
 
@@ -236,7 +236,7 @@ sealed class PacketReaderFixture
 			.With(x => x.LobbyPlayers, lobbyPlayers)
 			.Create();
 
-		var bytes = new byte[LobbyInfoDataPacket.Size];
+		var bytes = new byte[GetSize<LobbyInfoDataPacket>()];
 		var writer = new BytesWriter(bytes);
 		writer.Write(packet);
 
@@ -252,7 +252,7 @@ sealed class PacketReaderFixture
 			.With(x => x.CarMotionData, fixture.CreateMany<CarMotionData>(22).ToArray())
 			.Create();
 
-		var bytes = new byte[MotionDataPacket.Size];
+		var bytes = new byte[GetSize<MotionDataPacket>()];
 		var writer = new BytesWriter(bytes);
 		writer.Write(packet);
 
@@ -267,7 +267,7 @@ sealed class PacketReaderFixture
 		UnionPacket packet = BuildPacket<MotionExDataPacket>()
 			.Create();
 
-		var bytes = new byte[MotionExDataPacket.Size];
+		var bytes = new byte[GetSize<MotionExDataPacket>()];
 		var writer = new BytesWriter(bytes);
 		writer.Write(packet);
 
@@ -288,7 +288,7 @@ sealed class PacketReaderFixture
 			.With(x => x.Participants, participants)
 			.Create();
 
-		var bytes = new byte[ParticipantsDataPacket.Size];
+		var bytes = new byte[GetSize<ParticipantsDataPacket>()];
 		var writer = new BytesWriter(bytes);
 		writer.Write(packet);
 
@@ -306,7 +306,7 @@ sealed class PacketReaderFixture
 			.With(x => x.WeekendStructure, fixture.CreateMany<SessionType>(12).ToArray())
 			.Create();
 
-		var bytes = new byte[SessionDataPacket.Size];
+		var bytes = new byte[GetSize<SessionDataPacket>()];
 		var writer = new BytesWriter(bytes);
 		writer.Write(packet);
 
@@ -323,7 +323,7 @@ sealed class PacketReaderFixture
 			.With(x => x.TyreStintsHistoryData, fixture.CreateMany<TyreStintHistoryData>(8).ToArray())
 			.Create();
 
-		var bytes = new byte[SessionHistoryDataPacket.Size];
+		var bytes = new byte[GetSize<SessionHistoryDataPacket>()];
 		var writer = new BytesWriter(bytes);
 		writer.Write(packet);
 
@@ -339,7 +339,7 @@ sealed class PacketReaderFixture
 			.With(x => x.TyreSetDatas, fixture.CreateMany<TyreSetData>(20).ToArray())
 			.Create();
 
-		var bytes = new byte[TyreSetsDataPacket.Size];
+		var bytes = new byte[GetSize<TyreSetsDataPacket>()];
 		var writer = new BytesWriter(bytes);
 		writer.Write(packet);
 
@@ -353,7 +353,7 @@ sealed class PacketReaderFixture
 	{
 		UnionPacket packet = BuildPacket<TimeTrialDataPacket>().Create();
 
-		var bytes = new byte[TimeTrialDataPacket.Size];
+		var bytes = new byte[GetSize<TimeTrialDataPacket>()];
 		var writer = new BytesWriter(bytes);
 		writer.Write(packet);
 
@@ -391,6 +391,8 @@ sealed class PacketReaderFixture
 			.With(x => x.Header, header);
 	}
 
+	static int GetSize<T>() where T : ISizeable => T.Size;
+
 	static EquivalencyOptions<UnionPacket> Configure(EquivalencyOptions<UnionPacket> options)
-		=> options.IncludingInternalFields();
+		=> options.ComparingRecordsByValue();
 }

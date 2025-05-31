@@ -1,10 +1,7 @@
-﻿using System.Buffers.Binary;
+﻿using BenchmarkDotNet.Attributes;
 
-using BenchmarkDotNet.Attributes;
-
-using F1Game.UDP.Data;
+using F1Game.UDP.Benchmarks.Helpers;
 using F1Game.UDP.Enums;
-using F1Game.UDP.Events;
 using F1Game.UDP.Packets;
 
 namespace F1Game.UDP.Benchmarks;
@@ -28,7 +25,7 @@ public class InternalBenchmark
 		PacketType.SessionHistory,
 		PacketType.TyreSets,
 		PacketType.TimeTrial
-		])]
+	])]
 	public PacketType Type { get; set; }
 
 	byte[] data = [];
@@ -36,33 +33,7 @@ public class InternalBenchmark
 	[GlobalSetup]
 	public void GlobalSetup()
 	{
-		var size = Type switch
-		{
-			PacketType.Motion => MotionDataPacket.Size,
-			PacketType.Session => SessionDataPacket.Size,
-			PacketType.LapData => LapDataPacket.Size,
-			PacketType.Event => EventDataPacket.Size,
-			PacketType.Participants => ParticipantsDataPacket.Size,
-			PacketType.CarSetups => CarSetupDataPacket.Size,
-			PacketType.CarTelemetry => CarTelemetryDataPacket.Size,
-			PacketType.CarStatus => CarStatusDataPacket.Size,
-			PacketType.FinalClassification => FinalClassificationDataPacket.Size,
-			PacketType.LobbyInfo => LobbyInfoDataPacket.Size,
-			PacketType.CarDamage => CarDamageDataPacket.Size,
-			PacketType.SessionHistory => SessionHistoryDataPacket.Size,
-			PacketType.TyreSets => TyreSetsDataPacket.Size,
-			PacketType.MotionEx => MotionExDataPacket.Size,
-			PacketType.TimeTrial => TimeTrialDataPacket.Size,
-			_ => throw new NotImplementedException()
-		};
-
-		data = new byte[size];
-
-		new Random(42).NextBytes(data);
-		data[6] = (byte)Type;
-
-		if (Type == PacketType.Event)
-			BinaryPrimitives.WriteUInt32LittleEndian(data.AsSpan()[PacketHeader.Size..], (uint) EventType.SpeedTrapTriggered);
+		data = PacketGenerator.GeneratePacket(Type);
 	}
 
 	[Benchmark]

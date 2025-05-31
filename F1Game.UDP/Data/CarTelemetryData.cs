@@ -2,25 +2,75 @@
 
 namespace F1Game.UDP.Data;
 
-[StructLayout(LayoutKind.Sequential, Pack = 1, Size = 60)]
-public readonly record struct CarTelemetryData() : IByteParsable<CarTelemetryData>, IByteWritable
+[StructLayout(LayoutKind.Sequential, Pack = 1)]
+public readonly record struct CarTelemetryData() : IByteParsable<CarTelemetryData>, IByteWritable, ISizeable
 {
-	public ushort Speed { get; init; } // Speed of car in kilometres per hour
-	public float Throttle { get; init; } // Amount of throttle applied (0.0 to 1.0)
-	public float Steer { get; init; } // Steering (-1.0 (full lock left) to 1.0 (full lock right))
-	public float Brake { get; init; } // Amount of brake applied (0.0 to 1.0)
-	public byte Clutch { get; init; } // Amount of clutch applied (0 to 100)
-	public sbyte Gear { get; init; } // Gear selected (1-8, N=0, R=-1)
-	public ushort EngineRPM { get; init; } // Engine RPM
-	public bool IsDrsOn { get; init; } // 0 = off, 1 = on
-	public byte RevLightsPercent { get; init; } // Rev lights indicator (percentage)
-	public ushort RevLightsBitValue { get; init; } // Rev lights (bit 0 = leftmost LED, bit 14 = rightmost LED)
-	public Tyres<ushort> BrakesTemperature { get; init; } // Brakes temperature (celsius)
-	public Tyres<byte> TyresSurfaceTemperature { get; init; } // Tyres surface temperature (celsius)
-	public Tyres<byte> TyresInnerTemperature { get; init; } // Tyres inner temperature (celsius)
-	public ushort EngineTemperature { get; init; } // Engine temperature (celsius)
-	public Tyres<float> TyresPressure { get; init; } // Tyres pressure (PSI)
-	public Tyres<Surface> SurfaceType { get; init; } // Driving surface, see appendices
+	static int ISizeable.Size => 60;
+
+	/// <summary>
+	/// Speed of car in kilometres per hour.
+	/// </summary>
+	public ushort Speed { get; init; }
+	/// <summary>
+	/// Amount of throttle applied (0.0 to 1.0).
+	/// </summary>
+	public float Throttle { get; init; }
+	/// <summary>
+	/// Steering (-1.0 (full lock left) to 1.0 (full lock right)).
+	/// </summary>
+	public float Steer { get; init; }
+	/// <summary>
+	/// Amount of brake applied (0.0 to 1.0).
+	/// </summary>
+	public float Brake { get; init; }
+	/// <summary>
+	/// Amount of clutch applied (0 to 100).
+	/// </summary>
+	public byte Clutch { get; init; }
+	/// <summary>
+	/// Gear selected (1-8, N=0, R=-1).
+	/// </summary>
+	public sbyte Gear { get; init; }
+	/// <summary>
+	/// Engine RPM.
+	/// </summary>
+	public ushort EngineRPM { get; init; }
+	/// <summary>
+	/// DRS status
+	/// </summary>
+	public bool IsDrsOn { get; init; }
+	/// <summary>
+	/// Rev lights indicator (percentage).
+	/// </summary>
+	public byte RevLightsPercent { get; init; }
+	/// <summary>
+	/// Rev lights (bit 0 = leftmost LED, bit 14 = rightmost LED).
+	/// </summary>
+	public ushort RevLightsBitValue { get; init; }
+	/// <summary>
+	/// Brakes temperature (celsius).
+	/// </summary>
+	public Tyres<ushort> BrakesTemperature { get; init; }
+	/// <summary>
+	/// Tyres surface temperature (celsius).
+	/// </summary>
+	public Tyres<byte> TyresSurfaceTemperature { get; init; }
+	/// <summary>
+	/// Tyres inner temperature (celsius).
+	/// </summary>
+	public Tyres<byte> TyresInnerTemperature { get; init; }
+	/// <summary>
+	/// Engine temperature (celsius).
+	/// </summary>
+	public ushort EngineTemperature { get; init; }
+	/// <summary>
+	/// Tyres pressure (PSI).
+	/// </summary>
+	public Tyres<float> TyresPressure { get; init; }
+	/// <summary>
+	/// Driving surface, see appendices.
+	/// </summary>
+	public Tyres<Surface> SurfaceType { get; init; }
 
 	static CarTelemetryData IByteParsable<CarTelemetryData>.Parse(ref BytesReader reader)
 	{

@@ -2,12 +2,23 @@
 
 namespace F1Game.UDP.Data;
 
-[StructLayout(LayoutKind.Sequential, Pack = 1, Size = 3)]
-public readonly record struct TyreStintHistoryData() : IByteParsable<TyreStintHistoryData>, IByteWritable
+[StructLayout(LayoutKind.Sequential, Pack = 1)]
+public readonly record struct TyreStintHistoryData() : IByteParsable<TyreStintHistoryData>, IByteWritable, ISizeable
 {
-	public byte EndLap { get; init; } // Lap the tyre usage ends on (255 of current tyre)
-	public ActualCompound TyreActualCompound { get; init; } // Actual tyres used by this driver
-	public VisualCompound TyreVisualCompound { get; init; } // Visual tyres used by this driver
+	static int ISizeable.Size => 3;
+
+	/// <summary>
+	/// Gets the lap the tyre usage ends on (255 if current tyre).
+	/// </summary>
+	public byte EndLap { get; init; }
+	/// <summary>
+	/// Gets the actual compound of tyres used by this driver.
+	/// </summary>
+	public ActualCompound TyreActualCompound { get; init; }
+	/// <summary>
+	/// Gets the visual compound of tyres used by this driver.
+	/// </summary>
+	public VisualCompound TyreVisualCompound { get; init; }
 
 	static TyreStintHistoryData IByteParsable<TyreStintHistoryData>.Parse(ref BytesReader reader)
 	{

@@ -2,15 +2,28 @@
 
 namespace F1Game.UDP.Packets;
 
-[StructLayout(LayoutKind.Sequential, Pack = 1, Size = 101)]
+/// <summary>
+/// The time trial data gives extra information only relevant to time trial game mode. This packet will not be sent in other game modes.
+/// <para>Frequency: 1 per second</para>
+/// </summary>
+[StructLayout(LayoutKind.Sequential, Pack = 1)]
 public readonly record struct TimeTrialDataPacket() : IByteParsable<TimeTrialDataPacket>, IByteWritable, ISizeable, IHaveHeader
 {
-	public static int Size => 101;
+	static int ISizeable.Size => 101;
 
-	public PacketHeader Header { get; init; } = PacketHeader.Empty;
-	public TimeTrialDataSet PlayerSessionBestDataSet { get; init; } // Player session best data set
-	public TimeTrialDataSet PersonalBestDataSet { get; init; } // Personal best data set
-	public TimeTrialDataSet RivalDataSet { get; init; } // Rival data set
+	public PacketHeader Header { get; init; }
+	/// <summary>
+	/// Player session best data set
+	/// </summary>
+	public TimeTrialDataSet PlayerSessionBestDataSet { get; init; }
+	/// <summary>
+	/// Personal best data set
+	/// </summary>
+	public TimeTrialDataSet PersonalBestDataSet { get; init; }
+	/// <summary>
+	/// Rival data set
+	/// </summary>
+	public TimeTrialDataSet RivalDataSet { get; init; }
 
 	static TimeTrialDataPacket IByteParsable<TimeTrialDataPacket>.Parse(ref BytesReader reader)
 	{

@@ -2,26 +2,68 @@
 
 namespace F1Game.UDP.Data;
 
-[StructLayout(LayoutKind.Sequential, Pack = 1, Size = 29)]
+[StructLayout(LayoutKind.Sequential, Pack = 1)]
 public readonly record struct PacketHeader() : IByteParsable<PacketHeader>, ISizeable, IByteWritable
 {
-	public static readonly PacketHeader Empty = new();
 	internal const int PacketTypeIndex = 6;
 
-	public static int Size => 29;
+	internal static int Size => 29;
 
-	public ushort PacketFormat { get; init; } // 2023
+	static int ISizeable.Size => Size;
+
+	/// <summary>
+	/// Packet format, current version is 2024
+	/// </summary>
+	public ushort PacketFormat { get; init; }
+	/// <summary>
+	/// Game year - last two digits e.g. 24
+	/// <para>Example: <c>24</c> for 2024</para>
+	/// </summary>
 	public byte GameYear { get; init; }
-	public byte GameMajorVersion { get; init; } // Game major version - "X.00"
-	public byte GameMinorVersion { get; init; } // Game minor version - "1.XX"
-	public byte PacketVersion { get; init; } // Version of this packet type, all start from 1
-	public PacketType PacketType { get; init; } // Identifier for the packet type, see below
-	public ulong SessionUID { get; init; } // Unique identifier for the session
-	public float SessionTime { get; init; } // Session timestamp
-	public uint FrameIdentifier { get; init; } // Identifier for the frame the data was retrieved on
-	public uint OverallFrameIdentifier { get; init; } // Identifier for the frame the data was retrieved on
-	public byte PlayerCarIndex { get; init; } // Index of player's car in the array
-	public byte SecondaryPlayerCarIndex { get; init; } // Index of secondary player's car in the array (splitscreen) 255 if no second player
+	/// <summary>
+	/// Game major version - "X.00"
+	/// <para>Example: <c>1</c> for version 1.00</para>
+	/// </summary>
+	public byte GameMajorVersion { get; init; }
+	/// <summary>
+	/// Game minor version - "1.XX"
+	/// <para>Example: <c>15</c> for version 1.15</para>
+	/// </summary>
+	public byte GameMinorVersion { get; init; }
+	/// <summary>
+	/// Version of this packet type, all start from 1
+	/// <para>Example: <c>1</c></para>
+	/// </summary>
+	public byte PacketVersion { get; init; }
+	/// <summary>
+	/// Identifier for the packet type <see cref="Enums.PacketType"/>
+	/// </summary>
+	public PacketType PacketType { get; init; }
+	/// <summary>
+	/// Unique identifier for the session
+	/// </summary>
+	public ulong SessionUID { get; init; }
+	/// <summary>
+	/// Session timestamp
+	/// </summary>
+	public float SessionTime { get; init; }
+	/// <summary>
+	/// Identifier for the frame the data was retrieved on
+	/// </summary>
+	public uint FrameIdentifier { get; init; }
+	/// <summary>
+	/// Overall identifier for the frame the data was retrieved on, doesn't go back after flashbacks
+	/// </summary>
+	public uint OverallFrameIdentifier { get; init; }
+	/// <summary>
+	/// Index of player's car in the array
+	/// </summary>
+	public byte PlayerCarIndex { get; init; }
+	/// <summary>
+	/// Index of secondary player's car in the array (splitscreen)
+	/// <para><c>255</c> if no second player</para>
+	/// </summary>
+	public byte SecondaryPlayerCarIndex { get; init; }
 
 	static PacketHeader IByteParsable<PacketHeader>.Parse(ref BytesReader reader)
 	{

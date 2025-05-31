@@ -2,11 +2,16 @@
 
 namespace F1Game.UDP.Packets;
 
-[StructLayout(LayoutKind.Sequential, Pack = 1, Size = 1239)]
+/// <summary>
+/// This packet details car statuses for all the cars in the race.
+/// <para>Frequency: Rate as specified in menus</para>
+/// </summary>
+[StructLayout(LayoutKind.Sequential, Pack = 1)]
 public readonly record struct CarStatusDataPacket() : IByteParsable<CarStatusDataPacket>, ISizeable, IByteWritable, IHaveHeader
 {
-	public static int Size => 1239;
-	public PacketHeader Header { get; init; } = PacketHeader.Empty; // Header
+	static int ISizeable.Size => 1239;
+
+	public PacketHeader Header { get; init; }
 	public Array22<CarStatusData> CarStatusData { get; init; }
 
 	static CarStatusDataPacket IByteParsable<CarStatusDataPacket>.Parse(ref BytesReader reader)

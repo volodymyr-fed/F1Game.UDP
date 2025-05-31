@@ -1,29 +1,94 @@
 ﻿namespace F1Game.UDP.Data;
 
-[StructLayout(LayoutKind.Sequential, Pack = 1, Size = 42)]
-public readonly record struct CarDamageData() : IByteParsable<CarDamageData>, IByteWritable
+[StructLayout(LayoutKind.Sequential, Pack = 1)]
+public readonly record struct CarDamageData() : IByteParsable<CarDamageData>, IByteWritable, ISizeable
 {
-	public Tyres<float> TyresWear { get; init; } // Tyre wear (percentage)
-	public Tyres<byte> TyresDamage { get; init; } // Tyre damage (percentage)
-	public Tyres<byte> BrakesDamage { get; init; } // Brakes damage (percentage)
-	public byte FrontLeftWingDamage { get; init; } // Front left wing damage (percentage)
-	public byte FrontRightWingDamage { get; init; } // Front right wing damage (percentage)
-	public byte RearWingDamage { get; init; } // Rear wing damage (percentage)
-	public byte FloorDamage { get; init; } // Floor damage (percentage)
-	public byte DiffuserDamage { get; init; } // Diffuser damage (percentage)
-	public byte SidepodDamage { get; init; } // Sidepod damage (percentage)
-	public bool DrsFault { get; init; } // Indicator for DRS fault, 0 = OK, 1 = fault
-	public bool ErsFault { get; init; } // Indicator for ERS fault, 0 = OK, 1 = fault
-	public byte GearBoxDamage { get; init; } // Gear box damage (percentage)
-	public byte EngineDamage { get; init; } // Engine damage (percentage)
-	public byte EngineMGUHWear { get; init; } // Engine wear MGU-H (percentage)
-	public byte EngineESWear { get; init; } // Engine wear ES (percentage)
-	public byte EngineCEWear { get; init; } // Engine wear CE (percentage)
-	public byte EngineICEWear { get; init; } // Engine wear ICE (percentage)
-	public byte EngineMGUKWear { get; init; } // Engine wear MGU-K (percentage)
-	public byte EngineTCWear { get; init; } // Engine wear TC (percentage)
-	public bool EngineBlown { get; init; } // Engine blown, 0 = OK, 1 = fault
-	public bool EngineSeized { get; init; } // Engine seized, 0 = OK, 1 = fault
+	static int ISizeable.Size => 42;
+
+	/// <summary>
+	/// Tyre wear (percentage).
+	/// </summary>
+	public Tyres<float> TyresWear { get; init; }
+	/// <summary>
+	/// Tyre damage (percentage).
+	/// </summary>
+	public Tyres<byte> TyresDamage { get; init; }
+	/// <summary>
+	/// Brakes damage (percentage).
+	/// </summary>
+	public Tyres<byte> BrakesDamage { get; init; }
+	/// <summary>
+	/// Front left wing damage (percentage).
+	/// </summary>
+	public byte FrontLeftWingDamage { get; init; }
+	/// <summary>
+	/// Front right wing damage (percentage).
+	/// </summary>
+	public byte FrontRightWingDamage { get; init; }
+	/// <summary>
+	/// Rear wing damage (percentage).
+	/// </summary>
+	public byte RearWingDamage { get; init; }
+	/// <summary>
+	/// Floor damage (percentage).
+	/// </summary>
+	public byte FloorDamage { get; init; }
+	/// <summary>
+	/// Diffuser damage (percentage).
+	/// </summary>
+	public byte DiffuserDamage { get; init; }
+	/// <summary>
+	/// Sidepod damage (percentage).
+	/// </summary>
+	public byte SidepodDamage { get; init; }
+	/// <summary>
+	/// Indicator for DRS fault
+	/// </summary>
+	public bool DrsFault { get; init; }
+	/// <summary>
+	/// Indicator for ERS fault
+	/// </summary>
+	public bool ErsFault { get; init; }
+	/// <summary>
+	/// Gear box damage (percentage).
+	/// </summary>
+	public byte GearBoxDamage { get; init; }
+	/// <summary>
+	/// Engine damage (percentage).
+	/// </summary>
+	public byte EngineDamage { get; init; }
+	/// <summary>
+	/// Engine wear MGU-H (percentage).
+	/// </summary>
+	public byte EngineMGUHWear { get; init; }
+	/// <summary>
+	/// Engine wear ES (percentage).
+	/// </summary>
+	public byte EngineESWear { get; init; }
+	/// <summary>
+	/// Engine wear CE (percentage).
+	/// </summary>
+	public byte EngineCEWear { get; init; }
+	/// <summary>
+	/// Engine wear ICE (percentage).
+	/// </summary>
+	public byte EngineICEWear { get; init; }
+	/// <summary>
+	/// Engine wear MGU-K (percentage).
+	/// </summary>
+	public byte EngineMGUKWear { get; init; }
+	/// <summary>
+	/// Engine wear TC (percentage).
+	/// </summary>
+	public byte EngineTCWear { get; init; }
+	/// <summary>
+	/// Engine blown
+	/// </summary>
+	public bool EngineBlown { get; init; }
+	/// <summary>
+	/// Engine seized
+	/// </summary>
+	public bool EngineSeized { get; init; }
 
 	static CarDamageData IByteParsable<CarDamageData>.Parse(ref BytesReader reader)
 	{

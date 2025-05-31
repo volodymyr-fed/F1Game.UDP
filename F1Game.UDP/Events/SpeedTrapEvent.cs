@@ -1,15 +1,34 @@
 ﻿namespace F1Game.UDP.Events;
 
-[StructLayout(LayoutKind.Sequential, Pack = 1, Size = 12)]
-public readonly record struct SpeedTrapEvent() : IByteParsable<SpeedTrapEvent>, IByteWritable
+[StructLayout(LayoutKind.Sequential, Pack = 1)]
+public readonly record struct SpeedTrapEvent() : IByteParsable<SpeedTrapEvent>, IByteWritable, ISizeable
 {
-	public byte VehicleIdx { get; init; } // Vehicle index of the vehicle triggering speed trap
-	public float Speed { get; init; } // Top speed achieved in kilometres per hour
-	public bool IsOverallFastestInSession { get; init; } // Overall fastest speed in session = 1, otherwise 0
-	public bool IsDriverFastestInSession { get; init; } // Fastest speed for driver in session = 1, otherwise 0
-	public byte FastestVehicleIdxInSession { get; init; }// Vehicle index of the vehicle that is the fastest
-														 // in this session
-	public float FastestSpeedInSession { get; init; } // Speed of the vehicle that is the fastest in this session
+	static int ISizeable.Size => 12;
+
+	/// <summary>
+	/// Vehicle index of the vehicle triggering speed trap
+	/// </summary>
+	public byte VehicleIdx { get; init; }
+	/// <summary>
+	/// Top speed achieved in kilometres per hour
+	/// </summary>
+	public float Speed { get; init; }
+	/// <summary>
+	/// Is overall fastest speed in session
+	/// </summary>
+	public bool IsOverallFastestInSession { get; init; }
+	/// <summary>
+	/// Is fastest speed for driver in session
+	/// </summary>
+	public bool IsDriverFastestInSession { get; init; }
+	/// <summary>
+	/// Vehicle index of the vehicle that is the fastest in this session
+	/// </summary>
+	public byte FastestVehicleIdxInSession { get; init; }
+	/// <summary>
+	/// Speed of the vehicle that is the fastest in this session
+	/// </summary>
+	public float FastestSpeedInSession { get; init; }
 
 	static SpeedTrapEvent IByteParsable<SpeedTrapEvent>.Parse(ref BytesReader reader)
 	{

@@ -2,11 +2,20 @@
 
 namespace F1Game.UDP.Data;
 
-[StructLayout(LayoutKind.Sequential, Pack = 1, Size = 5)]
-public readonly record struct MarshalZone() : IByteParsable<MarshalZone>, IByteWritable
+[StructLayout(LayoutKind.Sequential, Pack = 1)]
+public readonly record struct MarshalZone() : IByteParsable<MarshalZone>, IByteWritable, ISizeable
 {
-	public float ZoneStart { get; init; } // Fraction (0..1) of way through the lap the marshal zone starts
-	public FiaFlag ZoneFlag { get; init; } // -1 = invalid/unknown, 0 = none, 1 = green, 2 = blue, 3 = yellow
+	/// <inheritdoc/>
+	static int ISizeable.Size => 5;
+
+	/// <summary>
+	/// Fraction (0..1) of way through the lap the marshal zone starts.
+	/// </summary>
+	public float ZoneStart { get; init; }
+	/// <summary>
+	/// The flag status of the marshal zone.
+	/// </summary>
+	public FiaFlag ZoneFlag { get; init; }
 
 	static MarshalZone IByteParsable<MarshalZone>.Parse(ref BytesReader reader)
 	{

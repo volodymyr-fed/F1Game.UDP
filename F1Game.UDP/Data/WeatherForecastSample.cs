@@ -2,27 +2,42 @@
 
 namespace F1Game.UDP.Data;
 
-[StructLayout(LayoutKind.Sequential, Pack = 1, Size = 8)]
-public readonly record struct WeatherForecastSample() : IByteParsable<WeatherForecastSample>, IByteWritable
+[StructLayout(LayoutKind.Sequential, Pack = 1)]
+public readonly record struct WeatherForecastSample() : IByteParsable<WeatherForecastSample>, IByteWritable, ISizeable
 {
-	// 0 = unknown, 1 = P1, 2 = P2, 3 = P3, 4 = Short P, 5 = Q1
-	// 6 = Q2, 7 = Q3, 8 = Short Q, 9 = OSQ, 10 = R, 11 = R2
-	// 12 = R3, 13 = Time Trial
+	static int ISizeable.Size => 8;
+
+	/// <summary>
+	/// The session type.
+	/// </summary>
 	public SessionType SessionType { get; init; }
-	// Time in minutes the forecast is for
+	/// <summary>
+	/// Time in minutes the forecast is for.
+	/// </summary>
 	public byte TimeOffset { get; init; }
-	// Weather - 0 = clear, 1 = light cloud, 2 = overcast
-	// 3 = light rain, 4 = heavy rain, 5 = storm
+	/// <summary>
+	/// The weather condition.
+	/// </summary>
 	public Weather Weather { get; init; }
-	// Track temp. in degrees Celsius
+	/// <summary>
+	/// Track temperature in degrees Celsius.
+	/// </summary>
 	public sbyte TrackTemperature { get; init; }
-	// Track temp. change – 0 = up, 1 = down, 2 = no change
-	public sbyte TrackTemperatureChange { get; init; }
-	// Air temp. in degrees celsius
+	/// <summary>
+	/// Track temperature change.
+	/// </summary>
+	public TemperatureChange TrackTemperatureChange { get; init; }
+	/// <summary>
+	/// Air temperature in degrees Celsius.
+	/// </summary>
 	public sbyte AirTemperature { get; init; }
-	// Air temp. change – 0 = up, 1 = down, 2 = no change
-	public sbyte AirTemperatureChange { get; init; }
-	// Rain percentage (0-100)
+	/// <summary>
+	/// Air temperature change.
+	/// </summary>
+	public TemperatureChange AirTemperatureChange { get; init; }
+	/// <summary>
+	/// Rain percentage (0-100).
+	/// </summary>
 	public byte RainPercentage { get; init; }
 
 	static WeatherForecastSample IByteParsable<WeatherForecastSample>.Parse(ref BytesReader reader)
@@ -33,9 +48,9 @@ public readonly record struct WeatherForecastSample() : IByteParsable<WeatherFor
 			TimeOffset = reader.GetNextByte(),
 			Weather = reader.GetNextEnum<Weather>(),
 			TrackTemperature = reader.GetNextSbyte(),
-			TrackTemperatureChange = reader.GetNextSbyte(),
+			TrackTemperatureChange = reader.GetNextEnum<TemperatureChange>(),
 			AirTemperature = reader.GetNextSbyte(),
-			AirTemperatureChange = reader.GetNextSbyte(),
+			AirTemperatureChange = reader.GetNextEnum<TemperatureChange>(),
 			RainPercentage = reader.GetNextByte()
 		};
 	}
@@ -46,9 +61,9 @@ public readonly record struct WeatherForecastSample() : IByteParsable<WeatherFor
 		writer.Write(TimeOffset);
 		writer.WriteEnum(Weather);
 		writer.Write(TrackTemperature);
-		writer.Write(TrackTemperatureChange);
+		writer.WriteEnum(TrackTemperatureChange);
 		writer.Write(AirTemperature);
-		writer.Write(AirTemperatureChange);
+		writer.WriteEnum(AirTemperatureChange);
 		writer.Write(RainPercentage);
 	}
 }

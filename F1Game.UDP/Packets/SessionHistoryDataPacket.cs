@@ -2,21 +2,55 @@
 
 namespace F1Game.UDP.Packets;
 
-[StructLayout(LayoutKind.Sequential, Pack = 1, Size = 1460)]
+/// <summary>
+/// This packet contains lap times and tyre usage for the session.
+/// <para>
+/// This packet works slightly differently to other packets.
+/// To reduce CPU and bandwidth, each packet relates to a specific vehicle and is sent every 1/20 s, and the vehicle being sent is cycled through.
+/// Therefore in a 20 car race you should receive an update for each vehicle at least once per second.
+/// </para>
+/// <para>
+/// Note that at the end of the race, after the final classification packet has been sent,
+/// a final bulk update of all the session histories for the vehicles in that session will be sent.
+/// </para>
+/// <para>Frequency: 20 per second but cycling through cars</para>
+/// </summary>
+[StructLayout(LayoutKind.Sequential, Pack = 1)]
 public readonly record struct SessionHistoryDataPacket() : IByteParsable<SessionHistoryDataPacket>, ISizeable, IByteWritable, IHaveHeader
 {
-	public static int Size => 1460;
+	static int ISizeable.Size => 1460;
 
-	public PacketHeader Header { get; init; } = PacketHeader.Empty; // Header
-	public byte CarIndex { get; init; } // Index of the car this lap data relates to
-	public byte NumLaps { get; init; } // Num laps in the data (including current partial lap)
-	public byte NumTyreStints { get; init; } // Number of tyre stints in the data
-	public byte BestLapTimeLapNum { get; init; } // Lap the best lap time was achieved on
-	public byte BestSector1LapNum { get; init; } // Lap the best Sector 1 time was achieved on
-	public byte BestSector2LapNum { get; init; } // Lap the best Sector 2 time was achieved on
-	public byte BestSector3LapNum { get; init; } // Lap the best Sector 3 time was achieved on
-	public Array100<LapHistoryData> LapHistoryData { get; init; } // 100 laps of data max
-	public Array8<TyreStintHistoryData> TyreStintsHistoryData { get; init; } // max 8
+	public PacketHeader Header { get; init; }
+	/// <summary>
+	/// Index of the car this lap data relates to
+	/// </summary>
+	public byte CarIndex { get; init; }
+	/// <summary>
+	/// Num laps in the data (including current partial lap)
+	/// </summary>
+	public byte NumLaps { get; init; }
+	/// <summary>
+	/// Number of tyre stints in the data
+	/// </summary>
+	public byte NumTyreStints { get; init; }
+	/// <summary>
+	/// Lap the best lap time was achieved on
+	/// </summary>
+	public byte BestLapTimeLapNum { get; init; }
+	/// <summary>
+	/// Lap the best Sector 1 time was achieved on
+	/// </summary>
+	public byte BestSector1LapNum { get; init; }
+	/// <summary>
+	/// Lap the best Sector 2 time was achieved on
+	/// </summary>
+	public byte BestSector2LapNum { get; init; }
+	/// <summary>
+	/// Lap the best Sector 3 time was achieved on
+	/// </summary>
+	public byte BestSector3LapNum { get; init; }
+	public Array100<LapHistoryData> LapHistoryData { get; init; }
+	public Array8<TyreStintHistoryData> TyreStintsHistoryData { get; init; }
 
 	static SessionHistoryDataPacket IByteParsable<SessionHistoryDataPacket>.Parse(ref BytesReader reader)
 	{

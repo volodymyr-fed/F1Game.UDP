@@ -2,25 +2,67 @@
 
 namespace F1Game.UDP.Data;
 
-[StructLayout(LayoutKind.Sequential, Pack = 1, Size = 45)]
-public readonly record struct FinalClassificationData() : IByteParsable<FinalClassificationData>, IByteWritable
+[StructLayout(LayoutKind.Sequential, Pack = 1)]
+public readonly record struct FinalClassificationData() : IByteParsable<FinalClassificationData>, IByteWritable, ISizeable
 {
-	public byte Position { get; init; } // Finishing position
-	public byte NumLaps { get; init; } // Number of laps completed
-	public byte GridPosition { get; init; } // Grid position of the car
-	public byte Points { get; init; } // Number of points scored
-	public byte NumPitStops { get; init; } // Number of pit stops made
-	public ResultStatus ResultStatus { get; init; } // Result status - 0 = invalid, 1 = inactive, 2 = active
-													// 3 = finished, 4 = didnotfinish, 5 = disqualified
-													// 6 = not classified, 7 = retired
-	public uint BestLapTimeInMS { get; init; } // Best lap time of the session in milliseconds
-	public double TotalRaceTime { get; init; } // Total race time in seconds without penalties
-	public byte PenaltiesTime { get; init; } // Total penalties accumulated in seconds
-	public byte NumPenalties { get; init; } // Number of penalties applied to this driver
-	public byte NumTyreStints { get; init; } // Number of tyres stints up to maximum
-	public Array8<ActualCompound> TyreStintsActual { get; init; } // Actual tyres used by this driver 8
-	public Array8<VisualCompound> TyreStintsVisual { get; init; } // Visual tyres used by this driver 8
-	public Array8<byte> TyreStintsEndLaps { get; init; } // The lap number stints end on 8
+	static int ISizeable.Size => 45;
+
+	/// <summary>
+	/// The finishing position.
+	/// </summary>
+	public byte Position { get; init; }
+	/// <summary>
+	/// The number of laps completed.
+	/// </summary>
+	public byte NumLaps { get; init; }
+	/// <summary>
+	/// The grid position of the car.
+	/// </summary>
+	public byte GridPosition { get; init; }
+	/// <summary>
+	/// The number of points scored.
+	/// </summary>
+	public byte Points { get; init; }
+	/// <summary>
+	/// The number of pit stops made.
+	/// </summary>
+	public byte NumPitStops { get; init; }
+	/// <summary>
+	/// The result status of the driver.
+	/// </summary>
+	public ResultStatus ResultStatus { get; init; }
+	/// <summary>
+	/// The best lap time of the session in milliseconds.
+	/// </summary>
+	public uint BestLapTimeInMS { get; init; }
+	/// <summary>
+	/// The total race time in seconds without penalties.
+	/// </summary>
+	public double TotalRaceTime { get; init; }
+	/// <summary>
+	/// The total penalties accumulated in seconds.
+	/// </summary>
+	public byte PenaltiesTime { get; init; }
+	/// <summary>
+	/// The number of penalties applied to this driver.
+	/// </summary>
+	public byte NumPenalties { get; init; }
+	/// <summary>
+	/// The number of tyre stints up to maximum.
+	/// </summary>
+	public byte NumTyreStints { get; init; }
+	/// <summary>
+	/// The actual tyres used by this driver (8 stints).
+	/// </summary>
+	public Array8<ActualCompound> TyreStintsActual { get; init; }
+	/// <summary>
+	/// The visual tyres used by this driver (8 stints).
+	/// </summary>
+	public Array8<VisualCompound> TyreStintsVisual { get; init; }
+	/// <summary>
+	/// The lap number stints end on (8 stints).
+	/// </summary>
+	public Array8<byte> TyreStintsEndLaps { get; init; }
 
 	static FinalClassificationData IByteParsable<FinalClassificationData>.Parse(ref BytesReader reader)
 	{

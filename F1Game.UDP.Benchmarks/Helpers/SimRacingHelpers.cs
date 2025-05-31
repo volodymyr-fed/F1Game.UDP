@@ -2,13 +2,13 @@
 
 using SimRacing.Telemetry.Receiver.F1._23.Packets;
 
-namespace F1Game.UDP.Benchmarks;
+namespace F1Game.UDP.Benchmarks.Helpers;
 
 static class SimRacingHelpers
 {
 	public static Packet ReadPacket(byte[] data)
 	{
-		Packet header = new Packet(data);
+		var header = new Packet(data);
 
 		return (PacketType)header.packetId switch
 		{

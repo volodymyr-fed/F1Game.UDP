@@ -3,12 +3,16 @@ using F1Game.UDP.Events;
 
 namespace F1Game.UDP.Packets;
 
-[StructLayout(LayoutKind.Sequential, Pack = 1, Size = 45)]
+/// <summary>
+/// This packet gives details of events that happen during the course of a session.
+/// <para>Frequency: When the event occurs</para>
+/// </summary>
+[StructLayout(LayoutKind.Sequential, Pack = 1)]
 public readonly record struct EventDataPacket() : IByteParsable<EventDataPacket>, ISizeable, IByteWritable, IHaveHeader
 {
-	public static int Size => 45;
+	static int ISizeable.Size => 45;
 
-	public PacketHeader Header { get; init; } = PacketHeader.Empty;
+	public PacketHeader Header { get; init; }
 	public EventDetails EventDetails { get; init; }
 
 	static EventDataPacket IByteParsable<EventDataPacket>.Parse(ref BytesReader reader)

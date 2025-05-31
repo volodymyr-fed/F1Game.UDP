@@ -3,92 +3,186 @@ using F1Game.UDP.Enums;
 
 namespace F1Game.UDP.Packets;
 
-[StructLayout(LayoutKind.Sequential, Pack = 1, Size = 753)]
+/// <summary>
+/// The session packet includes details about the current session in progress.
+/// <para>Frequency: 2 per second</para>
+/// </summary>
+[StructLayout(LayoutKind.Sequential, Pack = 1)]
 public readonly record struct SessionDataPacket() : IByteParsable<SessionDataPacket>, ISizeable, IByteWritable, IHaveHeader
 {
-	public static int Size => 753;
-	public PacketHeader Header { get; init; } = PacketHeader.Empty; // Header
-	public Weather Weather { get; init; } // Weather - 0 = clear, 1 = light cloud, 2 = overcast, 3 = light rain, 4 = heavy rain, 5 = storm
-	public sbyte TrackTemperature { get; init; } // Track temp. in degrees celsius
-	public sbyte AirTemperature { get; init; } // Air temp. in degrees celsius
-	public byte TotalLaps { get; init; } // Total number of laps in this race
-	public ushort TrackLength { get; init; } // Track length in metres
+	static int ISizeable.Size => 753;
+
+	public PacketHeader Header { get; init; }
+	public Weather Weather { get; init; }
+	/// <summary>
+	/// Track temp. in degrees celsius
+	/// </summary>
+	public sbyte TrackTemperature { get; init; }
+	/// <summary>
+	/// Air temp. in degrees celsius
+	/// </summary>
+	public sbyte AirTemperature { get; init; }
+	/// <summary>
+	/// Total number of laps in this race
+	/// </summary>
+	public byte TotalLaps { get; init; }
+	/// <summary>
+	/// Track length in metres
+	/// </summary>
+	public ushort TrackLength { get; init; }
 	public SessionType SessionType { get; init; }
-	public Track Track { get; init; } // -1 for unknown, see appendix
+	public Track Track { get; init; }
 	public FormulaType Formula { get; init; }
-	public ushort SessionTimeLeft { get; init; } // Time left in session in seconds
-	public ushort SessionDuration { get; init; } // Session duration in seconds
-	public byte PitSpeedLimit { get; init; } // Pit speed limit in kilometres per hour
-	public bool GamePaused { get; init; } // Whether the game is paused – network game only
-	public bool IsSpectating { get; init; } // Whether the player is spectating
-	public byte SpectatorCarIndex { get; init; } // Index of the car being spectated
-	public bool IsSliProNativeSupport { get; init; } // SLI Pro support, 0 = inactive, 1 = active
-	public byte NumMarshalZones { get; init; } // Number of marshal zones to follow
-	public Array21<MarshalZone> MarshalZones { get; init; } // List of marshal zones – max 21
-	public SafetyCarStatus SafetyCarStatus { get; init; } // 0 = no safety car, 1 = full, 2 = virtual, 3 = formation lap
-	public bool IsNetworkGame { get; init; } // 0 = offline, 1 = online
-	public byte NumWeatherForecastSamples { get; init; } // Number of weather samples to follow
-	public Array64<WeatherForecastSample> WeatherForecastSamples { get; init; } // Array of weather forecast samples 64 cells
-	public ForecastAccuracy ForecastAccuracy { get; init; } // 0 = Perfect, 1 = Approximate
-	public byte AIDifficulty { get; init; } // AI Difficulty rating – 0-110
-	public uint SeasonLinkIdentifier { get; init; } // Identifier for season - persists across saves
-	public uint WeekendLinkIdentifier { get; init; } // Identifier for weekend - persists across saves
-	public uint SessionLinkIdentifier { get; init; } // Identifier for session - persists across saves
-	public byte PitStopWindowIdealLap { get; init; } // Ideal lap to pit on for current strategy (player)
-	public byte PitStopWindowLatestLap { get; init; } // Latest lap to pit on for current strategy (player)
-	public byte PitStopRejoinPosition { get; init; } // Predicted position to rejoin at (player)
-	public bool IsSteeringAssistOn { get; init; } // 0 = off, 1 = on
-	public BrakingAssist BrakingAssist { get; init; } // 0 = off, 1 = low, 2 = medium, 3 = high
-	public GearboxAssist GearboxAssist { get; init; } // 1 = manual, 2 = manual & suggested gear, 3 = auto
-	public bool PitAssist { get; init; } // 0 = off, 1 = on
-	public bool PitReleaseAssist { get; init; } // 0 = off, 1 = on
-	public bool ERSAssist { get; init; } // 0 = off, 1 = on
-	public bool DRSAssist { get; init; } // 0 = off, 1 = on
-	public RacingLine DynamicRacingLine { get; init; } // 0 = off, 1 = corners only, 2 = full
-	public RacingLineType DynamicRacingLineType { get; init; } // 0 = 2D, 1 = 3D
-	public GameMode GameMode { get; init; } // Game mode id - see appendix
-	public RuleSet RuleSet { get; init; } // Ruleset - see appendix
-	public uint TimeOfDay { get; init; } // Local time of day - minutes since midnight
-	public SessionLength SessionLength { get; init; } // 0 = None, 2 = Very Short, 3 = Short, 4 = Medium, 5 = Medium Long, 6 = Long, 7 = Full
-	public SpeedUnit SpeedUnitsLeadPlayer { get; init; }  // 0 = MPH, 1 = KPH
-	public TemperatureUnit TemperatureUnitsLeadPlayer { get; init; }  // 0 = Celsius, 1 = Fahrenheit
-	public SpeedUnit SpeedUnitsSecondaryPlayer { get; init; }  // 0 = MPH, 1 = KPH
-	public TemperatureUnit TemperatureUnitsSecondaryPlayer { get; init; }  // 0 = Celsius, 1 = Fahrenheit
-	public byte NumSafetyCarPeriods { get; init; } // Number of safety cars called during session
-	public byte NumVirtualSafetyCarPeriods { get; init; } // Number of virtual safety cars called
-	public byte NumRedFlagPeriods { get; init; } // Number of red flags called during session
+	/// <summary>
+	/// Time left in session in seconds
+	/// </summary>
+	public ushort SessionTimeLeft { get; init; }
+	/// <summary>
+	/// Session duration in seconds
+	/// </summary>
+	public ushort SessionDuration { get; init; }
+	/// <summary>
+	/// Pit speed limit in kilometres per hour
+	/// </summary>
+	public byte PitSpeedLimit { get; init; }
+	/// <summary>
+	/// Whether the game is paused – network game only
+	/// </summary>
+	public bool GamePaused { get; init; }
+	/// <summary>
+	/// Whether the player is spectating
+	/// </summary>
+	public bool IsSpectating { get; init; }
+	/// <summary>
+	/// Index of the car being spectated
+	/// </summary>
+	public byte SpectatorCarIndex { get; init; }
+	/// <summary>
+	/// SLI Pro support
+	/// </summary>
+	public bool IsSliProNativeSupportActive { get; init; }
+	/// <summary>
+	/// Number of marshal zones to follow in <see cref="MarshalZones"/>
+	/// </summary>
+	public byte NumMarshalZones { get; init; }
+	/// <summary>
+	/// List of marshal zones – max 21
+	/// </summary>
+	public Array21<MarshalZone> MarshalZones { get; init; }
+	public SafetyCarStatus SafetyCarStatus { get; init; }
+	public bool IsNetworkGame { get; init; }
+	/// <summary>
+	/// Number of weather samples to follow in <see cref="WeatherForecastSamples"/>
+	/// </summary>
+	public byte NumWeatherForecastSamples { get; init; }
+	/// <summary>
+	/// Array of weather forecast samples 64 cells
+	/// </summary>
+	public Array64<WeatherForecastSample> WeatherForecastSamples { get; init; }
+	public ForecastAccuracy ForecastAccuracy { get; init; }
+	/// <summary>
+	/// AI Difficulty rating – 0-110
+	/// </summary>
+	public byte AIDifficulty { get; init; }
+	/// <summary>
+	/// Identifier for season - persists across saves
+	/// </summary>
+	public uint SeasonLinkIdentifier { get; init; }
+	/// <summary>
+	/// Identifier for weekend - persists across saves
+	/// </summary>
+	public uint WeekendLinkIdentifier { get; init; }
+	/// <summary>
+	/// Identifier for session - persists across saves
+	/// </summary>
+	public uint SessionLinkIdentifier { get; init; }
+	/// <summary>
+	/// Ideal lap to pit on for current strategy (player)
+	/// </summary>
+	public byte PitStopWindowIdealLap { get; init; }
+	/// <summary>
+	/// Latest lap to pit on for current strategy (player)
+	/// </summary>
+	public byte PitStopWindowLatestLap { get; init; }
+	/// <summary>
+	/// Predicted position to rejoin at (player)
+	/// </summary>
+	public byte PitStopRejoinPosition { get; init; }
+	public bool IsSteeringAssistOn { get; init; }
+	public BrakingAssist BrakingAssist { get; init; }
+	public GearboxAssist GearboxAssist { get; init; }
+	public bool PitAssist { get; init; }
+	public bool PitReleaseAssist { get; init; } 
+	public bool ERSAssist { get; init; }
+	public bool DRSAssist { get; init; }
+	public RacingLine DynamicRacingLine { get; init; }
+	public RacingLineType DynamicRacingLineType { get; init; }
+	public GameMode GameMode { get; init; }
+	public RuleSet RuleSet { get; init; }
+	/// <summary>
+	/// Local time of day - minutes since midnight
+	/// </summary>
+	public uint TimeOfDay { get; init; }
+	public SessionLength SessionLength { get; init; }
+	public SpeedUnit SpeedUnitsLeadPlayer { get; init; }
+	public TemperatureUnit TemperatureUnitsLeadPlayer { get; init; }
+	public SpeedUnit SpeedUnitsSecondaryPlayer { get; init; }
+	public TemperatureUnit TemperatureUnitsSecondaryPlayer { get; init; }
+	/// <summary>
+	/// Number of safety cars called during session
+	/// </summary>
+	public byte NumSafetyCarPeriods { get; init; }
+	/// <summary>
+	/// Number of virtual safety cars called
+	/// </summary>
+	public byte NumVirtualSafetyCarPeriods { get; init; }
+	/// <summary>
+	/// Number of red flags called during session
+	/// </summary>
+	public byte NumRedFlagPeriods { get; init; }
 
-	public bool EqualCarPerformance { get; init; } // 0 = off, 1 = on
-	public RecoveryMode RecoveryMode { get; init; } // 0 = None, 1 = Flashbacks, 2 = Auto-recovery
-	public FlashbackLimit FlashbackLimit { get; init; } // 0 = Low, 1 = Medium, 2 = High, 3 = Unlimited
-	public SurfaceSettings SurfaceTypeSettings { get; init; } // 0 = Simplified, 1 = Realistic
-	public LowFuelMode LowFuelMode { get; init; }// 0 = Easy, 1 = Hard
-	public RaceStarts RaceStarts { get; init; } // 0 = Manual, 1 = Assisted
-	public TyreTemperatureSettings TyreTemperature { get; init; } // 0 = Surface only, 1 = Surface & Carcass
-	private bool PitLaneTyreSimDisabled { get; init; } // PitLaneTyreSim 0 = On, 1 = Off
+	public bool IsEqualCarPerformance { get; init; } 
+	public RecoveryMode RecoveryMode { get; init; }
+	public FlashbackLimit FlashbackLimit { get; init; }
+	public SurfaceSettings SurfaceTypeSettings { get; init; }
+	public LowFuelMode LowFuelMode { get; init; }
+	public RaceStarts RaceStarts { get; init; }
+	public TyreTemperatureSettings TyreTemperature { get; init; }
+	private bool PitLaneTyreSimDisabled { get; init; }
 	public bool PitLaneTyreSim { get => !PitLaneTyreSimDisabled; init => PitLaneTyreSimDisabled = !value; }
-	public CarDamageSetting CarDamage { get; init; } // 0 = Off, 1 = Reduced, 2 = Standard, 3 = Simulation
-	public CarDamageRateSetting CarDamageRate { get; init; } // 0 = Reduced, 1 = Standard, 2 = Simulation
-	public CollisionSettings Collisions { get; init; } // 0 = Off, 1 = Player-to-Player Off, 2 = On
-	public bool CollisionsOffForFirstLapOnly { get; init; } // 0 = Disabled, 1 = Enabled
-	private bool UnsafePitReleaseDisabled { get; init; } //UnsafePitRelease 0 = On, 1 = Off (Multiplayer)
+	public CarDamageSetting CarDamage { get; init; }
+	public CarDamageRateSetting CarDamageRate { get; init; }
+	public CollisionSettings Collisions { get; init; }
+	public bool IsCollisionsOffForFirstLapOnlyEnabled { get; init; }
+	private bool UnsafePitReleaseDisabled { get; init; }
 	public bool UnsafePitRelease { get => !UnsafePitReleaseDisabled; init => UnsafePitReleaseDisabled = !value; }
-	public bool OffForGriefing { get; init; } // 0 = Disabled, 1 = Enabled (Multiplayer)
-	public CornerCuttingSettings CornerCuttingStringency { get; init; } // 0 = Regular, 1 = Strict
-	public bool ParcFermeRules { get; init; } // 0 = Off, 1 = On
-	public PitStopExperienceSetting PitStopExperience { get; init; } // 0 = Automatic, 1 = Broadcast, 2 = Immersive
-	public SafetyCarSetting SafetyCarSetting { get; init; } // 0 = Off, 1 = Reduced, 2 = Standard, 3 = Increased
-	public ExperienceSetting SafetyCarExperience { get; init; } // 0 = Broadcast, 1 = Immersive
-	public bool FormationLap { get; init; } // 0 = Off, 1 = On
-	public ExperienceSetting FormationLapExperience { get; init; } // 0 = Broadcast, 1 = Immersive
-	public RedFlagSetting RedFlags { get; init; } // 0 = Off, 1 = Reduced, 2 = Standard, 3 = Increased
-	public bool AffectsLicenceLevelSolo { get; init; } // 0 = Off, 1 = On
-	public bool AffectsLicenceLevelMP { get; init; } // 0 = Off, 1 = On
-	public byte NumSessionsInWeekend { get; init; } // Number of session in following array
-	public Array12<SessionType> WeekendStructure { get; init; } // List of session types to show weekend
-
-	public float Sector2LapDistanceStart { get; init; } // Distance in m around track where sector 2 starts
-	public float Sector3LapDistanceStart { get; init; } // Distance in m around track where sector 3 start
+	public bool OffForGriefing { get; init; }
+	public CornerCuttingSettings CornerCuttingStringency { get; init; }
+	public bool ParcFermeRules { get; init; }
+	public PitStopExperienceSetting PitStopExperience { get; init; }
+	public SafetyCarSetting SafetyCarSetting { get; init; }
+	public ExperienceSetting SafetyCarExperience { get; init; }
+	public bool FormationLap { get; init; }
+	public ExperienceSetting FormationLapExperience { get; init; }
+	public RedFlagSetting RedFlags { get; init; }
+	public bool AffectsLicenceLevelSolo { get; init; }
+	public bool AffectsLicenceLevelMP { get; init; }
+	/// <summary>
+	/// Number of session in <see cref="WeekendStructure"/>
+	/// </summary>
+	public byte NumSessionsInWeekend { get; init; }
+	/// <summary>
+	/// List of session types to show weekend
+	/// </summary>
+	public Array12<SessionType> WeekendStructure { get; init; }
+	/// <summary>
+	/// Distance in m around track where sector 2 starts
+	/// </summary>
+	public float Sector2LapDistanceStart { get; init; }
+	/// <summary>
+	/// Distance in m around track where sector 3 start
+	/// </summary>
+	public float Sector3LapDistanceStart { get; init; }
 
 	static SessionDataPacket IByteParsable<SessionDataPacket>.Parse(ref BytesReader reader)
 	{
@@ -109,7 +203,7 @@ public readonly record struct SessionDataPacket() : IByteParsable<SessionDataPac
 			GamePaused = reader.GetNextBoolean(),
 			IsSpectating = reader.GetNextBoolean(),
 			SpectatorCarIndex = reader.GetNextByte(),
-			IsSliProNativeSupport = reader.GetNextBoolean(),
+			IsSliProNativeSupportActive = reader.GetNextBoolean(),
 			NumMarshalZones = reader.GetNextByte(),
 			MarshalZones = reader.GetNextArray21<MarshalZone>(),
 			SafetyCarStatus = reader.GetNextEnum<SafetyCarStatus>(),
@@ -144,7 +238,7 @@ public readonly record struct SessionDataPacket() : IByteParsable<SessionDataPac
 			NumSafetyCarPeriods = reader.GetNextByte(),
 			NumVirtualSafetyCarPeriods = reader.GetNextByte(),
 			NumRedFlagPeriods = reader.GetNextByte(),
-			EqualCarPerformance = reader.GetNextBoolean(),
+			IsEqualCarPerformance = reader.GetNextBoolean(),
 			RecoveryMode = reader.GetNextEnum<RecoveryMode>(),
 			FlashbackLimit = reader.GetNextEnum<FlashbackLimit>(),
 			SurfaceTypeSettings = reader.GetNextEnum<SurfaceSettings>(),
@@ -155,7 +249,7 @@ public readonly record struct SessionDataPacket() : IByteParsable<SessionDataPac
 			CarDamage = reader.GetNextEnum<CarDamageSetting>(),
 			CarDamageRate = reader.GetNextEnum<CarDamageRateSetting>(),
 			Collisions = reader.GetNextEnum<CollisionSettings>(),
-			CollisionsOffForFirstLapOnly = reader.GetNextBoolean(),
+			IsCollisionsOffForFirstLapOnlyEnabled = reader.GetNextBoolean(),
 			UnsafePitReleaseDisabled = reader.GetNextBoolean(),
 			OffForGriefing = reader.GetNextBoolean(),
 			CornerCuttingStringency = reader.GetNextEnum<CornerCuttingSettings>(),
@@ -192,7 +286,7 @@ public readonly record struct SessionDataPacket() : IByteParsable<SessionDataPac
 		writer.Write(GamePaused);
 		writer.Write(IsSpectating);
 		writer.Write(SpectatorCarIndex);
-		writer.Write(IsSliProNativeSupport);
+		writer.Write(IsSliProNativeSupportActive);
 		writer.Write(NumMarshalZones);
 		writer.Write(MarshalZones);
 		writer.WriteEnum(SafetyCarStatus);
@@ -227,7 +321,7 @@ public readonly record struct SessionDataPacket() : IByteParsable<SessionDataPac
 		writer.Write(NumSafetyCarPeriods);
 		writer.Write(NumVirtualSafetyCarPeriods);
 		writer.Write(NumRedFlagPeriods);
-		writer.Write(EqualCarPerformance);
+		writer.Write(IsEqualCarPerformance);
 		writer.WriteEnum(RecoveryMode);
 		writer.WriteEnum(FlashbackLimit);
 		writer.WriteEnum(SurfaceTypeSettings);
@@ -238,7 +332,7 @@ public readonly record struct SessionDataPacket() : IByteParsable<SessionDataPac
 		writer.WriteEnum(CarDamage);
 		writer.WriteEnum(CarDamageRate);
 		writer.WriteEnum(Collisions);
-		writer.Write(CollisionsOffForFirstLapOnly);
+		writer.Write(IsCollisionsOffForFirstLapOnlyEnabled);
 		writer.Write(UnsafePitReleaseDisabled);
 		writer.Write(OffForGriefing);
 		writer.WriteEnum(CornerCuttingStringency);

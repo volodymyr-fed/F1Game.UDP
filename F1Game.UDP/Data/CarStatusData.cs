@@ -2,34 +2,111 @@
 
 namespace F1Game.UDP.Data;
 
-[StructLayout(LayoutKind.Sequential, Pack = 1, Size = 55)]
-public readonly record struct CarStatusData() : IByteParsable<CarStatusData>, IByteWritable
+[StructLayout(LayoutKind.Sequential, Pack = 1)]
+public readonly record struct CarStatusData() : IByteParsable<CarStatusData>, IByteWritable, ISizeable
 {
-	public TractionOptions TractionControl { get; init; } // Traction control - 0 = off, 1 = medium, 2 = full
-	public AntiLockBrakesOptions AntiLockBrakes { get; init; } // 0 (off) - 1 (on)
-	public FuelMixOptions FuelMix { get; init; } // Fuel mix - 0 = lean, 1 = standard, 2 = rich, 3 = max
-	public byte FrontBrakeBias { get; init; } // Front brake bias (percentage)
-	public bool IsPitLimiterOn { get; init; } // Pit limiter status - 0 = off, 1 = on
-	public float FuelInTank { get; init; } // Current fuel mass
-	public float FuelCapacity { get; init; } // Fuel capacity
-	public float FuelRemainingLaps { get; init; } // Fuel remaining in terms of laps (value on MFD)
-	public ushort MaxRPM { get; init; } // Cars max RPM, point of rev limiter
-	public ushort IdleRPM { get; init; } // Cars idle RPM
-	public byte MaxGears { get; init; } // Maximum number of gears
-	public bool DrsAllowed { get; init; } // 0 = not allowed, 1 = allowed
-	public ushort DrsActivationDistance { get; init; } // in meters
+	static int ISizeable.Size => 55;
+
+	/// <summary>
+	/// Traction control setting <see cref="TractionOptions"/>
+	/// </summary>
+	public TractionOptions TractionControl { get; init; }
+	/// <summary>
+	/// Anti-lock brakes setting <see cref="AntiLockBrakesOptions"/>
+	/// </summary>
+	public AntiLockBrakesOptions AntiLockBrakes { get; init; }
+	/// <summary>
+	/// Fuel mix setting <see cref="FuelMixOptions"/>
+	/// </summary>
+	public FuelMixOptions FuelMix { get; init; }
+	/// <summary>
+	/// Front brake bias as a percentage.
+	/// </summary>
+	public byte FrontBrakeBias { get; init; }
+	/// <summary>
+	/// Pit limiter status.
+	/// </summary>
+	public bool IsPitLimiterOn { get; init; }
+	/// <summary>
+	/// Current fuel mass in the tank.
+	/// </summary>
+	public float FuelInTank { get; init; }
+	/// <summary>
+	/// Total fuel capacity.
+	/// </summary>
+	public float FuelCapacity { get; init; }
+	/// <summary>
+	/// Fuel remaining in terms of laps (value on MFD).
+	/// </summary>
+	public float FuelRemainingLaps { get; init; }
+	/// <summary>
+	/// Car's maximum RPM, point of rev limiter.
+	/// </summary>
+	public ushort MaxRPM { get; init; }
+	/// <summary>
+	/// Car's idle RPM.
+	/// </summary>
+	public ushort IdleRPM { get; init; }
+	/// <summary>
+	/// Maximum number of gears.
+	/// </summary>
+	public byte MaxGears { get; init; }
+	/// <summary>
+	/// DRS allowed status.
+	/// </summary>
+	public bool DrsAllowed { get; init; }
+	/// <summary>
+	/// DRS activation distance in meters.
+	/// </summary>
+	public ushort DrsActivationDistance { get; init; }
+	/// <summary>
+	/// Actual tyre compound.
+	/// </summary>
 	public ActualCompound ActualTyreCompound { get; init; }
+	/// <summary>
+	/// Visual tyre compound.
+	/// </summary>
 	public VisualCompound VisualTyreCompound { get; init; }
-	public byte TyresAgeLaps { get; init; } // Age in laps of the current set of tyres
-	public FiaFlag VehicleFiaFlags { get; init; } // -1 = invalid/unknown, 0 = none, 1 = green, 2 = blue, 3 = yellow
-	public float EnginePowerICE { get; init; } // Engine power output of ICE (W)
-	public float EnginePowerMGUK { get; init; } // Engine power output of MGU-K (W)
-	public float ErsStoreEnergy { get; init; } // ERS energy store in Joules
-	public ErsDeployMode ErsDeployMode { get; init; } // ERS deployment mode, 0 = none, 1 = medium, 2 = hotlap, 3 = overtake
-	public float ErsHarvestedThisLapMGUK { get; init; } // ERS energy harvested this lap by MGU-K
-	public float ErsHarvestedThisLapMGUH { get; init; } // ERS energy harvested this lap by MGU-H
-	public float ErsDeployedThisLap { get; init; } // ERS energy deployed this lap
-	public bool NetworkPaused { get; init; } // Whether the car is paused in a network game
+	/// <summary>
+	/// Age in laps of the current set of tyres.
+	/// </summary>
+	public byte TyresAgeLaps { get; init; }
+	/// <summary>
+	/// FIA flag status <see cref="FiaFlag" />.
+	/// </summary>
+	public FiaFlag VehicleFiaFlags { get; init; }
+	/// <summary>
+	/// Engine power output of ICE (W).
+	/// </summary>
+	public float EnginePowerICE { get; init; }
+	/// <summary>
+	/// Engine power output of MGU-K (W).
+	/// </summary>
+	public float EnginePowerMGUK { get; init; }
+	/// <summary>
+	/// ERS energy store in Joules.
+	/// </summary>
+	public float ErsStoreEnergy { get; init; }
+	/// <summary>
+	/// ERS deployment mode <see cref="Enums.ErsDeployMode" />.
+	/// </summary>
+	public ErsDeployMode ErsDeployMode { get; init; }
+	/// <summary>
+	/// ERS energy harvested this lap by MGU-K.
+	/// </summary>
+	public float ErsHarvestedThisLapMGUK { get; init; }
+	/// <summary>
+	/// ERS energy harvested this lap by MGU-H.
+	/// </summary>
+	public float ErsHarvestedThisLapMGUH { get; init; }
+	/// <summary>
+	/// ERS energy deployed this lap.
+	/// </summary>
+	public float ErsDeployedThisLap { get; init; }
+	/// <summary>
+	/// Whether the car is paused in a network game.
+	/// </summary>
+	public bool NetworkPaused { get; init; }
 
 	static CarStatusData IByteParsable<CarStatusData>.Parse(ref BytesReader reader)
 	{
