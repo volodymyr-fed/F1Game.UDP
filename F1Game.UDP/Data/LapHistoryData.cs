@@ -5,42 +5,40 @@ namespace F1Game.UDP.Data;
 [StructLayout(LayoutKind.Sequential, Pack = 1)]
 public readonly record struct LapHistoryData() : IByteParsable<LapHistoryData>, IByteWritable, ISizeable
 {
-	/// <inheritdoc/>
 	static int ISizeable.Size => 14;
 
 	/// <summary>
-	/// Gets the lap time in milliseconds.
+	/// The lap time in milliseconds.
 	/// </summary>
 	public uint LapTimeInMS { get; init; }
 	/// <summary>
-	/// Gets the sector 1 time in milliseconds.
+	/// The sector 1 time in milliseconds.
 	/// </summary>
 	public ushort Sector1TimeInMS { get; init; }
 	/// <summary>
-	/// Gets the sector 1 whole minute part.
+	/// The sector 1 whole minute part.
 	/// </summary>
 	public byte Sector1TimeMinutes { get; init; }
 	/// <summary>
-	/// Gets the sector 2 time in milliseconds.
+	/// The sector 2 time in milliseconds.
 	/// </summary>
 	public ushort Sector2TimeInMS { get; init; }
 	/// <summary>
-	/// Gets the sector 2 whole minute part.
+	/// The sector 2 whole minute part.
 	/// </summary>
 	public byte Sector2TimeMinutes { get; init; }
 	/// <summary>
-	/// Gets the sector 3 time in milliseconds.
+	/// The sector 3 time in milliseconds.
 	/// </summary>
 	public ushort Sector3TimeInMS { get; init; }
 	/// <summary>
-	/// Gets the sector 3 whole minute part.
+	/// The sector 3 whole minute part.
 	/// </summary>
 	public byte Sector3TimeMinutes { get; init; }
 	/// <summary>
-	/// Gets the lap validity bit flags.
+	/// The lap validity bit flags.
 	/// </summary>
 	public LapValid LapValidBitFlags { get; init; }
-													
 
 	static LapHistoryData IByteParsable<LapHistoryData>.Parse(ref BytesReader reader)
 	{

@@ -5,35 +5,34 @@ namespace F1Game.UDP.Data;
 [StructLayout(LayoutKind.Sequential, Pack = 1)]
 public readonly record struct ParticipantData() : IByteParsable<ParticipantData>, IByteWritable, ISizeable
 {
-	/// <inheritdoc/>
 	static int ISizeable.Size => 60;
 
 	/// <summary>
-	/// Gets whether the vehicle is AI or Human.
+	/// Whether the vehicle is AI or Human.
 	/// </summary>
 	public bool IsAiControlled { get; init; }
 	/// <summary>
-	/// Gets the driver id.
+	/// The driver id.
 	/// </summary>
 	public Driver Driver { get; init; }
 	/// <summary>
-	/// Gets the network id – unique identifier for network players.
+	/// The network id – unique identifier for network players.
 	/// </summary>
 	public byte NetworkId { get; init; }
 	/// <summary>
-	/// Gets the team.
+	/// The team.
 	/// </summary>
 	public Team Team { get; init; }
 	/// <summary>
-	/// Gets a value indicating whether this is the player's team (true = My Team, false = otherwise).
+	/// A value indicating whether this is the player's team (true = My Team, false = otherwise).
 	/// </summary>
 	public bool IsMyTeam { get; init; }
 	/// <summary>
-	/// Gets the race number of the car.
+	/// The race number of the car.
 	/// </summary>
 	public byte RaceNumber { get; init; }
 	/// <summary>
-	/// Gets the nationality of the driver.
+	/// The nationality of the driver.
 	/// </summary>
 	public Nationality Nationality { get; init; }
 	/// <summary>

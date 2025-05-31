@@ -2,11 +2,6 @@
 
 public enum ActualCompound : byte
 {
-	// F1 Modern - 16 = C5, 17 = C4, 18 = C3, 19 = C2, 20 = C1
-	// 7 = inter, 8 = wet
-	// F1 Classic - 9 = dry, 10 = wet
-	// F2 – 11 = super soft, 12 = soft, 13 = medium, 14 = hard
-	// 15 = wet
 	F1C5 = 16,
 	F1C4 = 17,
 	F1C3 = 18,

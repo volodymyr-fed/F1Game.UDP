@@ -7,7 +7,7 @@ public enum FormulaType : byte
 	F2 = 2,
 	F1Generic = 3,
 	Beta = 4,
-	Supercars = 5,
 	Esports = 6,
-	F22021 = 7
+	F1World = 8,
+	F1Elimination = 9,
 }

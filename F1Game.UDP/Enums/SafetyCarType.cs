@@ -1,6 +1,6 @@
 ﻿namespace F1Game.UDP.Enums;
 
-public enum SafetyCarStatus : byte
+public enum SafetyCarType : byte
 {
 	NoSafetyCar = 0,
 	FullSafetyCar = 1,

@@ -69,7 +69,7 @@ public readonly record struct SessionDataPacket() : IByteParsable<SessionDataPac
 	/// List of marshal zones – max 21
 	/// </summary>
 	public Array21<MarshalZone> MarshalZones { get; init; }
-	public SafetyCarStatus SafetyCarStatus { get; init; }
+	public SafetyCarType SafetyCarStatus { get; init; }
 	public bool IsNetworkGame { get; init; }
 	/// <summary>
 	/// Number of weather samples to follow in <see cref="WeatherForecastSamples"/>
@@ -206,7 +206,7 @@ public readonly record struct SessionDataPacket() : IByteParsable<SessionDataPac
 			IsSliProNativeSupportActive = reader.GetNextBoolean(),
 			NumMarshalZones = reader.GetNextByte(),
 			MarshalZones = reader.GetNextArray21<MarshalZone>(),
-			SafetyCarStatus = reader.GetNextEnum<SafetyCarStatus>(),
+			SafetyCarStatus = reader.GetNextEnum<SafetyCarType>(),
 			IsNetworkGame = reader.GetNextBoolean(),
 			NumWeatherForecastSamples = reader.GetNextByte(),
 			WeatherForecastSamples = reader.GetNextArray64<WeatherForecastSample>(),

@@ -82,7 +82,7 @@ public readonly record struct LapData() : IByteParsable<LapData>, IByteWritable,
 	/// <summary>
 	/// Validity of the current lap.
 	/// </summary>
-	public bool CurrentLapInvalid { get; init; }
+	public bool IsCurrentLapInvalid { get; init; }
 	/// <summary>
 	/// Accumulated time penalties in seconds to be added.
 	/// </summary>
@@ -162,7 +162,7 @@ public readonly record struct LapData() : IByteParsable<LapData>, IByteWritable,
 			PitStatus = reader.GetNextEnum<PitStatus>(),
 			NumPitStops = reader.GetNextByte(),
 			Sector = reader.GetNextEnum<Sector>(),
-			CurrentLapInvalid = reader.GetNextBoolean(),
+			IsCurrentLapInvalid = reader.GetNextBoolean(),
 			Penalties = reader.GetNextByte(),
 			TotalWarnings = reader.GetNextByte(),
 			CornerCuttingWarnings = reader.GetNextByte(),
@@ -200,7 +200,7 @@ public readonly record struct LapData() : IByteParsable<LapData>, IByteWritable,
 		writer.WriteEnum(PitStatus);
 		writer.Write(NumPitStops);
 		writer.WriteEnum(Sector);
-		writer.Write(CurrentLapInvalid);
+		writer.Write(IsCurrentLapInvalid);
 		writer.Write(Penalties);
 		writer.Write(TotalWarnings);
 		writer.Write(CornerCuttingWarnings);

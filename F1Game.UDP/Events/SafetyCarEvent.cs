@@ -10,7 +10,7 @@ public readonly record struct SafetyCarEvent() : IByteParsable<SafetyCarEvent>, 
 	/// <summary>
 	/// Safety car type
 	/// </summary>
-	public SafetyCarStatus SafetyCarType { get; init; }
+	public SafetyCarType SafetyCarType { get; init; }
 	/// <summary>
 	/// Safety car event type
 	/// </summary>
@@ -20,7 +20,7 @@ public readonly record struct SafetyCarEvent() : IByteParsable<SafetyCarEvent>, 
 	{
 		return new()
 		{
-			SafetyCarType= reader.GetNextEnum<SafetyCarStatus>(),
+			SafetyCarType= reader.GetNextEnum<SafetyCarType>(),
 			EventType = reader.GetNextEnum<SafetyCarEventType>()
 		};
 	}
