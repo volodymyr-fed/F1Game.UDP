@@ -12,7 +12,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "F1Game.UDP.Tests", "F1Game.UDP.Tests\F1Game.UDP.Tests.csproj", "{9A200C1C-5B68-4D37-B8C3-C4738A465693}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "F1Game.UDP.Benchmarks", "F1Game.UDP.Benchamrks\F1Game.UDP.Benchmarks.csproj", "{480429B0-6373-4151-AD33-6CCD4D55CC6F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "F1Game.UDP.Benchmarks", "F1Game.UDP.Benchmarks\F1Game.UDP.Benchmarks.csproj", "{480429B0-6373-4151-AD33-6CCD4D55CC6F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "F1Game.UDP.SourceGenerator", "F1Game.UDP.SourceGenerator\F1Game.UDP.SourceGenerator.csproj", "{CE6BA0A0-26EF-6BE1-354B-FB29FC753E4A}"
 EndProject
