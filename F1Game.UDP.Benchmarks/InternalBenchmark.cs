@@ -45,6 +45,6 @@ public class InternalBenchmark
 	[Benchmark(Baseline = true)]
 	public UnionPacket ReadF1GameUDPMarshal()
 	{
-		return data.ToPacketWithMarshal();
+		return data.ToPacket();
 	}
 }

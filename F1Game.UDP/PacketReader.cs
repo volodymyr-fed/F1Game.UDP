@@ -68,36 +68,6 @@ public static class PacketReader
 	}
 
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-	internal static UnionPacket ToPacketWithMarshal(this byte[] bytes) => ToPacketWithMarshal(bytes.AsSpan());
-
-	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-	internal static UnionPacket ToPacketWithMarshal(this ReadOnlySpan<byte> bytes)
-	{
-		var packetType = GetPacketType(bytes);
-		var packet = new UnionPacket();
-
-		return packetType switch
-		{
-			PacketType.Motion => CreateWithMarshal<MotionDataPacket>(bytes, ref packet),
-			PacketType.Session => CreateWithMarshal<SessionDataPacket>(bytes, ref packet),
-			PacketType.LapData => CreateWithMarshal<LapDataPacket>(bytes, ref packet),
-			PacketType.Event => CreateWithMarshal<EventDataPacket>(bytes, ref packet),
-			PacketType.Participants => CreateWithMarshal<ParticipantsDataPacket>(bytes, ref packet),
-			PacketType.CarSetups => CreateWithMarshal<CarSetupDataPacket>(bytes, ref packet),
-			PacketType.CarTelemetry => CreateWithMarshal<CarTelemetryDataPacket>(bytes, ref packet),
-			PacketType.CarStatus => CreateWithMarshal<CarStatusDataPacket>(bytes, ref packet),
-			PacketType.FinalClassification => CreateWithMarshal<FinalClassificationDataPacket>(bytes, ref packet),
-			PacketType.LobbyInfo => CreateWithMarshal<LobbyInfoDataPacket>(bytes, ref packet),
-			PacketType.CarDamage => CreateWithMarshal<CarDamageDataPacket>(bytes, ref packet),
-			PacketType.SessionHistory => CreateWithMarshal<SessionHistoryDataPacket>(bytes, ref packet),
-			PacketType.TyreSets => CreateWithMarshal<TyreSetsDataPacket>(bytes, ref packet),
-			PacketType.MotionEx => CreateWithMarshal<MotionExDataPacket>(bytes, ref packet),
-			PacketType.TimeTrial => CreateWithMarshal<TimeTrialDataPacket>(bytes, ref packet),
-			_ => throw new InvalidPacketTypeException(packetType),
-		};
-	}
-
-	[MethodImpl(MethodImplOptions.AggressiveInlining)]
 	static PacketType GetPacketType(ReadOnlySpan<byte> bytes)
 	{
 		if (bytes.Length < PacketHeader.Size)

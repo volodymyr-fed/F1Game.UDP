@@ -79,7 +79,6 @@ sealed class PacketReaderFixture
 
 		bytes.ToPacket().Should().BeEquivalentTo(packet, Configure);
 		bytes.ToPacketWithReader().Should().BeEquivalentTo(packet, Configure);
-		bytes.ToPacketWithMarshal().Should().BeEquivalentTo(packet, Configure);
 	}
 
 	[Test]
@@ -95,7 +94,6 @@ sealed class PacketReaderFixture
 
 		bytes.ToPacket().Should().BeEquivalentTo(packet, Configure);
 		bytes.ToPacketWithReader().Should().BeEquivalentTo(packet, Configure);
-		bytes.ToPacketWithMarshal().Should().BeEquivalentTo(packet, Configure);
 	}
 
 	[Test]
@@ -111,7 +109,6 @@ sealed class PacketReaderFixture
 
 		bytes.ToPacket().Should().BeEquivalentTo(packet, Configure);
 		bytes.ToPacketWithReader().Should().BeEquivalentTo(packet, Configure);
-		bytes.ToPacketWithMarshal().Should().BeEquivalentTo(packet, Configure);
 	}
 
 	[Test]
@@ -127,7 +124,6 @@ sealed class PacketReaderFixture
 
 		bytes.ToPacket().Should().BeEquivalentTo(packet, Configure);
 		bytes.ToPacketWithReader().Should().BeEquivalentTo(packet, Configure);
-		bytes.ToPacketWithMarshal().Should().BeEquivalentTo(packet, Configure);
 	}
 
 	[TestCase(EventType.ButtonStatus)]
@@ -182,7 +178,6 @@ sealed class PacketReaderFixture
 
 		bytes.ToPacket().Should().BeEquivalentTo(packet, Configure);
 		bytes.ToPacketWithReader().Should().BeEquivalentTo(packet, Configure);
-		bytes.ToPacketWithMarshal().Should().BeEquivalentTo(packet, Configure);
 	}
 
 	[Test]
@@ -205,7 +200,6 @@ sealed class PacketReaderFixture
 
 		bytes.ToPacket().Should().BeEquivalentTo(packet, Configure);
 		bytes.ToPacketWithReader().Should().BeEquivalentTo(packet, Configure);
-		bytes.ToPacketWithMarshal().Should().BeEquivalentTo(packet, Configure);
 	}
 
 	[Test]
@@ -221,7 +215,6 @@ sealed class PacketReaderFixture
 
 		bytes.ToPacket().Should().BeEquivalentTo(packet, Configure);
 		bytes.ToPacketWithReader().Should().BeEquivalentTo(packet, Configure);
-		bytes.ToPacketWithMarshal().Should().BeEquivalentTo(packet, Configure);
 	}
 
 	[Test]
@@ -242,7 +235,6 @@ sealed class PacketReaderFixture
 
 		bytes.ToPacket().Should().BeEquivalentTo(packet, Configure);
 		bytes.ToPacketWithReader().Should().BeEquivalentTo(packet, Configure);
-		bytes.ToPacketWithMarshal().Should().BeEquivalentTo(packet, Configure);
 	}
 
 	[Test]
@@ -258,7 +250,6 @@ sealed class PacketReaderFixture
 
 		bytes.ToPacket().Should().BeEquivalentTo(packet, Configure);
 		bytes.ToPacketWithReader().Should().BeEquivalentTo(packet, Configure);
-		bytes.ToPacketWithMarshal().Should().BeEquivalentTo(packet, Configure);
 	}
 
 	[Test]
@@ -273,7 +264,6 @@ sealed class PacketReaderFixture
 
 		bytes.ToPacket().Should().BeEquivalentTo(packet, Configure);
 		bytes.ToPacketWithReader().Should().BeEquivalentTo(packet, Configure);
-		bytes.ToPacketWithMarshal().Should().BeEquivalentTo(packet, Configure);
 	}
 
 	[Test]
@@ -294,7 +284,6 @@ sealed class PacketReaderFixture
 
 		bytes.ToPacket().Should().BeEquivalentTo(packet, Configure);
 		bytes.ToPacketWithReader().Should().BeEquivalentTo(packet, Configure);
-		bytes.ToPacketWithMarshal().Should().BeEquivalentTo(packet, Configure);
 	}
 
 	[Test]
@@ -312,7 +301,6 @@ sealed class PacketReaderFixture
 
 		bytes.ToPacket().Should().BeEquivalentTo(packet, Configure);
 		bytes.ToPacketWithReader().Should().BeEquivalentTo(packet, Configure);
-		bytes.ToPacketWithMarshal().Should().BeEquivalentTo(packet, Configure);
 	}
 
 	[Test]
@@ -329,7 +317,6 @@ sealed class PacketReaderFixture
 
 		bytes.ToPacket().Should().BeEquivalentTo(packet, Configure);
 		bytes.ToPacketWithReader().Should().BeEquivalentTo(packet, Configure);
-		bytes.ToPacketWithMarshal().Should().BeEquivalentTo(packet, Configure);
 	}
 
 	[Test]
@@ -345,7 +332,6 @@ sealed class PacketReaderFixture
 
 		bytes.ToPacket().Should().BeEquivalentTo(packet, Configure);
 		bytes.ToPacketWithReader().Should().BeEquivalentTo(packet, Configure);
-		bytes.ToPacketWithMarshal().Should().BeEquivalentTo(packet, Configure);
 	}
 
 	[Test]
@@ -359,7 +345,6 @@ sealed class PacketReaderFixture
 
 		bytes.ToPacket().Should().BeEquivalentTo(packet, Configure);
 		bytes.ToPacketWithReader().Should().BeEquivalentTo(packet, Configure);
-		bytes.ToPacketWithMarshal().Should().BeEquivalentTo(packet, Configure);
 	}
 
 	IPostprocessComposer<T> BuildPacket<T>() where T : IHaveHeader, new()
