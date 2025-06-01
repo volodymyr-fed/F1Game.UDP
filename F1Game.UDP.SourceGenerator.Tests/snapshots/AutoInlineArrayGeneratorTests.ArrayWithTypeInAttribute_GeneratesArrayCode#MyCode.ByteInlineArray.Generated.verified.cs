@@ -90,8 +90,7 @@ partial record struct ByteInlineArray
 	public static ByteInlineArray Create(ReadOnlySpan<byte> source)
 	{
 		var array = new ByteInlineArray();
-		for (var i = 0; i < array.Length && i < source.Length; i++)
-			array[i] = source[i];
+		source[..Math.Min(source.Length, 42)].CopyTo(array);
 		return array;
 	}
 

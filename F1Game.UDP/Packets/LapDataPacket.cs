@@ -27,7 +27,7 @@ public readonly record struct LapDataPacket() : IByteParsable<LapDataPacket>, IS
 		return new()
 		{
 			Header = reader.GetNextObject<PacketHeader>(),
-			LapData = reader.GetNextArray22<LapData>(),
+			LapData = reader.GetNextObjects<LapData>(22),
 			TimeTrialPBCarIdx = reader.GetNextByte(),
 			TimeTrialRivalCarIdx = reader.GetNextByte(),
 		};
@@ -36,7 +36,7 @@ public readonly record struct LapDataPacket() : IByteParsable<LapDataPacket>, IS
 	void IByteWritable.WriteBytes(ref BytesWriter writer)
 	{
 		writer.Write(Header);
-		writer.Write(LapData);
+		writer.Write(LapData.AsReadOnlySpan());
 		writer.Write(TimeTrialPBCarIdx);
 		writer.Write(TimeTrialRivalCarIdx);
 	}

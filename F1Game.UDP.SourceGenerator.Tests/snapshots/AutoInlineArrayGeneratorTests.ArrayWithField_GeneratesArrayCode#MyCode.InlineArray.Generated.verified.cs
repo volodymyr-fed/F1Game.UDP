@@ -88,8 +88,7 @@ partial struct InlineArray
 	public static InlineArray Create(ReadOnlySpan<global::MyCode.Element> source)
 	{
 		var array = new InlineArray();
-		for (var i = 0; i < array.Length && i < source.Length; i++)
-			array[i] = source[i];
+		source[..Math.Min(source.Length, 42)].CopyTo(array);
 		return array;
 	}
 

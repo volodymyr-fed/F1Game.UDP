@@ -60,7 +60,7 @@ public readonly record struct LobbyInfoData() : IByteParsable<LobbyInfoData>, IB
 			Team = reader.GetNextEnum<Team>(),
 			Nationality = reader.GetNextEnum<Nationality>(),
 			Platform = reader.GetNextEnum<Platform>(),
-			NameBytes = reader.GetNextArray48Bytes(),
+			NameBytes = reader.GetNextBytes(48),
 			CarNumber = reader.GetNextByte(),
 			IsTelemetryPublic = reader.GetNextBoolean(),
 			ShowOnlineNames = reader.GetNextBoolean(),
@@ -75,7 +75,7 @@ public readonly record struct LobbyInfoData() : IByteParsable<LobbyInfoData>, IB
 		writer.WriteEnum(Team);
 		writer.WriteEnum(Nationality);
 		writer.WriteEnum(Platform);
-		writer.Write(Name, 48);
+		writer.Write(NameBytes.AsReadOnlySpan());
 		writer.Write(CarNumber);
 		writer.Write(IsTelemetryPublic);
 		writer.Write(ShowOnlineNames);

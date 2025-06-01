@@ -23,13 +23,13 @@ public readonly record struct MotionDataPacket() : IByteParsable<MotionDataPacke
 		return new()
 		{
 			Header = reader.GetNextObject<PacketHeader>(),
-			CarMotionData = reader.GetNextArray22<CarMotionData>(),
+			CarMotionData = reader.GetNextObjects<CarMotionData>(22),
 		};
 	}
 
 	void IByteWritable.WriteBytes(ref BytesWriter writer)
 	{
 		writer.Write(Header);
-		writer.Write(CarMotionData);
+		writer.Write(CarMotionData.AsReadOnlySpan());
 	}
 }

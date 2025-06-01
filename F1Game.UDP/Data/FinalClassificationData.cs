@@ -79,9 +79,9 @@ public readonly record struct FinalClassificationData() : IByteParsable<FinalCla
 			PenaltiesTime = reader.GetNextByte(),
 			NumPenalties = reader.GetNextByte(),
 			NumTyreStints = reader.GetNextByte(),
-			TyreStintsActual = reader.GetNextArray8Enum<ActualCompound>(),
-			TyreStintsVisual = reader.GetNextArray8Enum<VisualCompound>(),
-			TyreStintsEndLaps = reader.GetNextArray8Bytes(),
+			TyreStintsActual = reader.GetNextEnums<ActualCompound>(8),
+			TyreStintsVisual = reader.GetNextEnums<VisualCompound>(8),
+			TyreStintsEndLaps = reader.GetNextBytes(8),
 		};
 	}
 
@@ -98,8 +98,8 @@ public readonly record struct FinalClassificationData() : IByteParsable<FinalCla
 		writer.Write(PenaltiesTime);
 		writer.Write(NumPenalties);
 		writer.Write(NumTyreStints);
-		writer.WriteEnums(TyreStintsActual);
-		writer.WriteEnums(TyreStintsVisual);
-		writer.Write(TyreStintsEndLaps);
+		writer.WriteEnums(TyreStintsActual.AsReadOnlySpan());
+		writer.WriteEnums(TyreStintsVisual.AsReadOnlySpan());
+		writer.Write(TyreStintsEndLaps.AsReadOnlySpan());
 	}
 }

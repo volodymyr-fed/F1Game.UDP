@@ -1,7 +1,7 @@
 ﻿namespace F1Game.UDP.Events;
 
 [StructLayout(LayoutKind.Explicit, Pack = 1)]
-public readonly record struct EventDetails : IByteWritable, ISizeable
+public readonly record struct EventDetails : IByteParsable<EventDetails>, IByteWritable, ISizeable
 {
 	static int ISizeable.Size => 16;
 
@@ -147,6 +147,37 @@ public readonly record struct EventDetails : IByteWritable, ISizeable
 		var isRightEvent = EventType == EventType.SafetyCar;
 		safetyCarEvent = isRightEvent ? this.safetyCarEvent : default;
 		return isRightEvent;
+	}
+
+	static EventDetails IByteParsable<EventDetails>.Parse(ref BytesReader reader)
+	{
+		var eventType = reader.GetNextUIntEnum<EventType>();
+
+		return eventType switch
+		{
+			EventType.FastestLap => reader.GetNextObject<FastestLapEvent>(),
+			EventType.Retirement => reader.GetNextObject<RetirementEvent>(),
+			EventType.TeamMateInPits => reader.GetNextObject<TeamMateInPitsEvent>(),
+			EventType.RaceWinner => reader.GetNextObject<RaceWinnerEvent>(),
+			EventType.PenaltyIssued => reader.GetNextObject<PenaltyEvent>(),
+			EventType.SpeedTrapTriggered => reader.GetNextObject<SpeedTrapEvent>(),
+			EventType.StartLights => reader.GetNextObject<StartLightsEvent>(),
+			EventType.DriveThroughServed => reader.GetNextObject<DriveThroughPenaltyServedEvent>(),
+			EventType.StopGoServed => reader.GetNextObject<StopGoPenaltyServedEvent>(),
+			EventType.Flashback => reader.GetNextObject<FlashbackEvent>(),
+			EventType.ButtonStatus => reader.GetNextObject<ButtonsEvent>(),
+			EventType.Overtake => reader.GetNextObject<OvertakeEvent>(),
+			EventType.SafetyCar => reader.GetNextObject<SafetyCarEvent>(),
+			EventType.Collision => reader.GetNextObject<CollisionEvent>(),
+			EventType.ChequeredFlag => new EventDetails { EventType = eventType },
+			EventType.DRSEnabled => new EventDetails { EventType = eventType },
+			EventType.DRSDisabled => new EventDetails { EventType = eventType },
+			EventType.LightsOut => new EventDetails { EventType = eventType },
+			EventType.SessionStarted => new EventDetails { EventType = eventType },
+			EventType.SessionEnded => new EventDetails { EventType = eventType },
+			EventType.RedFlag => new EventDetails { EventType = eventType },
+			_ => new EventDetails { EventType = eventType },
+		};
 	}
 
 	void IByteWritable.WriteBytes(ref BytesWriter writer)

@@ -28,7 +28,7 @@ public readonly record struct CarSetupDataPacket() : IByteParsable<CarSetupDataP
 		return new()
 		{
 			Header = reader.GetNextObject<PacketHeader>(),
-			CarSetups = reader.GetNextArray22<CarSetupData>(),
+			CarSetups = reader.GetNextObjects<CarSetupData>(22),
 			NextFrontWingValue = reader.GetNextFloat()
 		};
 	}
@@ -36,7 +36,7 @@ public readonly record struct CarSetupDataPacket() : IByteParsable<CarSetupDataP
 	void IByteWritable.WriteBytes(ref BytesWriter writer)
 	{
 		writer.Write(Header);
-		writer.Write(CarSetups);
+		writer.Write(CarSetups.AsReadOnlySpan());
 		writer.Write(NextFrontWingValue);
 	}
 }

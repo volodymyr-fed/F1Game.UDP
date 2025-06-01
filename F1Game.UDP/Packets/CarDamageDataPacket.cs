@@ -19,13 +19,13 @@ public readonly record struct CarDamageDataPacket() : IByteParsable<CarDamageDat
 		return new()
 		{
 			Header = reader.GetNextObject<PacketHeader>(),
-			CarDamageData = reader.GetNextArray22<CarDamageData>()
+			CarDamageData = reader.GetNextObjects<CarDamageData>(22)
 		};
 	}
 
 	void IByteWritable.WriteBytes(ref BytesWriter writer)
 	{
 		writer.Write(Header);
-		writer.Write(CarDamageData);
+		writer.Write(CarDamageData.AsReadOnlySpan());
 	}
 }

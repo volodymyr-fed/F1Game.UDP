@@ -64,8 +64,8 @@ public readonly record struct SessionHistoryDataPacket() : IByteParsable<Session
 			BestSector1LapNum = reader.GetNextByte(),
 			BestSector2LapNum = reader.GetNextByte(),
 			BestSector3LapNum = reader.GetNextByte(),
-			LapHistoryData = reader.GetNextArray100<LapHistoryData>(),
-			TyreStintsHistoryData = reader.GetNextArray8<TyreStintHistoryData>()
+			LapHistoryData = reader.GetNextObjects<LapHistoryData>(100),
+			TyreStintsHistoryData = reader.GetNextObjects<TyreStintHistoryData>(8)
 		};
 	}
 
@@ -79,7 +79,7 @@ public readonly record struct SessionHistoryDataPacket() : IByteParsable<Session
 		writer.Write(BestSector1LapNum);
 		writer.Write(BestSector2LapNum);
 		writer.Write(BestSector3LapNum);
-		writer.Write(LapHistoryData);
-		writer.Write(TyreStintsHistoryData);
+		writer.Write(LapHistoryData.AsReadOnlySpan());
+		writer.Write(TyreStintsHistoryData.AsReadOnlySpan());
 	}
 }

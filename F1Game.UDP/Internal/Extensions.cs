@@ -8,8 +8,7 @@ static class Extensions
 {
 	public static string AsString(this Array48<byte> bytes)
 	{
-		Span<byte> bytesSpan = bytes;
-		return Encoding.UTF8.GetString(bytesSpan.Trim((byte)'\0'));
+		return Encoding.UTF8.GetString(bytes.AsReadOnlySpan().Trim((byte)'\0'));
 	}
 
 	public static Array48<byte> AsArray48Bytes(this string value)

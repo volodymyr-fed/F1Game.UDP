@@ -2,6 +2,8 @@
 using System.Runtime.CompilerServices;
 using System.Text;
 
+using F1Game.UDP.Data;
+
 namespace F1Game.UDP.Internal;
 
 static class BytesReaderExtensions
@@ -85,5 +87,25 @@ static class BytesReaderExtensions
 	{
 		var uintEnumValue = reader.GetNextUInt();
 		return Unsafe.As<uint, T>(ref uintEnumValue);
+	}
+
+	[MethodImpl(MethodImplOptions.AggressiveInlining)]
+	public static ReadOnlySpan<T> GetNextObjects<T>(this ref BytesReader reader, int length, Array100<T> buffer = default) where T : IByteParsable<T>
+	{
+		for (var i = 0; i < length; i++)
+			buffer[i] = T.Parse(ref reader);
+
+		return buffer.AsReadOnlySpan()[..length];
+	}
+
+	[MethodImpl(MethodImplOptions.AggressiveInlining)]
+	public static ReadOnlySpan<T> GetNextEnums<T>(this ref BytesReader reader, int length, Array100<T> buffer = default) where T : struct, Enum, IConvertible
+	{
+		var byteValues = reader.GetNextBytes(length);
+		var enumValues = MemoryMarshal.Cast<byte, T>(byteValues);
+
+		enumValues.CopyTo(buffer);
+
+		return buffer.AsReadOnlySpan()[..length];
 	}
 }

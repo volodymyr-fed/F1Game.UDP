@@ -183,8 +183,7 @@ sealed class AutoInlineArrayGenerator : IIncrementalGenerator
 				public static {{typeName}} Create(ReadOnlySpan<{{elementType}}> source)
 				{
 					var array = new {{typeName}}();
-					for (var i = 0; i < array.Length && i < source.Length; i++)
-						array[i] = source[i];
+					source[..Math.Min(source.Length, {{length}})].CopyTo(array);
 					return array;
 				}
 
