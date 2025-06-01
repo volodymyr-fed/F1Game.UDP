@@ -5,7 +5,7 @@ namespace F1Game.UDP.Data;
 [StructLayout(LayoutKind.Sequential, Pack = 1)]
 public readonly record struct LobbyInfoData() : IByteParsable<LobbyInfoData>, IByteWritable, ISizeable
 {
-	static int ISizeable.Size => 58;
+	static int ISizeable.Size => 42;
 
 	/// <summary>
 	/// Gets whether the vehicle is AI or Human.
@@ -24,13 +24,13 @@ public readonly record struct LobbyInfoData() : IByteParsable<LobbyInfoData>, IB
 	/// </summary>
 	public Platform Platform { get; init; }
 	/// <summary>
-	/// The name of participant in UTF-8 bytes – null terminated. Will be truncated with ... (U+2026) if too long; 48 chars.
+	/// The name of participant in UTF-8 bytes – null terminated. Will be truncated with ... (U+2026) if too long; 32 bytes maximum.
 	/// </summary>
-	public Array48<byte> NameBytes { get; init; }
+	public Array32<byte> NameBytes { get; init; }
 	/// <summary>
-	/// The name of participant in UTF-8 format – null terminated. Will be truncated with ... (U+2026) if too long; 48 chars.
+	/// The name of participant in UTF-8 format – null terminated. Will be truncated with ... (U+2026) if too long; 32 bytes maximum.
 	/// </summary>
-	public string Name { get => NameBytes.AsString(); init => NameBytes = value.AsArray48Bytes(); }
+	public string Name { get => NameBytes.AsString(); init => NameBytes = value.AsArray32Bytes(); }
 	/// <summary>
 	/// Car number of the player.
 	/// </summary>
@@ -60,7 +60,7 @@ public readonly record struct LobbyInfoData() : IByteParsable<LobbyInfoData>, IB
 			Team = reader.GetNextEnum<Team>(),
 			Nationality = reader.GetNextEnum<Nationality>(),
 			Platform = reader.GetNextEnum<Platform>(),
-			NameBytes = reader.GetNextBytes(48),
+			NameBytes = reader.GetNextBytes(32),
 			CarNumber = reader.GetNextByte(),
 			IsTelemetryPublic = reader.GetNextBoolean(),
 			ShowOnlineNames = reader.GetNextBoolean(),

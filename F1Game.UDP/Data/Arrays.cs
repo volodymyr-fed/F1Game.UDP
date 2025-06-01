@@ -2,6 +2,9 @@
 
 namespace F1Game.UDP.Data;
 
+[AutoInlineArray(4)]
+public partial struct Array4<T>;
+
 [AutoInlineArray(8)]
 public partial struct Array8<T>;
 
@@ -17,8 +20,11 @@ public partial struct Array21<T>;
 [AutoInlineArray(22)]
 public partial struct Array22<T>;
 
-[AutoInlineArray(48)]
-public partial struct Array48<T>;
+[AutoInlineArray(32)]
+public partial struct Array32<T>;
+
+[AutoInlineArray(50)]
+public partial struct Array50<T>;
 
 [AutoInlineArray(64)]
 public partial struct Array64<T>;

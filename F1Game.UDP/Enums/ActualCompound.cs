@@ -8,6 +8,7 @@ public enum ActualCompound : byte
 	F1C2 = 19,
 	F1C1 = 20,
 	F1C0 = 21,
+	F1C6 = 22,
 	F1Inter = 7,
 	F1Wet = 8,
 	F1ClassicDry = 9,

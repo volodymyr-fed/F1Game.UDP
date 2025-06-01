@@ -15,7 +15,7 @@ namespace F1Game.UDP.Packets;
 [StructLayout(LayoutKind.Sequential, Pack = 1)]
 public readonly record struct ParticipantsDataPacket() : IByteParsable<ParticipantsDataPacket>, ISizeable, IByteWritable, IHaveHeader
 {
-	static int ISizeable.Size => 1350;
+	static int ISizeable.Size => 1284;
 
 	public PacketHeader Header { get; init; }
 	/// <summary>

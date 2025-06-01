@@ -165,6 +165,7 @@ sealed class PacketReaderFixture
 			EventType.Overtake => fixture.Create<OvertakeEvent>(),
 			EventType.SafetyCar => fixture.Create<SafetyCarEvent>(),
 			EventType.Collision => fixture.Create<CollisionEvent>(),
+			EventType.DRSDisabled => fixture.Create<DrsDisabledEvent>(),
 			_ => new EventDetails { EventType = eventType },
 		};
 
@@ -221,7 +222,7 @@ sealed class PacketReaderFixture
 	public void ReadLobbyInfoDataPacket()
 	{
 		var lobbyPlayers = fixture.Build<LobbyInfoData>()
-			.With(x => x.NameBytes, fixture.Create<string>().AsArray48Bytes())
+			.With(x => x.NameBytes, fixture.Create<string>().AsArray32Bytes())
 			.CreateMany(22)
 			.ToArray();
 
@@ -270,7 +271,8 @@ sealed class PacketReaderFixture
 	public void ReadParticipantsDataPacket()
 	{
 		var participants = fixture.Build<ParticipantData>()
-			.With(x => x.NameBytes, fixture.Create<string>().AsArray48Bytes())
+			.With(x => x.NameBytes, fixture.Create<string>().AsArray32Bytes())
+			.With(x => x.LiveryColors, fixture.CreateMany<LiveryColor>(4).ToArray())
 			.CreateMany(22)
 			.ToArray();
 
@@ -347,6 +349,25 @@ sealed class PacketReaderFixture
 		bytes.ToPacketWithReader().Should().BeEquivalentTo(packet, Configure);
 	}
 
+	[Test]
+	public void ReadLapPositionsDataPacket()
+	{
+		var positionsPerLapForVehicle = Enumerable.Range(0, 50)
+			.Select(_ => Array22<byte>.Create(fixture.CreateMany<byte>(22).ToArray()))
+			.ToArray();
+
+		UnionPacket packet = BuildPacket<LapPositionsDataPacket>()
+			.With(x => x.PositionsPerLapForVehicle, positionsPerLapForVehicle)
+			.Create();
+
+		var bytes = new byte[GetSize<LapPositionsDataPacket>()];
+		var writer = new BytesWriter(bytes);
+		writer.Write(packet);
+
+		bytes.ToPacket().Should().BeEquivalentTo(packet, Configure);
+		bytes.ToPacketWithReader().Should().BeEquivalentTo(packet, Configure);
+	}
+
 	IPostprocessComposer<T> BuildPacket<T>() where T : IHaveHeader, new()
 	{
 		var packetType = new T() switch
@@ -366,6 +387,7 @@ sealed class PacketReaderFixture
 			SessionHistoryDataPacket => PacketType.SessionHistory,
 			TyreSetsDataPacket => PacketType.TyreSets,
 			TimeTrialDataPacket => PacketType.TimeTrial,
+			LapPositionsDataPacket => PacketType.LapPositions,
 			_ => throw new NotImplementedException()
 		};
 

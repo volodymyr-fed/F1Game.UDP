@@ -3,11 +3,11 @@
 [![NuGet](https://img.shields.io/nuget/v/F1Game.UDP.svg)](https://www.nuget.org/packages/F1Game.UDP/)
 ![BuildStatus](https://github.com/volodymyr-fed/F1Game.UDP/actions/workflows/ci.yaml/badge.svg)
 
-Library to parse UDP telemetry packets from F1 24 game.
+Library to parse UDP telemetry packets from F1 25 game.
 
 # UDP Specification
 
-UDP specification is [here](https://answers.ea.com/t5/General-Discussion/F1-24-UDP-Specification/td-p/13745220).
+UDP specification is [here](https://forums.ea.com/blog/f1-games-game-info-hub-en/ea-sports%E2%84%A2-f1%C2%AE25-udp-specification/12187347).
 
 # Versioning
 
@@ -24,6 +24,7 @@ The `ToPacket` method returns a `UnionPacket` struct, which has properties for d
 - `EventDataPacket`
 - `FinalClassificationDataPacket`
 - `LapDataPacket`
+- `LapPositionsDataPacket`
 - `LobbyInfoDataPacket`
 - `MotionDataPacket`
 - `MotionExDataPacket`
@@ -68,4 +69,4 @@ var someResult = packet.PacketType switch
 
 You can check performance of the library by running benchmarks in `F1Game.UDP.Benchmarks` project.
 
-Results on my machine are [here](./docs/F1Game.UDP.Benchmarks.InternalBenchmark-report-github.md).
+Results on my machine are [here](./docs/F1Game.UDP.Benchmarks.ToPacketBenchmark-report-github.md).

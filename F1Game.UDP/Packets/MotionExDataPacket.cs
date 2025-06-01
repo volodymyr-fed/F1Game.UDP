@@ -9,7 +9,7 @@ namespace F1Game.UDP.Packets;
 [StructLayout(LayoutKind.Sequential, Pack = 1)]
 public readonly record struct MotionExDataPacket() : IByteParsable<MotionExDataPacket>, ISizeable, IByteWritable, IHaveHeader
 {
-	static int ISizeable.Size => 237;
+	static int ISizeable.Size => 273;
 
 	public PacketHeader Header { get; init; }
 	public Tyres<float> SuspensionPosition { get; init; }
@@ -103,6 +103,18 @@ public readonly record struct MotionExDataPacket() : IByteParsable<MotionExDataP
 	/// aw angle of the chassis relative to the direction of motion in radians
 	/// </summary>
 	public float ChassisYaw { get; init; }
+	/// <summary>
+	/// Pitch angle of the chassis relative to the direction of motion - radians
+	/// </summary>
+	public float ChassisPitch { get; init; }
+	/// <summary>
+	/// Camber of each wheel in radians
+	/// </summary>
+	public Tyres<float> WheelsCamper { get; init; }
+	/// <summary>
+	/// Camber gain for each wheel in radians, difference between active camber and dynamic camber
+	/// </summary>
+	public Tyres<float> WheelsCamperGain { get; init; }
 
 	static MotionExDataPacket IByteParsable<MotionExDataPacket>.Parse(ref BytesReader reader)
 	{
@@ -134,6 +146,9 @@ public readonly record struct MotionExDataPacket() : IByteParsable<MotionExDataP
 			FrontRollAngle = reader.GetNextFloat(),
 			RearRollAngle = reader.GetNextFloat(),
 			ChassisYaw = reader.GetNextFloat(),
+			ChassisPitch = reader.GetNextFloat(),
+			WheelsCamper = reader.GetNextTyresFloat(),
+			WheelsCamperGain = reader.GetNextTyresFloat()
 		};
 	}
 
@@ -165,5 +180,8 @@ public readonly record struct MotionExDataPacket() : IByteParsable<MotionExDataP
 		writer.Write(FrontRollAngle);
 		writer.Write(RearRollAngle);
 		writer.Write(ChassisYaw);
+		writer.Write(ChassisPitch);
+		writer.WriteTyresFloat(WheelsCamper);
+		writer.WriteTyresFloat(WheelsCamperGain);
 	}
 }

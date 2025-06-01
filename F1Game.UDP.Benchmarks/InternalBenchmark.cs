@@ -24,7 +24,8 @@ public class InternalBenchmark
 		PacketType.Session,
 		PacketType.SessionHistory,
 		PacketType.TyreSets,
-		PacketType.TimeTrial
+		PacketType.TimeTrial,
+		PacketType.LapPositions
 	])]
 	public PacketType Type { get; set; }
 
