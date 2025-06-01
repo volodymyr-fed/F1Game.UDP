@@ -12,12 +12,12 @@ public readonly record struct PacketHeader() : IByteParsable<PacketHeader>, ISiz
 	static int ISizeable.Size => Size;
 
 	/// <summary>
-	/// Packet format, current version is 2024
+	/// Packet format, current version is 2025
 	/// </summary>
 	public ushort PacketFormat { get; init; }
 	/// <summary>
-	/// Game year - last two digits e.g. 24
-	/// <para>Example: <c>24</c> for 2024</para>
+	/// Game year - last two digits e.g. 25
+	/// <para>Example: <c>25</c> for 2025</para>
 	/// </summary>
 	public byte GameYear { get; init; }
 	/// <summary>

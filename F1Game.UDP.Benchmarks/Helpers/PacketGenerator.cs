@@ -121,6 +121,7 @@ static class PacketGenerator
 			PacketType.TyreSets => GetSize<TyreSetsDataPacket>(),
 			PacketType.MotionEx => GetSize<MotionExDataPacket>(),
 			PacketType.TimeTrial => GetSize<TimeTrialDataPacket>(),
+			PacketType.LapPositions => GetSize<LapPositionsDataPacket>(),
 			_ => throw new ArgumentOutOfRangeException(nameof(packetType), packetType, null)
 		};
 	}

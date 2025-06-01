@@ -148,5 +148,15 @@ public enum Driver : byte
 	DavidTonizza = 157,
 	JarnoOpmeer = 158,
 	LucasBlakeley = 159,
+	PaulAron = 160,
+	GabrielBortoleto = 161,
+	FrancoColapinto = 162,
+	TaylorBarnard = 163,
+	JoshuaDuerksen = 164,
+	AndreaKimiAntonelli = 165,
+	RitomoMiyata = 166,
+	RafaelVillagomez = 167,
+	ZakOSullivan = 168,
+	PepeMarti = 169,
 	NetworkHuman = 255
 }

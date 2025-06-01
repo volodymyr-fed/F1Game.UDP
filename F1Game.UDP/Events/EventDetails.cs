@@ -35,6 +35,8 @@ public readonly record struct EventDetails : IByteParsable<EventDetails>, IByteW
 	private readonly CollisionEvent collisionEvent;
 	[field: FieldOffset(4)]
 	private readonly SafetyCarEvent safetyCarEvent;
+	[field: FieldOffset(4)]
+	private readonly DrsDisabledEvent drsDisabledEvent;
 
 	public EventDetails(ButtonsEvent buttonsEvent) => (this.buttonsEvent, EventType) = (buttonsEvent, EventType.ButtonStatus);
 	public EventDetails(DriveThroughPenaltyServedEvent driveThroughPenaltyServedEvent) => (this.driveThroughPenaltyServedEvent, EventType) = (driveThroughPenaltyServedEvent, EventType.DriveThroughServed);
@@ -50,6 +52,7 @@ public readonly record struct EventDetails : IByteParsable<EventDetails>, IByteW
 	public EventDetails(TeamMateInPitsEvent teamMateInPitsEvent) => (this.teamMateInPitsEvent, EventType) = (teamMateInPitsEvent, EventType.TeamMateInPits);
 	public EventDetails(CollisionEvent collisionEvent) => (this.collisionEvent, EventType) = (collisionEvent, EventType.Collision);
 	public EventDetails(SafetyCarEvent safetyCarEvent) => (this.safetyCarEvent, EventType) = (safetyCarEvent, EventType.SafetyCar);
+	public EventDetails(DrsDisabledEvent drsDisabledEvent) => (this.drsDisabledEvent, EventType) = (drsDisabledEvent, EventType.DRSDisabled);
 
 	public bool TryGetButtonsEvent(out ButtonsEvent buttonsEvent)
 	{
@@ -149,6 +152,13 @@ public readonly record struct EventDetails : IByteParsable<EventDetails>, IByteW
 		return isRightEvent;
 	}
 
+	public bool TryGetDrsDisabledEvent(out DrsDisabledEvent drsDisabledEvent)
+	{
+		var isRightEvent = EventType == EventType.DRSDisabled;
+		drsDisabledEvent = isRightEvent ? this.drsDisabledEvent : default;
+		return isRightEvent;
+	}
+
 	static EventDetails IByteParsable<EventDetails>.Parse(ref BytesReader reader)
 	{
 		var eventType = reader.GetNextUIntEnum<EventType>();
@@ -171,7 +181,7 @@ public readonly record struct EventDetails : IByteParsable<EventDetails>, IByteW
 			EventType.Collision => reader.GetNextObject<CollisionEvent>(),
 			EventType.ChequeredFlag => new EventDetails { EventType = eventType },
 			EventType.DRSEnabled => new EventDetails { EventType = eventType },
-			EventType.DRSDisabled => new EventDetails { EventType = eventType },
+			EventType.DRSDisabled => reader.GetNextObject<DrsDisabledEvent>(),
 			EventType.LightsOut => new EventDetails { EventType = eventType },
 			EventType.SessionStarted => new EventDetails { EventType = eventType },
 			EventType.SessionEnded => new EventDetails { EventType = eventType },
@@ -200,6 +210,7 @@ public readonly record struct EventDetails : IByteParsable<EventDetails>, IByteW
 			EventType.Overtake => overtakeEvent,
 			EventType.SafetyCar => safetyCarEvent,
 			EventType.Collision => collisionEvent,
+			EventType.DRSDisabled => drsDisabledEvent,
 			_ => null,
 		};
 
@@ -220,4 +231,5 @@ public readonly record struct EventDetails : IByteParsable<EventDetails>, IByteW
 	public static implicit operator EventDetails(TeamMateInPitsEvent teamMateInPitsEvent) => new(teamMateInPitsEvent);
 	public static implicit operator EventDetails(CollisionEvent collisionEvent) => new(collisionEvent);
 	public static implicit operator EventDetails(SafetyCarEvent safetyCarEvent) => new(safetyCarEvent);
+	public static implicit operator EventDetails(DrsDisabledEvent drsDisabledEvent) => new(drsDisabledEvent);
 }

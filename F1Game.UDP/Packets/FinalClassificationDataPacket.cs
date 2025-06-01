@@ -10,7 +10,7 @@ namespace F1Game.UDP.Packets;
 [StructLayout(LayoutKind.Sequential, Pack = 1)]
 public readonly record struct FinalClassificationDataPacket() : IByteParsable<FinalClassificationDataPacket>, ISizeable, IByteWritable, IHaveHeader
 {
-	static int ISizeable.Size => 1020;
+	static int ISizeable.Size => 1042;
 
 	public PacketHeader Header { get; init; }
 	/// <summary>

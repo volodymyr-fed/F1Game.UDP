@@ -10,7 +10,7 @@ namespace F1Game.UDP.Packets;
 [StructLayout(LayoutKind.Sequential, Pack = 1)]
 public readonly record struct LobbyInfoDataPacket() : IByteParsable<LobbyInfoDataPacket>, ISizeable, IByteWritable, IHaveHeader
 {
-	static int ISizeable.Size => 1306;
+	static int ISizeable.Size => 954;
 
 	public PacketHeader Header { get; init; }
 	/// <summary>

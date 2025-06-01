@@ -5,7 +5,7 @@ namespace F1Game.UDP.Data;
 [StructLayout(LayoutKind.Sequential, Pack = 1)]
 public readonly record struct FinalClassificationData() : IByteParsable<FinalClassificationData>, IByteWritable, ISizeable
 {
-	static int ISizeable.Size => 45;
+	static int ISizeable.Size => 46;
 
 	/// <summary>
 	/// The finishing position.
@@ -31,6 +31,10 @@ public readonly record struct FinalClassificationData() : IByteParsable<FinalCla
 	/// The result status of the driver.
 	/// </summary>
 	public ResultStatus ResultStatus { get; init; }
+	/// <summary>
+	/// The reason for the result, such as DNF or DSQ.
+	/// </summary>
+	public ResultReason ResultReason { get; init; }
 	/// <summary>
 	/// The best lap time of the session in milliseconds.
 	/// </summary>
@@ -74,6 +78,7 @@ public readonly record struct FinalClassificationData() : IByteParsable<FinalCla
 			Points = reader.GetNextByte(),
 			NumPitStops = reader.GetNextByte(),
 			ResultStatus = reader.GetNextEnum<ResultStatus>(),
+			ResultReason = reader.GetNextEnum<ResultReason>(),
 			BestLapTimeInMS = reader.GetNextUInt(),
 			TotalRaceTime = reader.GetNextDouble(),
 			PenaltiesTime = reader.GetNextByte(),
@@ -93,6 +98,7 @@ public readonly record struct FinalClassificationData() : IByteParsable<FinalCla
 		writer.Write(Points);
 		writer.Write(NumPitStops);
 		writer.WriteEnum(ResultStatus);
+		writer.WriteEnum(ResultReason);
 		writer.Write(BestLapTimeInMS);
 		writer.Write(TotalRaceTime);
 		writer.Write(PenaltiesTime);

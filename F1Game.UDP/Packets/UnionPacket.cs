@@ -42,6 +42,8 @@ public readonly record struct UnionPacket : IByteWritable
 	private readonly MotionExDataPacket motionExDataPacket;
 	[field: FieldOffset(0)]
 	private readonly TimeTrialDataPacket timeTrialDataPacket;
+	[field: FieldOffset(0)]
+	private readonly LapPositionsDataPacket lapPositionsDataPacket;
 
 	public UnionPacket(CarDamageDataPacket carDamageDataPacket) => (this.carDamageDataPacket, PacketType) = (carDamageDataPacket, PacketType.CarDamage);
 	public UnionPacket(CarSetupDataPacket carSetupDataPacket) => (this.carSetupDataPacket, PacketType) = (carSetupDataPacket, PacketType.CarSetups);
@@ -58,6 +60,7 @@ public readonly record struct UnionPacket : IByteWritable
 	public UnionPacket(TyreSetsDataPacket tyreSetsDataPacket) => (this.tyreSetsDataPacket, PacketType) = (tyreSetsDataPacket, PacketType.TyreSets);
 	public UnionPacket(MotionExDataPacket motionExDataPacket) => (this.motionExDataPacket, PacketType) = (motionExDataPacket, PacketType.MotionEx);
 	public UnionPacket(TimeTrialDataPacket timeTrialDataPacket) => (this.timeTrialDataPacket, PacketType) = (timeTrialDataPacket, PacketType.TimeTrial);
+	public UnionPacket(LapPositionsDataPacket lapPositionsDataPacket) => (this.lapPositionsDataPacket, PacketType) = (lapPositionsDataPacket, PacketType.LapPositions);
 
 	public bool TryGetCarDamageDataPacket(out CarDamageDataPacket carDamageDataPacket)
 	{
@@ -164,6 +167,13 @@ public readonly record struct UnionPacket : IByteWritable
 		return isRightPacket;
 	}
 
+	public bool TryGetLapPositionsDataPacket(out LapPositionsDataPacket lapPositionsDataPacket)
+	{
+		var isRightPacket = PacketType == PacketType.LapPositions;
+		lapPositionsDataPacket = isRightPacket ? this.lapPositionsDataPacket : default;
+		return isRightPacket;
+	}
+
 	void IByteWritable.WriteBytes(ref BytesWriter writer)
 	{
 		IByteWritable byteWritable = PacketType switch
@@ -183,6 +193,7 @@ public readonly record struct UnionPacket : IByteWritable
 			PacketType.SessionHistory => sessionHistoryDataPacket,
 			PacketType.TyreSets => tyreSetsDataPacket,
 			PacketType.TimeTrial => timeTrialDataPacket,
+			PacketType.LapPositions => lapPositionsDataPacket,
 			_ => throw new UnreachableException()
 		};
 
@@ -204,4 +215,5 @@ public readonly record struct UnionPacket : IByteWritable
 	public static implicit operator UnionPacket(TyreSetsDataPacket packet) => new(packet);
 	public static implicit operator UnionPacket(MotionExDataPacket packet) => new(packet);
 	public static implicit operator UnionPacket(TimeTrialDataPacket packet) => new(packet);
+	public static implicit operator UnionPacket(LapPositionsDataPacket packet) => new(packet);
 }

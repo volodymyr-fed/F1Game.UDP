@@ -5,7 +5,7 @@ namespace F1Game.UDP.Data;
 [StructLayout(LayoutKind.Sequential, Pack = 1)]
 public readonly record struct ParticipantData() : IByteParsable<ParticipantData>, IByteWritable, ISizeable
 {
-	static int ISizeable.Size => 60;
+	static int ISizeable.Size => 57;
 
 	/// <summary>
 	/// Whether the vehicle is AI or Human.
@@ -36,13 +36,13 @@ public readonly record struct ParticipantData() : IByteParsable<ParticipantData>
 	/// </summary>
 	public Nationality Nationality { get; init; }
 	/// <summary>
-	/// The name of participant in UTF-8 bytes – null terminated. Will be truncated with ... (U+2026) if too long; 48 chars.
+	/// The name of participant in UTF-8 bytes – null terminated. Will be truncated with ... (U+2026) if too long; 32 bytes maximum.
 	/// </summary>
-	public Array48<byte> NameBytes { get; init; }
+	public Array32<byte> NameBytes { get; init; }
 	/// <summary>
-	/// The name of participant in UTF-8 format – null terminated. Will be truncated with ... (U+2026) if too long; 48 chars.
+	/// The name of participant in UTF-8 format – null terminated. Will be truncated with ... (U+2026) if too long; 32 bytes maximum.
 	/// </summary>
-	public string Name { get => NameBytes.AsString(); init => NameBytes = value.AsArray48Bytes(); }
+	public string Name { get => NameBytes.AsString(); init => NameBytes = value.AsArray32Bytes(); }
 	/// <summary>
 	/// The player's telemetry publicity setting.
 	/// </summary>
@@ -59,6 +59,14 @@ public readonly record struct ParticipantData() : IByteParsable<ParticipantData>
 	/// Gets the platform.
 	/// </summary>
 	public Platform Platform { get; init; }
+	/// <summary>
+	/// Number of colors valid for this car in <see cref="LiveryColors"/>
+	/// </summary>
+	public byte LiveryNumberOfColors { get; init; }
+	/// <summary>
+	/// Colors for the car
+	/// </summary>
+	public Array4<LiveryColor> LiveryColors { get; init; }
 
 	static ParticipantData IByteParsable<ParticipantData>.Parse(ref BytesReader reader)
 	{
@@ -71,11 +79,13 @@ public readonly record struct ParticipantData() : IByteParsable<ParticipantData>
 			IsMyTeam = reader.GetNextBoolean(),
 			RaceNumber = reader.GetNextByte(),
 			Nationality = reader.GetNextEnum<Nationality>(),
-			NameBytes = reader.GetNextBytes(48),
+			NameBytes = reader.GetNextBytes(32),
 			IsTelemetryPublic = reader.GetNextBoolean(),
 			ShowOnlineNames = reader.GetNextBoolean(),
 			TechLevel = reader.GetNextUShort(),
-			Platform = reader.GetNextEnum<Platform>()
+			Platform = reader.GetNextEnum<Platform>(),
+			LiveryNumberOfColors = reader.GetNextByte(),
+			LiveryColors = reader.GetNextObjects<LiveryColor>(4)
 		};
 	}
 
@@ -93,5 +103,7 @@ public readonly record struct ParticipantData() : IByteParsable<ParticipantData>
 		writer.Write(ShowOnlineNames);
 		writer.Write(TechLevel);
 		writer.WriteEnum(Platform);
+		writer.Write(LiveryNumberOfColors);
+		writer.Write(LiveryColors.AsReadOnlySpan());
 	}
 }

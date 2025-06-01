@@ -3,7 +3,7 @@
 [StructLayout(LayoutKind.Sequential, Pack = 1)]
 public readonly record struct CarDamageData() : IByteParsable<CarDamageData>, IByteWritable, ISizeable
 {
-	static int ISizeable.Size => 42;
+	static int ISizeable.Size => 46;
 
 	/// <summary>
 	/// Tyre wear (percentage).
@@ -17,6 +17,10 @@ public readonly record struct CarDamageData() : IByteParsable<CarDamageData>, IB
 	/// Brakes damage (percentage).
 	/// </summary>
 	public Tyres<byte> BrakesDamage { get; init; }
+	/// <summary>
+	/// Tyre blisters value (percentage)
+	/// </summary>
+	public Tyres<byte> TyresBlisters { get; init; }
 	/// <summary>
 	/// Front left wing damage (percentage).
 	/// </summary>
@@ -97,6 +101,7 @@ public readonly record struct CarDamageData() : IByteParsable<CarDamageData>, IB
 			TyresWear = reader.GetNextTyresFloat(),
 			TyresDamage = reader.GetNextTyresByte(),
 			BrakesDamage = reader.GetNextTyresByte(),
+			TyresBlisters = reader.GetNextTyresByte(),
 			FrontLeftWingDamage = reader.GetNextByte(),
 			FrontRightWingDamage = reader.GetNextByte(),
 			RearWingDamage = reader.GetNextByte(),
@@ -123,6 +128,7 @@ public readonly record struct CarDamageData() : IByteParsable<CarDamageData>, IB
 		writer.WriteTyresFloat(TyresWear);
 		writer.WriteTyresByte(TyresDamage);
 		writer.WriteTyresByte(BrakesDamage);
+		writer.WriteTyresByte(TyresBlisters);
 		writer.Write(FrontLeftWingDamage);
 		writer.Write(FrontRightWingDamage);
 		writer.Write(RearWingDamage);
