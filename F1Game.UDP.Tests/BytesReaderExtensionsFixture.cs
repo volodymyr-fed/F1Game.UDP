@@ -125,7 +125,7 @@ sealed class BytesReaderExtensionsFixture
 		var bytes = new byte[] { 0x01, 0x02, 0x03, 0x04, 0x05, 0x02, 0x03, 0x04 };
 		var reader = CreateBytesReader(bytes);
 
-		var result = reader.GetNextObjects<TestInt>(2);
+		var result = reader.GetNextObjects<TestInt>(2).ToArray();
 
 		result.Should().Equal(new TestInt(0x04030201), new TestInt(0x04030205));
 	}
@@ -147,7 +147,7 @@ sealed class BytesReaderExtensionsFixture
 		var bytes = new byte[] { 0x01, 0x02, 0x03 };
 		var reader = CreateBytesReader(bytes);
 
-		var result = reader.GetNextEnums<TestEnumByte>(3);
+		var result = reader.GetNextEnums<TestEnumByte>(3).ToArray();
 
 		result.Should().Equal(TestEnumByte.One, TestEnumByte.Two, TestEnumByte.Three);
 	}

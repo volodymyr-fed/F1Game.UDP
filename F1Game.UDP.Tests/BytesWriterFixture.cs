@@ -162,26 +162,13 @@ sealed class BytesWriterFixture
 	}
 
 	[Test]
-	public void WriteString_ShouldWriteStringAndChangeCurrentIndex()
-	{
-		var expectedBytes = "Hello, World!\0"u8.ToArray();
-		var bytes = new byte[14];
-		var writer = new BytesWriter(bytes);
-
-		writer.Write("Hello, World!", 14);
-
-		writer.CurrentIndex.Should().Be(14);
-		bytes.Should().BeEquivalentTo(expectedBytes, options => options.WithStrictOrdering());
-	}
-
-	[Test]
 	public void WriteObjects_ShouldWriteObjectsAndChangeCurrentIndex()
 	{
 		var expectedBytes = new byte[] { 0x01, 0x02, 0x03, 0x04, 0x05, 0x02, 0x03, 0x04, 0 };
 		var bytes = new byte[9];
 		var writer = new BytesWriter(bytes);
 
-		writer.Write(new TestInt[] { new(0x04030201), new(0x04030205) }.AsSpan());
+		writer.Write(new ReadOnlySpan<TestInt>([new(0x04030201), new(0x04030205)]));
 
 		writer.CurrentIndex.Should().Be(8);
 		bytes.Should().BeEquivalentTo(expectedBytes, options => options.WithStrictOrdering());
@@ -207,7 +194,7 @@ sealed class BytesWriterFixture
 		var bytes = new byte[4];
 		var writer = new BytesWriter(bytes);
 
-		writer.WriteEnums(new[] { TestByteEnum.One, TestByteEnum.Two, TestByteEnum.Three }.AsSpan());
+		writer.WriteEnums([TestByteEnum.One, TestByteEnum.Two, TestByteEnum.Three]);
 
 		writer.CurrentIndex.Should().Be(3);
 		bytes.Should().BeEquivalentTo(expectedBytes, options => options.WithStrictOrdering());

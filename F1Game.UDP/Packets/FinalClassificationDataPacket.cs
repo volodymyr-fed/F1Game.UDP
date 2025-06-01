@@ -25,7 +25,7 @@ public readonly record struct FinalClassificationDataPacket() : IByteParsable<Fi
 		{
 			Header = reader.GetNextObject<PacketHeader>(),
 			NumCars = reader.GetNextByte(),
-			ClassificationData = reader.GetNextArray22<FinalClassificationData>()
+			ClassificationData = reader.GetNextObjects<FinalClassificationData>(22)
 		};
 	}
 
@@ -33,6 +33,6 @@ public readonly record struct FinalClassificationDataPacket() : IByteParsable<Fi
 	{
 		writer.Write(Header);
 		writer.Write(NumCars);
-		writer.Write(ClassificationData);
+		writer.Write(ClassificationData.AsReadOnlySpan());
 	}
 }

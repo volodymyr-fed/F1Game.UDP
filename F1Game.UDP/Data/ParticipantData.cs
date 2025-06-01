@@ -71,7 +71,7 @@ public readonly record struct ParticipantData() : IByteParsable<ParticipantData>
 			IsMyTeam = reader.GetNextBoolean(),
 			RaceNumber = reader.GetNextByte(),
 			Nationality = reader.GetNextEnum<Nationality>(),
-			NameBytes = reader.GetNextArray48Bytes(),
+			NameBytes = reader.GetNextBytes(48),
 			IsTelemetryPublic = reader.GetNextBoolean(),
 			ShowOnlineNames = reader.GetNextBoolean(),
 			TechLevel = reader.GetNextUShort(),
@@ -88,7 +88,7 @@ public readonly record struct ParticipantData() : IByteParsable<ParticipantData>
 		writer.Write(IsMyTeam);
 		writer.Write(RaceNumber);
 		writer.WriteEnum(Nationality);
-		writer.Write(Name, 48);
+		writer.Write(NameBytes.AsReadOnlySpan());
 		writer.Write(IsTelemetryPublic);
 		writer.Write(ShowOnlineNames);
 		writer.Write(TechLevel);

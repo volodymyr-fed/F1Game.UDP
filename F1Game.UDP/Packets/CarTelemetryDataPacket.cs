@@ -27,7 +27,7 @@ public readonly record struct CarTelemetryDataPacket() : IByteParsable<CarTeleme
 		return new()
 		{
 			Header = reader.GetNextObject<PacketHeader>(),
-			CarTelemetryData = reader.GetNextArray22<CarTelemetryData>(),
+			CarTelemetryData = reader.GetNextObjects<CarTelemetryData>(22),
 			MfdPanelStatus = reader.GetNextEnum<MfdPanel>(),
 			MfdPanelStatusSecondaryPlayer = reader.GetNextEnum<MfdPanel>(),
 			SuggestedGear = reader.GetNextByte(),
@@ -37,7 +37,7 @@ public readonly record struct CarTelemetryDataPacket() : IByteParsable<CarTeleme
 	void IByteWritable.WriteBytes(ref BytesWriter writer)
 	{
 		writer.Write(Header);
-		writer.Write(CarTelemetryData);
+		writer.Write(CarTelemetryData.AsReadOnlySpan());
 		writer.WriteEnum(MfdPanelStatus);
 		writer.WriteEnum(MfdPanelStatusSecondaryPlayer);
 		writer.Write(SuggestedGear);

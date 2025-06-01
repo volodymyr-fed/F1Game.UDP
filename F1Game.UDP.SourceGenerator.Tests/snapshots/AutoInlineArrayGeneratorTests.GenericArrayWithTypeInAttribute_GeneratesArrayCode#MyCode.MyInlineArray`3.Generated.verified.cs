@@ -90,8 +90,7 @@ partial record struct MyInlineArray<T, T2, T3>
 	public static MyInlineArray<T, T2, T3> Create(ReadOnlySpan<double> source)
 	{
 		var array = new MyInlineArray<T, T2, T3>();
-		for (var i = 0; i < array.Length && i < source.Length; i++)
-			array[i] = source[i];
+		source[..Math.Min(source.Length, 69)].CopyTo(array);
 		return array;
 	}
 

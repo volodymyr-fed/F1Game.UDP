@@ -205,11 +205,11 @@ public readonly record struct SessionDataPacket() : IByteParsable<SessionDataPac
 			SpectatorCarIndex = reader.GetNextByte(),
 			IsSliProNativeSupportActive = reader.GetNextBoolean(),
 			NumMarshalZones = reader.GetNextByte(),
-			MarshalZones = reader.GetNextArray21<MarshalZone>(),
+			MarshalZones = reader.GetNextObjects<MarshalZone>(21),
 			SafetyCarStatus = reader.GetNextEnum<SafetyCarType>(),
 			IsNetworkGame = reader.GetNextBoolean(),
 			NumWeatherForecastSamples = reader.GetNextByte(),
-			WeatherForecastSamples = reader.GetNextArray64<WeatherForecastSample>(),
+			WeatherForecastSamples = reader.GetNextObjects<WeatherForecastSample>(64),
 			ForecastAccuracy = reader.GetNextEnum<ForecastAccuracy>(),
 			AIDifficulty = reader.GetNextByte(),
 			SeasonLinkIdentifier = reader.GetNextUInt(),
@@ -263,7 +263,7 @@ public readonly record struct SessionDataPacket() : IByteParsable<SessionDataPac
 			AffectsLicenceLevelSolo = reader.GetNextBoolean(),
 			AffectsLicenceLevelMP = reader.GetNextBoolean(),
 			NumSessionsInWeekend = reader.GetNextByte(),
-			WeekendStructure = reader.GetNextArray12Enum<SessionType>(),
+			WeekendStructure = reader.GetNextEnums<SessionType>(12),
 			Sector2LapDistanceStart = reader.GetNextFloat(),
 			Sector3LapDistanceStart = reader.GetNextFloat()
 		};
@@ -288,11 +288,11 @@ public readonly record struct SessionDataPacket() : IByteParsable<SessionDataPac
 		writer.Write(SpectatorCarIndex);
 		writer.Write(IsSliProNativeSupportActive);
 		writer.Write(NumMarshalZones);
-		writer.Write(MarshalZones);
+		writer.Write(MarshalZones.AsReadOnlySpan());
 		writer.WriteEnum(SafetyCarStatus);
 		writer.Write(IsNetworkGame);
 		writer.Write(NumWeatherForecastSamples);
-		writer.Write(WeatherForecastSamples);
+		writer.Write(WeatherForecastSamples.AsReadOnlySpan());
 		writer.WriteEnum(ForecastAccuracy);
 		writer.Write(AIDifficulty);
 		writer.Write(SeasonLinkIdentifier);
@@ -346,7 +346,7 @@ public readonly record struct SessionDataPacket() : IByteParsable<SessionDataPac
 		writer.Write(AffectsLicenceLevelSolo);
 		writer.Write(AffectsLicenceLevelMP);
 		writer.Write(NumSessionsInWeekend);
-		writer.WriteEnums(WeekendStructure);
+		writer.WriteEnums(WeekendStructure.AsReadOnlySpan());
 		writer.Write(Sector2LapDistanceStart);
 		writer.Write(Sector3LapDistanceStart);
 	}

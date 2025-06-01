@@ -25,7 +25,7 @@ public readonly record struct LobbyInfoDataPacket() : IByteParsable<LobbyInfoDat
 		{
 			Header = reader.GetNextObject<PacketHeader>(),
 			NumPlayers = reader.GetNextByte(),
-			LobbyPlayers = reader.GetNextArray22<LobbyInfoData>()
+			LobbyPlayers = reader.GetNextObjects<LobbyInfoData>(22)
 		};
 	}
 
@@ -33,6 +33,6 @@ public readonly record struct LobbyInfoDataPacket() : IByteParsable<LobbyInfoDat
 	{
 		writer.Write(Header);
 		writer.Write(NumPlayers);
-		writer.Write(LobbyPlayers);
+		writer.Write(LobbyPlayers.AsReadOnlySpan());
 	}
 }

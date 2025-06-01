@@ -31,7 +31,7 @@ public readonly record struct TyreSetsDataPacket() : IByteParsable<TyreSetsDataP
 		{
 			Header = reader.GetNextObject<PacketHeader>(),
 			CarIndex = reader.GetNextByte(),
-			TyreSetDatas = reader.GetNextArray20<TyreSetData>(),
+			TyreSetDatas = reader.GetNextObjects<TyreSetData>(20),
 			FittedIndex = reader.GetNextByte(),
 		};
 	}
@@ -40,7 +40,7 @@ public readonly record struct TyreSetsDataPacket() : IByteParsable<TyreSetsDataP
 	{
 		writer.Write(Header);
 		writer.Write(CarIndex);
-		writer.Write(TyreSetDatas);
+		writer.Write(TyreSetDatas.AsReadOnlySpan());
 		writer.Write(FittedIndex);
 	}
 }

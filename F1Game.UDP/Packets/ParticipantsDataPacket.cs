@@ -30,7 +30,7 @@ public readonly record struct ParticipantsDataPacket() : IByteParsable<Participa
 		{
 			Header = reader.GetNextObject<PacketHeader>(),
 			NumActiveCars = reader.GetNextByte(),
-			Participants = reader.GetNextArray22<ParticipantData>()
+			Participants = reader.GetNextObjects<ParticipantData>(22)
 		};
 	}
 
@@ -38,6 +38,6 @@ public readonly record struct ParticipantsDataPacket() : IByteParsable<Participa
 	{
 		writer.Write(Header);
 		writer.Write(NumActiveCars);
-		writer.Write(Participants);
+		writer.Write(Participants.AsReadOnlySpan());
 	}
 }
