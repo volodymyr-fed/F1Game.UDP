@@ -149,7 +149,7 @@ public readonly record struct SessionDataPacket() : IByteParsable<SessionDataPac
 	/// <summary>
 	/// Indicates whether pit release assist is enabled in the session.
 	/// </summary>
-	public bool PitReleaseAssist { get; init; } 
+	public bool PitReleaseAssist { get; init; }
 	/// <summary>
 	/// Indicates whether ERS assist is enabled in the session.
 	/// </summary>
@@ -213,7 +213,7 @@ public readonly record struct SessionDataPacket() : IByteParsable<SessionDataPac
 	/// <summary>
     /// Indicates whether car performance is equalized for all players.
     /// </summary>
-	public bool IsEqualCarPerformance { get; init; } 
+	public bool IsEqualCarPerformance { get; init; }
 	/// <summary>
     /// The recovery mode setting.
     /// </summary>
@@ -238,11 +238,10 @@ public readonly record struct SessionDataPacket() : IByteParsable<SessionDataPac
 	/// The tyre temperature simulation settings.
 	/// </summary>
 	public TyreTemperatureSettings TyreTemperature { get; init; }
-	private bool PitLaneTyreSimDisabled { get; init; }
 	/// <summary>
     /// Indicates whether pit lane tyre simulation is enabled.
     /// </summary>
-	public bool PitLaneTyreSim { get => !PitLaneTyreSimDisabled; init => PitLaneTyreSimDisabled = !value; }
+	public bool PitLaneTyreSimEnabled { get => !field; init => field = !value; }
 	/// <summary>
     /// The car damage setting.
     /// </summary>
@@ -259,11 +258,10 @@ public readonly record struct SessionDataPacket() : IByteParsable<SessionDataPac
     /// Indicates whether collisions are disabled for the first lap only.
     /// </summary>
 	public bool IsCollisionsOffForFirstLapOnlyEnabled { get; init; }
-	private bool UnsafePitReleaseDisabled { get; init; }
 	/// <summary>
     /// Indicates whether unsafe pit releases are enabled.
     /// </summary>
-	public bool UnsafePitRelease { get => !UnsafePitReleaseDisabled; init => UnsafePitReleaseDisabled = !value; }
+	public bool UnsafePitReleaseEnabled { get => !field; init => field = !value; }
 	/// <summary>
     /// Indicates whether collisions are off for griefing. (Network game only)
     /// </summary>
@@ -386,12 +384,12 @@ public readonly record struct SessionDataPacket() : IByteParsable<SessionDataPac
 			LowFuelMode = reader.GetNextEnum<LowFuelMode>(),
 			RaceStarts = reader.GetNextEnum<RaceStarts>(),
 			TyreTemperature = reader.GetNextEnum<TyreTemperatureSettings>(),
-			PitLaneTyreSimDisabled = reader.GetNextBoolean(),
+			PitLaneTyreSimEnabled = !reader.GetNextBoolean(),
 			CarDamage = reader.GetNextEnum<CarDamageSetting>(),
 			CarDamageRate = reader.GetNextEnum<CarDamageRateSetting>(),
 			Collisions = reader.GetNextEnum<CollisionSettings>(),
 			IsCollisionsOffForFirstLapOnlyEnabled = reader.GetNextBoolean(),
-			UnsafePitReleaseDisabled = reader.GetNextBoolean(),
+			UnsafePitReleaseEnabled = !reader.GetNextBoolean(),
 			OffForGriefing = reader.GetNextBoolean(),
 			CornerCuttingStringency = reader.GetNextEnum<CornerCuttingSettings>(),
 			ParcFermeRules = reader.GetNextBoolean(),
@@ -469,12 +467,12 @@ public readonly record struct SessionDataPacket() : IByteParsable<SessionDataPac
 		writer.WriteEnum(LowFuelMode);
 		writer.WriteEnum(RaceStarts);
 		writer.WriteEnum(TyreTemperature);
-		writer.Write(PitLaneTyreSimDisabled);
+		writer.Write(!PitLaneTyreSimEnabled);
 		writer.WriteEnum(CarDamage);
 		writer.WriteEnum(CarDamageRate);
 		writer.WriteEnum(Collisions);
 		writer.Write(IsCollisionsOffForFirstLapOnlyEnabled);
-		writer.Write(UnsafePitReleaseDisabled);
+		writer.Write(!UnsafePitReleaseEnabled);
 		writer.Write(OffForGriefing);
 		writer.WriteEnum(CornerCuttingStringency);
 		writer.Write(ParcFermeRules);
