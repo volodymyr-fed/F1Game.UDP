@@ -22,10 +22,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="F1Game.UDP.xml" Pack="true" PackagePath="lib\$(TargetFramework)\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\F1Game.UDP.SourceGenerator\F1Game.UDP.SourceGenerator.csproj">
       <OutputItemType>Analyzer</OutputItemType>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
