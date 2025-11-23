@@ -365,3 +365,6 @@ FodyWeavers.xsd
 # Verify
 *.received.*
 *.received/
+
+# Documentation files
+*.xml
