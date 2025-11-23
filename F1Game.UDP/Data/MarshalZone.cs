@@ -2,6 +2,9 @@
 
 namespace F1Game.UDP.Data;
 
+/// <summary>
+/// Represents a marshal zone on the track.
+/// </summary>
 [StructLayout(LayoutKind.Sequential, Pack = 1)]
 public readonly record struct MarshalZone() : IByteParsable<MarshalZone>, IByteWritable, ISizeable
 {

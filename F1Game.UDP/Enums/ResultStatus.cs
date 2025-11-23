@@ -1,5 +1,10 @@
-﻿namespace F1Game.UDP.Enums;
+﻿#pragma warning disable 1591
 
+namespace F1Game.UDP.Enums;
+
+/// <summary>
+/// Represents the result status options in the F1 game.
+/// </summary>
 public enum ResultStatus : byte
 {
 	Invalid = 0,

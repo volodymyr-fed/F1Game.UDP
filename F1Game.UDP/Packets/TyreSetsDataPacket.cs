@@ -11,6 +11,7 @@ public readonly record struct TyreSetsDataPacket() : IByteParsable<TyreSetsDataP
 {
 	static int ISizeable.Size => 231;
 
+	/// <inheritdoc/>
 	public PacketHeader Header { get; init; }
 	/// <summary>
 	/// Index of the car this packet relates to

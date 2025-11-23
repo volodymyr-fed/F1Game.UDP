@@ -2,14 +2,21 @@
 
 namespace F1Game.UDP.Packets;
 
+/// <summary>
+/// The lap positions data indicates which position each car was on at the start of each lap. Using this
+/// information a lap positions chart can be constructed.Note that only a maximum of 50 laps will be
+/// transmitted in a packet. If more than 50 laps have occurred then two packets will be transmitted, with
+/// different <see cref="StartingLap" /> parameters. The whole lap position history can be recreated merging both of these.
+/// <para>Frequency: 1 per second</para>
+/// </summary>
 public readonly record struct LapPositionsDataPacket() : IByteParsable<LapPositionsDataPacket>, IByteWritable, ISizeable, IHaveHeader
 {
 	static int ISizeable.Size => 1131;
 
+	/// <inheritdoc/>
 	public PacketHeader Header { get; init; }
-
 	/// <summary>
-	/// Number of laps in the data <see cref="NumberOfLaps" />
+	/// Number of laps in the data
 	/// </summary>
 	public byte NumberOfLaps { get; init; }
 	/// <summary>

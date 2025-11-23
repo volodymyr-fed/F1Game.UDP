@@ -1,5 +1,11 @@
-﻿namespace F1Game.UDP.Enums;
+﻿#pragma warning disable 1591
 
+namespace F1Game.UDP.Enums;
+
+/// <summary>
+/// Represents a driver in the F1 game, including real-world, classic, F2, fictional, and esports drivers.
+/// The value corresponds to the driver's unique identifier as used in UDP packets.
+/// </summary>
 public enum Driver : byte
 {
 	CarlosSainz = 0,

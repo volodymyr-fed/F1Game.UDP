@@ -1,8 +1,12 @@
-﻿namespace F1Game.UDP.Enums;
+﻿#pragma warning disable 1591
 
+namespace F1Game.UDP.Enums;
+
+/// <summary>
+/// Represents the unit of speed measurement.
+/// </summary>
 public enum SpeedUnit : byte
 {
-	// 0 = MPH, 1 = KPH
 	MPH = 0,
 	KPH = 1,
 }

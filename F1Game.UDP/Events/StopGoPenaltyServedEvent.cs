@@ -1,5 +1,8 @@
 ﻿namespace F1Game.UDP.Events;
 
+/// <summary>
+/// Represents a stop-go penalty served event in the F1 game.
+/// </summary>
 [StructLayout(LayoutKind.Sequential, Pack = 1)]
 public readonly record struct StopGoPenaltyServedEvent() : IByteParsable<StopGoPenaltyServedEvent>, IByteWritable, ISizeable
 {

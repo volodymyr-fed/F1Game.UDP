@@ -1,5 +1,10 @@
-﻿namespace F1Game.UDP.Enums;
+﻿#pragma warning disable 1591
 
+namespace F1Game.UDP.Enums;
+
+/// <summary>
+/// Represents the different types of packets in the F1 game UDP telemetry data.
+/// </summary>
 public enum PacketType : byte
 {
 	Motion = 0,

@@ -6,12 +6,24 @@ using F1Game.UDP.Packets;
 
 namespace F1Game.UDP;
 
+/// <summary>
+/// Provides methods for converting byte arrays or spans into strongly-typed F1 game UDP packet structures.
+/// </summary>
 public static class PacketReader
 {
+	/// <summary>
+	/// Converts a byte array to a <see cref="UnionPacket"/> by interpreting the bytes as a packet structure.
+	/// </summary>
+	/// <param name="bytes">The byte array containing the packet data.</param>
+	/// <returns>A <see cref="UnionPacket"/> representing the parsed packet data.</returns>
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
 	public static UnionPacket ToPacket(this byte[] bytes) => ToPacket(bytes.AsSpan());
 
-	[MethodImpl(MethodImplOptions.AggressiveInlining)]
+	/// <summary>
+	/// Converts a <see cref="ReadOnlySpan{Byte}"/> to a <see cref="UnionPacket"/> by interpreting the bytes as a packet structure.
+	/// </summary>
+	/// <param name="bytes">The span containing the packet data.</param>
+	/// <returns>A <see cref="UnionPacket"/> representing the parsed packet data.</returns>
 	public static UnionPacket ToPacket(this ReadOnlySpan<byte> bytes)
 	{
 		var packetType = GetPacketType(bytes);

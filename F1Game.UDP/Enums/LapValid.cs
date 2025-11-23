@@ -1,5 +1,10 @@
-﻿namespace F1Game.UDP.Enums;
+﻿#pragma warning disable 1591
 
+namespace F1Game.UDP.Enums;
+
+/// <summary>
+/// Represents the validity of a lap and its sectors in the F1 game.
+/// </summary>
 [Flags]
 public enum LapValid : byte
 {

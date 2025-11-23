@@ -2,6 +2,9 @@
 
 namespace F1Game.UDP.Data;
 
+/// <summary>
+/// Represents the final classification data for a driver at the end of a session.
+/// </summary>
 [StructLayout(LayoutKind.Sequential, Pack = 1)]
 public readonly record struct FinalClassificationData() : IByteParsable<FinalClassificationData>, IByteWritable, ISizeable
 {

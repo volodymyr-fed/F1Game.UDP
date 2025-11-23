@@ -32,6 +32,7 @@ internal sealed class AutoInlineArrayAttribute : Attribute
 {
 	/// <summary>Initializes a new instance of the <see cref="AutoInlineArrayAttribute"/> class.</summary>
 	/// <param name="length">The number of elements in the inline array. Must be greater than 0.</param>
+	/// <param name="elementType">The type of the element in the inline array. Optional if it can be inferred.</param>
 	public AutoInlineArrayAttribute(int length, Type? elementType = null)
 	{
 		if (length <= 0)

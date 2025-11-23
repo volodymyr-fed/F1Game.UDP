@@ -2,6 +2,9 @@
 
 namespace F1Game.UDP.Data;
 
+/// <summary>
+/// Represents telemetry data for a car.
+/// </summary>
 [StructLayout(LayoutKind.Sequential, Pack = 1)]
 public readonly record struct CarTelemetryData() : IByteParsable<CarTelemetryData>, IByteWritable, ISizeable
 {

@@ -2,12 +2,29 @@
 
 namespace F1Game.UDP.Data;
 
+/// <summary>
+/// Represents a set of values associated with the four tyres of a vehicle: rear left, rear right, front left, and front
+/// right.
+/// </summary>
+/// <typeparam name="TValue">The type of the value associated with each tyre position.</typeparam>
 [StructLayout(LayoutKind.Sequential, Pack = 1)]
 public readonly record struct Tyres<TValue>()
 {
+	/// <summary>
+	/// Value for the rear left tyre.
+	/// </summary>
 	public required TValue RearLeft { get; init; }
+	/// <summary>
+	/// Value for the rear right tyre.
+	/// </summary>
 	public required TValue RearRight { get; init; }
+	/// <summary>
+	/// Value for the front left tyre.
+	/// </summary>
 	public required TValue FrontLeft { get; init; }
+	/// <summary>
+	/// Value for the front right tyre.
+	/// </summary>
 	public required TValue FrontRight { get; init; }
 }
 

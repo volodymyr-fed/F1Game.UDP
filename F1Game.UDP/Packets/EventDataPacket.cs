@@ -12,7 +12,11 @@ public readonly record struct EventDataPacket() : IByteParsable<EventDataPacket>
 {
 	static int ISizeable.Size => 45;
 
+	/// <inheritdoc/>
 	public PacketHeader Header { get; init; }
+	/// <summary>
+    /// Details of the event that has occurred.
+    /// </summary>
 	public EventDetails EventDetails { get; init; }
 
 	static EventDataPacket IByteParsable<EventDataPacket>.Parse(ref BytesReader reader)

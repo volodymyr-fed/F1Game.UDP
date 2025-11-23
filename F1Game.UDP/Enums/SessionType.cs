@@ -1,5 +1,10 @@
-﻿namespace F1Game.UDP.Enums;
+﻿#pragma warning disable 1591
 
+namespace F1Game.UDP.Enums;
+
+/// <summary>
+/// Represents the session types in the F1 game (practice, qualifying, race, etc.).
+/// </summary>
 public enum SessionType : byte
 {
 	Unknown = 0,

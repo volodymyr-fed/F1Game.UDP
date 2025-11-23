@@ -12,11 +12,15 @@ public readonly record struct LobbyInfoDataPacket() : IByteParsable<LobbyInfoDat
 {
 	static int ISizeable.Size => 954;
 
+	/// <inheritdoc/>
 	public PacketHeader Header { get; init; }
 	/// <summary>
 	/// Number of players in the <see cref="LobbyPlayers"/>
 	/// </summary>
 	public byte NumPlayers { get; init; }
+	/// <summary>
+	/// List of players in the lobby.
+	/// </summary>
 	public Array22<LobbyInfoData> LobbyPlayers { get; init; }
 
 	static LobbyInfoDataPacket IByteParsable<LobbyInfoDataPacket>.Parse(ref BytesReader reader)

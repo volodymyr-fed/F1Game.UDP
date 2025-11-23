@@ -5,7 +5,7 @@ namespace F1Game.UDP.Packets;
 /// <summary>
 /// The motion packet gives physics data for all the cars being driven.
 /// <para>
-/// N.B.For the normalised vectors below, to convert to float values divide by 32767.0f – 16-bit signed values are used to pack the data
+/// N.B.For the normalized vectors below, to convert to float values divide by 32767.0f – 16-bit signed values are used to pack the data
 /// and on the assumption that direction values are always between -1.0f and 1.0f.
 /// </para>
 /// <para>Frequency: Rate as specified in menus</para>
@@ -15,7 +15,11 @@ public readonly record struct MotionDataPacket() : IByteParsable<MotionDataPacke
 {
 	static int ISizeable.Size => 1349;
 
+	/// <inheritdoc/>
 	public PacketHeader Header { get; init; }
+	/// <summary>
+	/// Data for all cars on track
+	/// </summary>
 	public Array22<CarMotionData> CarMotionData { get; init; }
 
 	static MotionDataPacket IByteParsable<MotionDataPacket>.Parse(ref BytesReader reader)

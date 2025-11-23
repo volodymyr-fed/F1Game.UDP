@@ -2,6 +2,9 @@
 
 namespace F1Game.UDP.Data;
 
+/// <summary>
+/// Represents time trial data for a driver.
+/// </summary>
 [StructLayout(LayoutKind.Sequential, Pack = 1)]
 public readonly record struct TimeTrialDataSet() : IByteParsable<TimeTrialDataSet>, IByteWritable, ISizeable
 {

@@ -1,5 +1,10 @@
-﻿namespace F1Game.UDP.Enums;
+﻿#pragma warning disable 1591
 
+namespace F1Game.UDP.Enums;
+
+/// <summary>
+/// Represents the nationalities available in the F1 game.
+/// </summary>
 public enum Nationality : byte
 {
 	American = 1,

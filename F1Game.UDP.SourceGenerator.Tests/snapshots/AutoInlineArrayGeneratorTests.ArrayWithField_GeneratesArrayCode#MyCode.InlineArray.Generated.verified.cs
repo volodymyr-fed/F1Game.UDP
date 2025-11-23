@@ -10,7 +10,7 @@ using System.Runtime.CompilerServices;
 namespace MyCode;
 
 /// <summary>
-/// Represents an inline array InlineArray with 42 elements of type <see cref="global::MyCode.Element"/>.
+/// Represents an inline array <see cref="InlineArray"/> with 42 elements.
 /// Provides basic equality comparison and hashing. Access elements using the indexer (e.g., myArray[0]).
 /// </summary>
 [InlineArray(42)]
@@ -23,28 +23,28 @@ partial struct InlineArray
 	public int Length => 42;
 
 	/// <summary>
-	/// Returns a <see cref="Span{T}"/> that represents the elements of this inline array.
+	/// Returns a <see cref="Span{global::MyCode.Element}"/> that represents the elements of this inline array.
 	/// </summary>
 	/// <returns>
-	/// A <see cref="Span{T}"/> of length <c>42</c> that provides mutable access to the elements of the inline array.
+	/// A <see cref="Span{global::MyCode.Element}"/> of length <c>42</c> that provides mutable access to the elements of the inline array.
 	/// </returns>
 	public Span<global::MyCode.Element> AsSpan()
 		=> MemoryMarshal.CreateSpan(ref Unsafe.As<InlineArray, global::MyCode.Element>(ref this), 42);
 
 	/// <summary>
-	/// Returns a <see cref="ReadOnlySpan{T}"/> that represents the elements of this inline array.
+	/// Returns a <see cref="ReadOnlySpan{global::MyCode.Element}"/> that represents the elements of this inline array.
 	/// </summary>
 	/// <returns>
-	/// A <see cref="ReadOnlySpan{T}"/> of length <c>42</c> that provides read-only access to the elements of the inline array.
+	/// A <see cref="ReadOnlySpan{global::MyCode.Element}"/> of length <c>42</c> that provides read-only access to the elements of the inline array.
 	/// </returns>
 	public ReadOnlySpan<global::MyCode.Element> AsReadOnlySpan()
 		=> MemoryMarshal.CreateReadOnlySpan(ref Unsafe.As<InlineArray, global::MyCode.Element>(ref this), 42);
 
 	/// <summary>
-	/// Returns an <see cref="IEnumerable{T}"/> that enumerates the elements of this inline array.
+	/// Returns an <see cref="IEnumerable{global::MyCode.Element}"/> that enumerates the elements of this inline array.
 	/// </summary>
 	/// <returns>
-	/// An <see cref="IEnumerable{T}"/> that iterates over the elements of the inline array in order.
+	/// An <see cref="IEnumerable{global::MyCode.Element}"/> that iterates over the elements of the inline array in order.
 	/// </returns>
 	public IEnumerable<global::MyCode.Element> AsEnumerable()
 	{
@@ -107,7 +107,7 @@ partial struct InlineArray
 		=> !(left == right);
 
 	/// <summary>
-	/// Implicitly converts an array of <see cref="global::MyCode.Element"/> to a <see cref="InlineArray"/>.
+	/// Implicitly converts an array to a <see cref="InlineArray"/>.
 	/// Copies up to <c>42</c> elements from the source array; extra elements are ignored, and missing elements are default-initialized.
 	/// </summary>
 	/// <param name="source">
@@ -120,7 +120,7 @@ partial struct InlineArray
 		=> source is null ? new() : Create(source);
 
 	/// <summary>
-	/// Implicitly converts a <see cref="ReadOnlySpan{T}"/> of <see cref="global::MyCode.Element"/> to a <see cref="InlineArray"/>.
+	/// Implicitly converts a <see cref="ReadOnlySpan{global::MyCode.Element}"/> to a <see cref="InlineArray"/>.
 	/// Copies up to <c>42</c> elements from the source span; extra elements are ignored, and missing elements are default-initialized.
 	/// </summary>
 	/// <param name="source">
@@ -133,7 +133,7 @@ partial struct InlineArray
 		=> Create(source);
 
 	/// <summary>
-	/// Implicitly converts a <see cref="Span{T}"/> of <see cref="global::MyCode.Element"/> to a <see cref="InlineArray"/>.
+	/// Implicitly converts a <see cref="Span{global::MyCode.Element}"/> to a <see cref="InlineArray"/>.
 	/// Copies up to <c>42</c> elements from the source span; extra elements are ignored, and missing elements are default-initialized.
 	/// </summary>
 	/// <param name="source">

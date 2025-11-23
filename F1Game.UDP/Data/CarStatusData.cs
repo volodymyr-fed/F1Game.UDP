@@ -2,6 +2,9 @@
 
 namespace F1Game.UDP.Data;
 
+/// <summary>
+/// Represents the status data for a car, including telemetry and system states.
+/// </summary>
 [StructLayout(LayoutKind.Sequential, Pack = 1)]
 public readonly record struct CarStatusData() : IByteParsable<CarStatusData>, IByteWritable, ISizeable
 {

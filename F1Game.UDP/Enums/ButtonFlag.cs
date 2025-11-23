@@ -1,5 +1,12 @@
-﻿namespace F1Game.UDP.Enums;
+﻿#pragma warning disable 1591
 
+namespace F1Game.UDP.Enums;
+
+/// <summary>
+/// These flags are used in the telemetry packet to determine if any buttons are being held on the
+/// controlling device.If the value below logical ANDed with the button status is set then the
+/// corresponding button is being held.
+/// </summary>
 [Flags]
 public enum ButtonFlag : uint
 {

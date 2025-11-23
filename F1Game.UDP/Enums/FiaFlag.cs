@@ -1,5 +1,10 @@
-﻿namespace F1Game.UDP.Enums;
+﻿#pragma warning disable 1591
 
+namespace F1Game.UDP.Enums;
+
+/// <summary>
+/// Represents the FIA flag status in the F1 game.
+/// </summary>
 public enum FiaFlag : sbyte
 {
 	Unknown = -1,

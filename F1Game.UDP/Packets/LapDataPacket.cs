@@ -11,7 +11,11 @@ public readonly record struct LapDataPacket() : IByteParsable<LapDataPacket>, IS
 {
 	static int ISizeable.Size => 1285;
 
+	/// <inheritdoc/>
 	public PacketHeader Header { get; init; }
+	/// <summary>
+	/// Lap data for all cars in the session.
+	/// </summary>
 	public Array22<LapData> LapData { get; init; }
 	/// <summary>
 	/// Index of Personal Best car in time trial (255 if invalid)

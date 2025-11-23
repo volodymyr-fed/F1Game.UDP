@@ -12,7 +12,11 @@ public readonly record struct SessionDataPacket() : IByteParsable<SessionDataPac
 {
 	static int ISizeable.Size => 753;
 
+	/// <inheritdoc/>
 	public PacketHeader Header { get; init; }
+	/// <summary>
+	/// Gets the weather information.
+	/// </summary>
 	public Weather Weather { get; init; }
 	/// <summary>
 	/// Track temp. in degrees celsius
@@ -30,8 +34,17 @@ public readonly record struct SessionDataPacket() : IByteParsable<SessionDataPac
 	/// Track length in metres
 	/// </summary>
 	public ushort TrackLength { get; init; }
+	/// <summary>
+	/// Type of current session
+	/// </summary>
 	public SessionType SessionType { get; init; }
+	/// <summary>
+	/// Track being raced on
+	/// </summary>
 	public Track Track { get; init; }
+	/// <summary>
+	/// Formula type being used
+	/// </summary>
 	public FormulaType Formula { get; init; }
 	/// <summary>
 	/// Time left in session in seconds
@@ -42,7 +55,7 @@ public readonly record struct SessionDataPacket() : IByteParsable<SessionDataPac
 	/// </summary>
 	public ushort SessionDuration { get; init; }
 	/// <summary>
-	/// Pit speed limit in kilometres per hour
+	/// Pit speed limit in kilometers per hour
 	/// </summary>
 	public byte PitSpeedLimit { get; init; }
 	/// <summary>
@@ -69,7 +82,13 @@ public readonly record struct SessionDataPacket() : IByteParsable<SessionDataPac
 	/// List of marshal zones – max 21
 	/// </summary>
 	public Array21<MarshalZone> MarshalZones { get; init; }
+	/// <summary>
+	/// The current status of the safety car for the session.
+	/// </summary>
 	public SafetyCarType SafetyCarStatus { get; init; }
+	/// <summary>
+	/// Indicates whether the session is a network game
+	/// </summary>
 	public bool IsNetworkGame { get; init; }
 	/// <summary>
 	/// Number of weather samples to follow in <see cref="WeatherForecastSamples"/>
@@ -79,6 +98,9 @@ public readonly record struct SessionDataPacket() : IByteParsable<SessionDataPac
 	/// Array of weather forecast samples 64 cells
 	/// </summary>
 	public Array64<WeatherForecastSample> WeatherForecastSamples { get; init; }
+	/// <summary>
+	/// The forecast accuracy setting.
+	/// </summary>
 	public ForecastAccuracy ForecastAccuracy { get; init; }
 	/// <summary>
 	/// AI Difficulty rating – 0-110
@@ -108,25 +130,73 @@ public readonly record struct SessionDataPacket() : IByteParsable<SessionDataPac
 	/// Predicted position to rejoin at (player)
 	/// </summary>
 	public byte PitStopRejoinPosition { get; init; }
+	/// <summary>
+	/// Indicates whether steering assist is enabled in the session.
+	/// </summary>
 	public bool IsSteeringAssistOn { get; init; }
+	/// <summary>
+	/// The braking assist level enabled for the session.
+	/// </summary>
 	public BrakingAssist BrakingAssist { get; init; }
+	/// <summary>
+	/// The gearbox assist level enabled for the session.
+	/// </summary>
 	public GearboxAssist GearboxAssist { get; init; }
+	/// <summary>
+	/// Indicates whether pit assist is enabled in the session.
+	/// </summary>
 	public bool PitAssist { get; init; }
+	/// <summary>
+	/// Indicates whether pit release assist is enabled in the session.
+	/// </summary>
 	public bool PitReleaseAssist { get; init; } 
+	/// <summary>
+	/// Indicates whether ERS assist is enabled in the session.
+	/// </summary>
 	public bool ERSAssist { get; init; }
+	/// <summary>
+	/// Indicates whether DRS assist is enabled in the session.
+	/// </summary>
 	public bool DRSAssist { get; init; }
+	/// <summary>
+	/// The dynamic racing line assist setting.
+	/// </summary>
 	public RacingLine DynamicRacingLine { get; init; }
+	/// <summary>
+	/// The type of dynamic racing line assist.
+	/// </summary>
 	public RacingLineType DynamicRacingLineType { get; init; }
+	/// <summary>
+	/// The game mode for the session.
+	/// </summary>
 	public GameMode GameMode { get; init; }
+	/// <summary>
+	/// The rule set for the session.
+	/// </summary>
 	public RuleSet RuleSet { get; init; }
 	/// <summary>
 	/// Local time of day - minutes since midnight
 	/// </summary>
 	public uint TimeOfDay { get; init; }
+	/// <summary>
+	/// The session length setting.
+	/// </summary>
 	public SessionLength SessionLength { get; init; }
+	/// <summary>
+	/// Speed units for lead player
+	/// </summary>
 	public SpeedUnit SpeedUnitsLeadPlayer { get; init; }
+	/// <summary>
+	/// Temperature units for lead player
+	/// </summary>
 	public TemperatureUnit TemperatureUnitsLeadPlayer { get; init; }
+	/// <summary>
+	/// Speed units for secondary player
+	/// </summary>
 	public SpeedUnit SpeedUnitsSecondaryPlayer { get; init; }
+	/// <summary>
+	/// Temperature units for secondary player
+	/// </summary>
 	public TemperatureUnit TemperatureUnitsSecondaryPlayer { get; init; }
 	/// <summary>
 	/// Number of safety cars called during session
@@ -140,33 +210,104 @@ public readonly record struct SessionDataPacket() : IByteParsable<SessionDataPac
 	/// Number of red flags called during session
 	/// </summary>
 	public byte NumRedFlagPeriods { get; init; }
-
+	/// <summary>
+    /// Indicates whether car performance is equalized for all players.
+    /// </summary>
 	public bool IsEqualCarPerformance { get; init; } 
+	/// <summary>
+    /// The recovery mode setting.
+    /// </summary>
 	public RecoveryMode RecoveryMode { get; init; }
+	/// <summary>
+	/// The flashback limit setting.
+	/// </summary>
 	public FlashbackLimit FlashbackLimit { get; init; }
+	/// <summary>
+	/// The surface type settings.
+	/// </summary>
 	public SurfaceSettings SurfaceTypeSettings { get; init; }
+	/// <summary>
+    /// The low fuel mode setting.
+    /// </summary>
 	public LowFuelMode LowFuelMode { get; init; }
+	/// <summary>
+    /// Race starts setting.
+    /// </summary>
 	public RaceStarts RaceStarts { get; init; }
+	/// <summary>
+	/// The tyre temperature simulation settings.
+	/// </summary>
 	public TyreTemperatureSettings TyreTemperature { get; init; }
 	private bool PitLaneTyreSimDisabled { get; init; }
+	/// <summary>
+    /// Indicates whether pit lane tyre simulation is enabled.
+    /// </summary>
 	public bool PitLaneTyreSim { get => !PitLaneTyreSimDisabled; init => PitLaneTyreSimDisabled = !value; }
+	/// <summary>
+    /// The car damage setting.
+    /// </summary>
 	public CarDamageSetting CarDamage { get; init; }
+	/// <summary>
+    /// The car damage rate setting.
+    /// </summary>
 	public CarDamageRateSetting CarDamageRate { get; init; }
+	/// <summary>
+    /// The collision settings.
+    /// </summary>
 	public CollisionSettings Collisions { get; init; }
+	/// <summary>
+    /// Indicates whether collisions are disabled for the first lap only.
+    /// </summary>
 	public bool IsCollisionsOffForFirstLapOnlyEnabled { get; init; }
 	private bool UnsafePitReleaseDisabled { get; init; }
+	/// <summary>
+    /// Indicates whether unsafe pit releases are enabled.
+    /// </summary>
 	public bool UnsafePitRelease { get => !UnsafePitReleaseDisabled; init => UnsafePitReleaseDisabled = !value; }
+	/// <summary>
+    /// Indicates whether collisions are off for griefing. (Network game only)
+    /// </summary>
 	public bool OffForGriefing { get; init; }
+	/// <summary>
+	/// The corner cutting settings.
+	/// </summary>
 	public CornerCuttingSettings CornerCuttingStringency { get; init; }
+	/// <summary>
+	/// Indicates whether parc ferme rules are enabled.
+	/// </summary>
 	public bool ParcFermeRules { get; init; }
+	/// <summary>
+	/// The pit stop experience setting.
+	/// </summary>
 	public PitStopExperienceSetting PitStopExperience { get; init; }
+	/// <summary>
+	/// The safety car setting.
+	/// </summary>
 	public SafetyCarSetting SafetyCarSetting { get; init; }
+	/// <summary>
+	/// The safety car experience setting.
+	/// </summary>
 	public ExperienceSetting SafetyCarExperience { get; init; }
+	/// <summary>
+	/// Indicates whether a formation lap is enabled.
+	/// </summary>
 	public bool FormationLap { get; init; }
+	/// <summary>
+	/// The formation lap experience setting.
+	/// </summary>
 	public ExperienceSetting FormationLapExperience { get; init; }
+	/// <summary>
+	/// The red flag setting.
+	/// </summary>
 	public RedFlagSetting RedFlags { get; init; }
-	public bool AffectsLicenceLevelSolo { get; init; }
-	public bool AffectsLicenceLevelMP { get; init; }
+	/// <summary>
+	/// Indicates whether the session affects license level in solo play.
+	/// </summary>
+	public bool AffectsLicenseLevelSolo { get; init; }
+	/// <summary>
+    /// Indicates whether the session affects license level in multiplayer.
+    /// </summary>
+	public bool AffectsLicenseLevelMP { get; init; }
 	/// <summary>
 	/// Number of session in <see cref="WeekendStructure"/>
 	/// </summary>
@@ -260,8 +401,8 @@ public readonly record struct SessionDataPacket() : IByteParsable<SessionDataPac
 			FormationLap = reader.GetNextBoolean(),
 			FormationLapExperience = reader.GetNextEnum<ExperienceSetting>(),
 			RedFlags = reader.GetNextEnum<RedFlagSetting>(),
-			AffectsLicenceLevelSolo = reader.GetNextBoolean(),
-			AffectsLicenceLevelMP = reader.GetNextBoolean(),
+			AffectsLicenseLevelSolo = reader.GetNextBoolean(),
+			AffectsLicenseLevelMP = reader.GetNextBoolean(),
 			NumSessionsInWeekend = reader.GetNextByte(),
 			WeekendStructure = reader.GetNextEnums<SessionType>(12),
 			Sector2LapDistanceStart = reader.GetNextFloat(),
@@ -343,8 +484,8 @@ public readonly record struct SessionDataPacket() : IByteParsable<SessionDataPac
 		writer.Write(FormationLap);
 		writer.WriteEnum(FormationLapExperience);
 		writer.WriteEnum(RedFlags);
-		writer.Write(AffectsLicenceLevelSolo);
-		writer.Write(AffectsLicenceLevelMP);
+		writer.Write(AffectsLicenseLevelSolo);
+		writer.Write(AffectsLicenseLevelMP);
 		writer.Write(NumSessionsInWeekend);
 		writer.WriteEnums(WeekendStructure.AsReadOnlySpan());
 		writer.Write(Sector2LapDistanceStart);

@@ -1,5 +1,8 @@
 ﻿namespace F1Game.UDP.Data;
 
+/// <summary>
+/// Represents the damage data for a car, including tyre wear, component damage, and fault indicators.
+/// </summary>
 [StructLayout(LayoutKind.Sequential, Pack = 1)]
 public readonly record struct CarDamageData() : IByteParsable<CarDamageData>, IByteWritable, ISizeable
 {
