@@ -12,11 +12,15 @@ public readonly record struct FinalClassificationDataPacket() : IByteParsable<Fi
 {
 	static int ISizeable.Size => 1042;
 
+	/// <inheritdoc/>
 	public PacketHeader Header { get; init; }
 	/// <summary>
 	/// Number of cars in the <see cref="ClassificationData" />
 	/// </summary>
 	public byte NumCars { get; init; }
+	/// <summary>
+	/// Final classification data for all cars in the session. Use <see cref="NumCars"/> to determine how many entries are valid.
+	/// </summary>
 	public Array22<FinalClassificationData> ClassificationData { get; init; }
 
 	static FinalClassificationDataPacket IByteParsable<FinalClassificationDataPacket>.Parse(ref BytesReader reader)

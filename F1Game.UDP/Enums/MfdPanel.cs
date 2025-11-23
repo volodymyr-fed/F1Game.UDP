@@ -1,11 +1,13 @@
-﻿namespace F1Game.UDP.Enums;
+﻿#pragma warning disable 1591
 
+namespace F1Game.UDP.Enums;
+
+/// <summary>
+/// Represents the MFD (Multi-Function Display) panel options in the F1 game.
+/// May vary depending on game mode
+/// </summary>
 public enum MfdPanel : byte
 {
-	// Index of MFD panel open - 255 = MFD closed
-	// Single player, race – 0 = Car setup, 1 = Pits
-	// 2 = Damage, 3 = Engine, 4 = Temperatures
-	// May vary depending on game mode
 	Closed = 255,
 	CarSetup = 0,
 	Pits = 1,

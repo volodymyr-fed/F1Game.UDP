@@ -1,5 +1,8 @@
 ﻿namespace F1Game.UDP.Data;
 
+/// <summary>
+/// Represents the car setup data for an F1 car, including aero, suspension, geometry, brakes, tyres, ballast, and fuel load.
+/// </summary>
 [StructLayout(LayoutKind.Sequential, Pack = 1)]
 public readonly record struct CarSetupData() : IByteParsable<CarSetupData>, IByteWritable, ISizeable
 {

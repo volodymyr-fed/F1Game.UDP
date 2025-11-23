@@ -2,6 +2,9 @@
 
 namespace F1Game.UDP.Data;
 
+/// <summary>
+/// Represents data about a tyre set.
+/// </summary>
 [StructLayout(LayoutKind.Sequential, Pack = 1)]
 public readonly record struct TyreSetData() : IByteParsable<TyreSetData>, IByteWritable, ISizeable
 {

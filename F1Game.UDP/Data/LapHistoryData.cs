@@ -2,6 +2,9 @@
 
 namespace F1Game.UDP.Data;
 
+/// <summary>
+/// Represents lap history data for a driver.
+/// </summary>
 [StructLayout(LayoutKind.Sequential, Pack = 1)]
 public readonly record struct LapHistoryData() : IByteParsable<LapHistoryData>, IByteWritable, ISizeable
 {

@@ -11,7 +11,11 @@ public readonly record struct CarStatusDataPacket() : IByteParsable<CarStatusDat
 {
 	static int ISizeable.Size => 1239;
 
+	/// <inheritdoc/>
 	public PacketHeader Header { get; init; }
+	/// <summary>
+	/// Car status data for all cars in the session.
+	/// </summary>
 	public Array22<CarStatusData> CarStatusData { get; init; }
 
 	static CarStatusDataPacket IByteParsable<CarStatusDataPacket>.Parse(ref BytesReader reader)

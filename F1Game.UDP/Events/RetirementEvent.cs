@@ -2,6 +2,9 @@
 
 namespace F1Game.UDP.Events;
 
+/// <summary>
+/// Represents a retirement event in the F1 game.
+/// </summary>
 [StructLayout(LayoutKind.Sequential, Pack = 1)]
 public readonly record struct RetirementEvent() : IByteParsable<RetirementEvent>, IByteWritable, ISizeable
 {
@@ -12,6 +15,9 @@ public readonly record struct RetirementEvent() : IByteParsable<RetirementEvent>
 	/// </summary>
 	public byte VehicleIdx { get; init; }
 
+	/// <summary>
+	/// Reason for retirement
+	/// </summary>
 	public ResultReason Reason { get; init; }
 
 	static RetirementEvent IByteParsable<RetirementEvent>.Parse(ref BytesReader reader)

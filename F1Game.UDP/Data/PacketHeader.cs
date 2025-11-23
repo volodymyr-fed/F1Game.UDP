@@ -2,6 +2,9 @@
 
 namespace F1Game.UDP.Data;
 
+/// <summary>
+/// Represents the header of a packet.
+/// </summary>
 [StructLayout(LayoutKind.Sequential, Pack = 1)]
 public readonly record struct PacketHeader() : IByteParsable<PacketHeader>, ISizeable, IByteWritable
 {

@@ -1,5 +1,10 @@
-﻿namespace F1Game.UDP.Enums;
+﻿#pragma warning disable 1591
 
+namespace F1Game.UDP.Enums;
+
+/// <summary>
+/// Represents the teams in the F1 game including F1, F2 and generic teams.
+/// </summary>
 public enum Team : byte
 {
 	Mercedes = 0,

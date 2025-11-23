@@ -17,11 +17,15 @@ public readonly record struct ParticipantsDataPacket() : IByteParsable<Participa
 {
 	static int ISizeable.Size => 1284;
 
+	/// <inheritdoc/>
 	public PacketHeader Header { get; init; }
 	/// <summary>
 	/// Number of active cars in the data – should match number of cars on HUD
 	/// </summary>
 	public byte NumActiveCars { get; init; }
+	/// <summary>
+    /// List of participants in the session.
+    /// </summary>
 	public Array22<ParticipantData> Participants { get; init; }
 
 	static ParticipantsDataPacket IByteParsable<ParticipantsDataPacket>.Parse(ref BytesReader reader)

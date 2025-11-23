@@ -2,6 +2,9 @@
 
 namespace F1Game.UDP.Events;
 
+/// <summary>
+/// Represents a safety car event in the F1 game.
+/// </summary>
 [StructLayout(LayoutKind.Sequential, Pack = 1)]
 public readonly record struct SafetyCarEvent() : IByteParsable<SafetyCarEvent>, IByteWritable, ISizeable
 {

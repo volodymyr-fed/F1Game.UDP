@@ -6,6 +6,8 @@
     <Nullable>enable</Nullable>
     <LangVersion>latest</LangVersion>
     <IsAotCompatible>true</IsAotCompatible>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <DocumentationFile>F1Game.UDP.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -18,6 +20,10 @@
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="F1Game.UDP.xml" Pack="true" PackagePath="lib\$(TargetFramework)\" />
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\F1Game.UDP.SourceGenerator\F1Game.UDP.SourceGenerator.csproj">

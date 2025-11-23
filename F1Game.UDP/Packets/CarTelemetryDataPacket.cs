@@ -13,9 +13,19 @@ public readonly record struct CarTelemetryDataPacket() : IByteParsable<CarTeleme
 {
 	static int ISizeable.Size => 1352;
 
+	/// <inheritdoc/>
 	public PacketHeader Header { get; init; }
+	/// <summary>
+    /// Telemetry for all cars in the session.
+    /// </summary>
 	public Array22<CarTelemetryData> CarTelemetryData { get; init; }
+	/// <summary>
+    /// Status of MFD panels - first player
+    /// </summary>
 	public MfdPanel MfdPanelStatus { get; init; }
+	/// <summary>
+    /// Status of MFD panels - secondary player
+    /// </summary>
 	public MfdPanel MfdPanelStatusSecondaryPlayer { get; init; }
 	/// <summary>
 	/// Suggested gear for the player (1-8) 0 if no gear suggested

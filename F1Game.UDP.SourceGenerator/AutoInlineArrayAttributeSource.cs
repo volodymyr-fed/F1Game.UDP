@@ -45,6 +45,7 @@ static class AutoInlineArrayAttributeSource
 		{
 			/// <summary>Initializes a new instance of the <see cref="{{AutoInlineArrayAttributeFullName}}"/> class.</summary>
 			/// <param name="length">The number of elements in the inline array. Must be greater than 0.</param>
+			/// <param name="elementType">The type of the element in the inline array. Optional if it can be inferred.</param>
 			public {{AutoInlineArrayAttributeFullName}}(int length, Type? elementType = null)
 			{
 				if (length <= 0)

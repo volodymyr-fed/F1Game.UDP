@@ -1,5 +1,8 @@
 ﻿namespace F1Game.UDP.Events;
 
+/// <summary>
+/// Represents a fastest lap event in the F1 game.
+/// </summary>
 [StructLayout(LayoutKind.Sequential, Pack = 1)]
 public readonly record struct FastestLapEvent() : IByteParsable<FastestLapEvent>, IByteWritable, ISizeable
 {

@@ -2,6 +2,9 @@
 
 namespace F1Game.UDP.Data;
 
+/// <summary>
+/// Represents information about a lobby participant.
+/// </summary>
 [StructLayout(LayoutKind.Sequential, Pack = 1)]
 public readonly record struct LobbyInfoData() : IByteParsable<LobbyInfoData>, IByteWritable, ISizeable
 {

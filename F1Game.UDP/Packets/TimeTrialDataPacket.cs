@@ -11,6 +11,7 @@ public readonly record struct TimeTrialDataPacket() : IByteParsable<TimeTrialDat
 {
 	static int ISizeable.Size => 101;
 
+	/// <inheritdoc/>
 	public PacketHeader Header { get; init; }
 	/// <summary>
 	/// Player session best data set

@@ -15,9 +15,12 @@ public readonly record struct CarSetupDataPacket() : IByteParsable<CarSetupDataP
 {
 	static int ISizeable.Size => 1133;
 
+	/// <inheritdoc/>
 	public PacketHeader Header { get; init; }
+	/// <summary>
+	/// Car setup data for all cars in the session.
+	/// </summary>
 	public Array22<CarSetupData> CarSetups { get; init; }
-
 	/// <summary>
 	/// Value of front wing after next pit stop - player only
 	/// </summary>

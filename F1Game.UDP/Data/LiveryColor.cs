@@ -1,5 +1,8 @@
 ﻿namespace F1Game.UDP.Data;
 
+/// <summary>
+/// Represents the RGB color of a livery.
+/// </summary>
 [StructLayout(LayoutKind.Sequential, Pack = 1)]
 public readonly record struct LiveryColor() : IByteParsable<LiveryColor>, IByteWritable, ISizeable
 {

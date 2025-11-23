@@ -20,6 +20,7 @@ public readonly record struct SessionHistoryDataPacket() : IByteParsable<Session
 {
 	static int ISizeable.Size => 1460;
 
+	/// <inheritdoc/>
 	public PacketHeader Header { get; init; }
 	/// <summary>
 	/// Index of the car this lap data relates to
@@ -49,7 +50,15 @@ public readonly record struct SessionHistoryDataPacket() : IByteParsable<Session
 	/// Lap the best Sector 3 time was achieved on
 	/// </summary>
 	public byte BestSector3LapNum { get; init; }
+	/// <summary>
+	/// Gets the collection of lap history data for the session.
+	/// </summary>
 	public Array100<LapHistoryData> LapHistoryData { get; init; }
+	/// <summary>
+	/// Gets the collection of tyre stint history data for the session.
+	/// </summary>
+	/// <remarks>The collection contains up to eight entries, each representing a completed tyre stint. Entries may
+	/// be unused if fewer than eight stints have occurred.</remarks>
 	public Array8<TyreStintHistoryData> TyreStintsHistoryData { get; init; }
 
 	static SessionHistoryDataPacket IByteParsable<SessionHistoryDataPacket>.Parse(ref BytesReader reader)

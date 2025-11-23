@@ -1,5 +1,10 @@
-﻿namespace F1Game.UDP.Enums;
+﻿#pragma warning disable 1591
 
+namespace F1Game.UDP.Enums;
+
+/// <summary>
+/// These types are from physics data and show what type of contact each wheel is experiencing.
+/// </summary>
 public enum Surface : byte
 {
 	Tarmac = 0,

@@ -11,9 +11,19 @@ public readonly record struct MotionExDataPacket() : IByteParsable<MotionExDataP
 {
 	static int ISizeable.Size => 273;
 
+	/// <inheritdoc/>
 	public PacketHeader Header { get; init; }
+	/// <summary>
+    /// Suspension position for each wheel.
+    /// </summary>
 	public Tyres<float> SuspensionPosition { get; init; }
+	/// <summary>
+	/// Suspension velocity for each wheel.
+	/// </summary>
 	public Tyres<float> SuspensionVelocity { get; init; }
+	/// <summary>
+	/// Suspension acceleration for each wheel.
+	/// </summary>
 	public Tyres<float> SuspensionAcceleration { get; init; }
 	/// <summary>
 	/// Speed of each wheel

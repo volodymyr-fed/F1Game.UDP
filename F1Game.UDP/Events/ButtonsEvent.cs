@@ -2,6 +2,9 @@
 
 namespace F1Game.UDP.Events;
 
+/// <summary>
+/// Represents a buttons event in the F1 game.
+/// </summary>
 [StructLayout(LayoutKind.Sequential, Pack = 1)]
 public readonly record struct ButtonsEvent() : IByteParsable<ButtonsEvent>, IByteWritable, ISizeable
 {
@@ -10,7 +13,7 @@ public readonly record struct ButtonsEvent() : IByteParsable<ButtonsEvent>, IByt
 	/// <summary>
 	/// Bit flags specifying which buttons are being pressed
 	/// </summary>
-	public ButtonFlag ButtonStatus { get; init; } 
+	public ButtonFlag ButtonStatus { get; init; }
 
 	static ButtonsEvent IByteParsable<ButtonsEvent>.Parse(ref BytesReader reader)
 	{

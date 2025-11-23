@@ -2,6 +2,9 @@
 
 namespace F1Game.UDP.Data;
 
+/// <summary>
+/// Represents a weather forecast sample.
+/// </summary>
 [StructLayout(LayoutKind.Sequential, Pack = 1)]
 public readonly record struct WeatherForecastSample() : IByteParsable<WeatherForecastSample>, IByteWritable, ISizeable
 {

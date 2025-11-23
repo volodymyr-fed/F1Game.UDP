@@ -1,5 +1,10 @@
-﻿namespace F1Game.UDP.Enums;
+﻿#pragma warning disable 1591
 
+namespace F1Game.UDP.Enums;
+
+/// <summary>
+/// Represents the reason for a race result.
+/// </summary>
 public enum ResultReason : byte
 {
 	Invalid = 0,

@@ -1,5 +1,8 @@
 ﻿namespace F1Game.UDP.Data;
 
+/// <summary>
+/// Contains motion data for a car, including position, velocity, direction, G-forces, and orientation angles.
+/// </summary>
 [StructLayout(LayoutKind.Sequential, Pack = 1)]
 public readonly record struct CarMotionData() : IByteParsable<CarMotionData>, IByteWritable, ISizeable
 {
