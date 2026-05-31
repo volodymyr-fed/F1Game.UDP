@@ -16,7 +16,7 @@ public enum SessionLength : byte
 	/// <summary>
 	/// Short session length: 5 laps
 	/// </summary>
-	Short = 1,
+	Short = 3,
 	/// <summary>
 	/// Medium session length: 25% of race distance
 	/// </summary>
