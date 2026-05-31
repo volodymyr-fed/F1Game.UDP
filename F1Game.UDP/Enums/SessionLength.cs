@@ -1,4 +1,6 @@
-﻿namespace F1Game.UDP.Enums;
+﻿#pragma warning disable CA1720
+
+namespace F1Game.UDP.Enums;
 
 /// <summary>
 /// Represents the session length options in the F1 game.
@@ -8,16 +10,16 @@ public enum SessionLength : byte
 	/// <summary>No session length</summary>
 	None = 0,
 	/// <summary>
-    /// Very short session length: 3 laps
-    /// </summary>
+	/// Very short session length: 3 laps
+	/// </summary>
 	VeryShort = 2,
 	/// <summary>
-    /// Short session length: 5 laps
-    /// </summary>
+	/// Short session length: 5 laps
+	/// </summary>
 	Short = 1,
 	/// <summary>
-    /// Medium session length: 25% of race distance
-    /// </summary>
+	/// Medium session length: 25% of race distance
+	/// </summary>
 	Medium = 4,
 	/// <summary>
 	/// Medium long session length: 35% of race distance

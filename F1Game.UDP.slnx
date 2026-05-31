@@ -1,0 +1,12 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path=".editorconfig" />
+    <File Path="finecodecoverage-settings.xml" />
+    <File Path="README.md" />
+  </Folder>
+  <Project Path="F1Game.UDP.Benchmarks/F1Game.UDP.Benchmarks.csproj" />
+  <Project Path="F1Game.UDP.SourceGenerator.Tests/F1Game.UDP.SourceGenerator.Tests.csproj" />
+  <Project Path="F1Game.UDP.SourceGenerator/F1Game.UDP.SourceGenerator.csproj" />
+  <Project Path="F1Game.UDP.Tests/F1Game.UDP.Tests.csproj" />
+  <Project Path="F1Game.UDP/F1Game.UDP.csproj" />
+</Solution>

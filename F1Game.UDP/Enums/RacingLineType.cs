@@ -1,4 +1,4 @@
-﻿#pragma warning disable 1591
+﻿#pragma warning disable 1591, CA1707
 
 namespace F1Game.UDP.Enums;
 
