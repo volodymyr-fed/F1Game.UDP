@@ -14,6 +14,7 @@ public class ToPacketBenchmark
 		PacketType.CarSetups,
 		PacketType.CarStatus,
 		PacketType.CarTelemetry,
+		PacketType.CarTelemetry2,
 		PacketType.Event,
 		PacketType.FinalClassification,
 		PacketType.LapData,

@@ -10,6 +10,7 @@ namespace F1Game.UDP.Packets;
 public readonly record struct TyreSetsDataPacket() : IByteParsable<TyreSetsDataPacket>, ISizeable, IByteWritable, IHaveHeader
 {
 	static int ISizeable.Size => 231;
+	internal const int MaxTyreSets = 20;
 
 	/// <inheritdoc/>
 	public PacketHeader Header { get; init; }
@@ -32,7 +33,7 @@ public readonly record struct TyreSetsDataPacket() : IByteParsable<TyreSetsDataP
 		{
 			Header = reader.GetNextObject<PacketHeader>(),
 			CarIndex = reader.GetNextByte(),
-			TyreSetDatas = reader.GetNextObjects<TyreSetData>(20),
+			TyreSetDatas = reader.GetNextObjects<TyreSetData>(MaxTyreSets),
 			FittedIndex = reader.GetNextByte(),
 		};
 	}

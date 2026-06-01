@@ -12,8 +12,8 @@
     <RepositoryType>git</RepositoryType>
     <Authors>Volodymyr Fed</Authors>
     <RepositoryUrl>https://github.com/volodymyr-fed/F1Game.UDP</RepositoryUrl>
-    <Description>Library to parse UDP telemetry packets from F1 25 game.</Description>
-    <PackageTags>f1, formula, formula-1, formula1, f1-game, f1game, f1-25, f125, 25, game, udp, telemetry</PackageTags>
+    <Description>Library to parse UDP telemetry packets from the F1 25 2026 Season Pack packet layout.</Description>
+    <PackageTags>f1, formula, formula-1, formula1, f1-game, f1game, f1-25, f125, f1-26, f126, 25, 26, 2026, game, udp, telemetry</PackageTags>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>

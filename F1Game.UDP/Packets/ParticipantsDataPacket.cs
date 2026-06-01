@@ -15,7 +15,7 @@ namespace F1Game.UDP.Packets;
 [StructLayout(LayoutKind.Sequential, Pack = 1)]
 public readonly record struct ParticipantsDataPacket() : IByteParsable<ParticipantsDataPacket>, ISizeable, IByteWritable, IHaveHeader
 {
-	static int ISizeable.Size => 1284;
+	static int ISizeable.Size => 1470;
 
 	/// <inheritdoc/>
 	public PacketHeader Header { get; init; }
@@ -26,7 +26,7 @@ public readonly record struct ParticipantsDataPacket() : IByteParsable<Participa
 	/// <summary>
     /// List of participants in the session.
     /// </summary>
-	public Array22<ParticipantData> Participants { get; init; }
+	public Array24<ParticipantData> Participants { get; init; }
 
 	static ParticipantsDataPacket IByteParsable<ParticipantsDataPacket>.Parse(ref BytesReader reader)
 	{
@@ -34,7 +34,7 @@ public readonly record struct ParticipantsDataPacket() : IByteParsable<Participa
 		{
 			Header = reader.GetNextObject<PacketHeader>(),
 			NumActiveCars = reader.GetNextByte(),
-			Participants = reader.GetNextObjects<ParticipantData>(22)
+			Participants = reader.GetNextObjects<ParticipantData>(ProtocolLimits.MaxCars)
 		};
 	}
 

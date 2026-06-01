@@ -6,7 +6,7 @@
 [StructLayout(LayoutKind.Sequential, Pack = 1)]
 public readonly record struct CarMotionData() : IByteParsable<CarMotionData>, IByteWritable, ISizeable
 {
-	static int ISizeable.Size => 60;
+	static int ISizeable.Size => 54;
 
 	/// <summary>
 	/// World space X position.
@@ -59,15 +59,15 @@ public readonly record struct CarMotionData() : IByteParsable<CarMotionData>, IB
 	/// <summary>
 	/// Lateral G-Force component.
 	/// </summary>
-	public float GForceLateral { get; init; }
+	public short GForceLateral { get; init; }
 	/// <summary>
 	/// Longitudinal G-Force component.
 	/// </summary>
-	public float GForceLongitudinal { get; init; }
+	public short GForceLongitudinal { get; init; }
 	/// <summary>
 	/// Vertical G-Force component.
 	/// </summary>
-	public float GForceVertical { get; init; }
+	public short GForceVertical { get; init; }
 	/// <summary>
 	/// Yaw angle in radians.
 	/// </summary>
@@ -97,9 +97,9 @@ public readonly record struct CarMotionData() : IByteParsable<CarMotionData>, IB
 			WorldRightDirX = reader.GetNextShort(),
 			WorldRightDirY = reader.GetNextShort(),
 			WorldRightDirZ = reader.GetNextShort(),
-			GForceLateral = reader.GetNextFloat(),
-			GForceLongitudinal = reader.GetNextFloat(),
-			GForceVertical = reader.GetNextFloat(),
+			GForceLateral = reader.GetNextShort(),
+			GForceLongitudinal = reader.GetNextShort(),
+			GForceVertical = reader.GetNextShort(),
 			Yaw = reader.GetNextFloat(),
 			Pitch = reader.GetNextFloat(),
 			Roll = reader.GetNextFloat(),

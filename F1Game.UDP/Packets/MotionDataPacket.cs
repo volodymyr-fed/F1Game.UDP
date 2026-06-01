@@ -13,21 +13,21 @@ namespace F1Game.UDP.Packets;
 [StructLayout(LayoutKind.Sequential, Pack = 1)]
 public readonly record struct MotionDataPacket() : IByteParsable<MotionDataPacket>, ISizeable, IByteWritable, IHaveHeader
 {
-	static int ISizeable.Size => 1349;
+	static int ISizeable.Size => 1325;
 
 	/// <inheritdoc/>
 	public PacketHeader Header { get; init; }
 	/// <summary>
 	/// Data for all cars on track
 	/// </summary>
-	public Array22<CarMotionData> CarMotionData { get; init; }
+	public Array24<CarMotionData> CarMotionData { get; init; }
 
 	static MotionDataPacket IByteParsable<MotionDataPacket>.Parse(ref BytesReader reader)
 	{
 		return new()
 		{
 			Header = reader.GetNextObject<PacketHeader>(),
-			CarMotionData = reader.GetNextObjects<CarMotionData>(22),
+			CarMotionData = reader.GetNextObjects<CarMotionData>(ProtocolLimits.MaxCars),
 		};
 	}
 

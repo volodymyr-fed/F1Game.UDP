@@ -8,7 +8,7 @@ namespace F1Game.UDP.Data;
 [StructLayout(LayoutKind.Sequential, Pack = 1)]
 public readonly record struct CarStatusData() : IByteParsable<CarStatusData>, IByteWritable, ISizeable
 {
-	static int ISizeable.Size => 55;
+	static int ISizeable.Size => 59;
 
 	/// <summary>
 	/// Traction control setting <see cref="TractionOptions"/>
@@ -103,6 +103,10 @@ public readonly record struct CarStatusData() : IByteParsable<CarStatusData>, IB
 	/// </summary>
 	public float ErsHarvestedThisLapMGUH { get; init; }
 	/// <summary>
+	/// ERS energy harvest limit for this lap.
+	/// </summary>
+	public float ErsHarvestLimitPerLap { get; init; }
+	/// <summary>
 	/// ERS energy deployed this lap.
 	/// </summary>
 	public float ErsDeployedThisLap { get; init; }
@@ -138,6 +142,7 @@ public readonly record struct CarStatusData() : IByteParsable<CarStatusData>, IB
 			ErsDeployMode = reader.GetNextEnum<ErsDeployMode>(),
 			ErsHarvestedThisLapMGUK = reader.GetNextFloat(),
 			ErsHarvestedThisLapMGUH = reader.GetNextFloat(),
+			ErsHarvestLimitPerLap = reader.GetNextFloat(),
 			ErsDeployedThisLap = reader.GetNextFloat(),
 			NetworkPaused = reader.GetNextBoolean()
 		};
@@ -168,6 +173,7 @@ public readonly record struct CarStatusData() : IByteParsable<CarStatusData>, IB
 		writer.WriteEnum(ErsDeployMode);
 		writer.Write(ErsHarvestedThisLapMGUK);
 		writer.Write(ErsHarvestedThisLapMGUH);
+		writer.Write(ErsHarvestLimitPerLap);
 		writer.Write(ErsDeployedThisLap);
 		writer.Write(NetworkPaused);
 	}

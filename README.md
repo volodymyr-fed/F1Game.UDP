@@ -3,11 +3,11 @@
 [![NuGet](https://img.shields.io/nuget/v/F1Game.UDP.svg)](https://www.nuget.org/packages/F1Game.UDP/)
 ![BuildStatus](https://github.com/volodymyr-fed/F1Game.UDP/actions/workflows/ci.yaml/badge.svg)
 
-Library to parse UDP telemetry packets from F1 25 game.
+Library to parse UDP telemetry packets from the F1 25 2026 Season Pack packet layout.
 
 # UDP Specification
 
-UDP specification is [here](https://forums.ea.com/blog/f1-games-game-info-hub-en/ea-sports%E2%84%A2-f1%C2%AE25-udp-specification/12187347).
+UDP specification is [here](https://forums.ea.com/blog/f1-games-game-info-hub-en/ea-sports%E2%84%A2-f1%C2%AE25-2026-season-pack-udp-specification/12187347).
 
 # Versioning
 
@@ -21,6 +21,7 @@ The `ToPacket` method returns a `UnionPacket` struct, which has properties for d
 - `CarSetupDataPacket`
 - `CarStatusDataPacket`
 - `CarTelemetryDataPacket`
+- `CarTelemetry2DataPacket`
 - `EventDataPacket`
 - `FinalClassificationDataPacket`
 - `LapDataPacket`
@@ -51,6 +52,9 @@ switch (packet.PacketType)
 	case PacketType.CarTelemetry when packet.TryGetCarTelemetryDataPacket(out var carTelemetryData):
 		// Access car telemetry data
 		break;
+	case PacketType.CarTelemetry2 when packet.TryGetCarTelemetry2DataPacket(out var carTelemetry2Data):
+			// Access additional 2026 telemetry data
+			break;
 	case PacketType.CarStatus when packet.TryGetCarStatusDataPacket(out var carStatusData):
 		// Access car status data
 		break;
@@ -60,6 +64,7 @@ switch (packet.PacketType)
 var someResult = packet.PacketType switch
 {
 	PacketType.CarTelemetry when packet.TryGetCarTelemetryDataPacket(out var carTelemetryData) => // Access car telemetry data,
+	PacketType.CarTelemetry2 when packet.TryGetCarTelemetry2DataPacket(out var carTelemetry2Data) => // Access additional 2026 telemetry data,
 	PacketType.CarStatus when packet.TryGetCarStatusDataPacket(out var carStatusData) => // Access car status data,
 	_ => "default"
 };

@@ -90,12 +90,18 @@ ref struct BytesWriter(byte[] bytes)
 
 		if (type == typeof(byte))
 			Write(Unsafe.As<T, byte>(ref value));
-		if (type == typeof(sbyte))
+		else if (type == typeof(sbyte))
 			Write(Unsafe.As<T, sbyte>(ref value));
-		if (type == typeof(int))
+		else if (type == typeof(short))
+			Write(Unsafe.As<T, short>(ref value));
+		else if (type == typeof(ushort))
+			Write(Unsafe.As<T, ushort>(ref value));
+		else if (type == typeof(int))
 			Write(Unsafe.As<T, int>(ref value));
-		if (type == typeof(uint))
+		else if (type == typeof(uint))
 			Write(Unsafe.As<T, uint>(ref value));
+		else
+			throw new NotSupportedException($"Unsupported enum underlying type '{type}' for {typeof(T)}.");
 	}
 
 	public void WriteEnums<T>(ReadOnlySpan<T> values) where T : struct, Enum, IConvertible

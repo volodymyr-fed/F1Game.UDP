@@ -11,14 +11,14 @@ namespace F1Game.UDP.Packets;
 [StructLayout(LayoutKind.Sequential, Pack = 1)]
 public readonly record struct CarTelemetryDataPacket() : IByteParsable<CarTelemetryDataPacket>, ISizeable, IByteWritable, IHaveHeader
 {
-	static int ISizeable.Size => 1352;
+	static int ISizeable.Size => 1448;
 
 	/// <inheritdoc/>
 	public PacketHeader Header { get; init; }
 	/// <summary>
     /// Telemetry for all cars in the session.
     /// </summary>
-	public Array22<CarTelemetryData> CarTelemetryData { get; init; }
+	public Array24<CarTelemetryData> CarTelemetryData { get; init; }
 	/// <summary>
     /// Status of MFD panels - first player
     /// </summary>
@@ -37,7 +37,7 @@ public readonly record struct CarTelemetryDataPacket() : IByteParsable<CarTeleme
 		return new()
 		{
 			Header = reader.GetNextObject<PacketHeader>(),
-			CarTelemetryData = reader.GetNextObjects<CarTelemetryData>(22),
+			CarTelemetryData = reader.GetNextObjects<CarTelemetryData>(ProtocolLimits.MaxCars),
 			MfdPanelStatus = reader.GetNextEnum<MfdPanel>(),
 			MfdPanelStatusSecondaryPlayer = reader.GetNextEnum<MfdPanel>(),
 			SuggestedGear = reader.GetNextByte(),

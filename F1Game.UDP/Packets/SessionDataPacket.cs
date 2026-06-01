@@ -10,7 +10,11 @@ namespace F1Game.UDP.Packets;
 [StructLayout(LayoutKind.Sequential, Pack = 1)]
 public readonly record struct SessionDataPacket() : IByteParsable<SessionDataPacket>, ISizeable, IByteWritable, IHaveHeader
 {
-	static int ISizeable.Size => 753;
+	static int ISizeable.Size => 926;
+	internal const int MaxMarshalZones = 21;
+	internal const int MaxWeatherForecastSamples = 64;
+	internal const int MaxActiveAeroZones = 8;
+	internal const int MaxDrsZones = 4;
 
 	/// <inheritdoc/>
 	public PacketHeader Header { get; init; }
@@ -322,6 +326,58 @@ public readonly record struct SessionDataPacket() : IByteParsable<SessionDataPac
 	/// Distance in m around track where sector 3 start
 	/// </summary>
 	public float Sector3LapDistanceStart { get; init; }
+	/// <summary>
+	/// Active aero track status. 0 = full, 1 = partial.
+	/// </summary>
+	public byte ActiveAeroTrackStatus { get; init; }
+	/// <summary>
+	/// Number of full active aero zones in <see cref="ActiveAeroZonesFull"/>.
+	/// </summary>
+	public byte NumActiveAeroZonesFull { get; init; }
+	/// <summary>
+	/// Full active aero zones.
+	/// </summary>
+	public Array8<ActiveAeroZone> ActiveAeroZonesFull { get; init; }
+	/// <summary>
+	/// Number of partial active aero zones in <see cref="ActiveAeroZonesPartial"/>.
+	/// </summary>
+	public byte NumActiveAeroZonesPartial { get; init; }
+	/// <summary>
+	/// Partial active aero zones.
+	/// </summary>
+	public Array8<ActiveAeroZone> ActiveAeroZonesPartial { get; init; }
+	/// <summary>
+	/// Number of DRS zones in <see cref="DrsZones"/>.
+	/// </summary>
+	public byte NumDrsZones { get; init; }
+	/// <summary>
+	/// DRS zones on the track.
+	/// </summary>
+	public Array4<DRSZone> DrsZones { get; init; }
+	/// <summary>
+	/// Driver start reaction time in seconds.
+	/// </summary>
+	public float StartReactionTime { get; init; }
+	/// <summary>
+	/// Anti-lock brakes assist setting.
+	/// </summary>
+	public AntiLockBrakesOptions AntiLockBrakesAssist { get; init; }
+	/// <summary>
+	/// Traction control assist setting.
+	/// </summary>
+	public TractionOptions TractionControlAssist { get; init; }
+	/// <summary>
+	/// Indicates whether the high-visibility racing line is enabled.
+	/// </summary>
+	public bool DynamicRacingLineHiVis { get; init; }
+	/// <summary>
+	/// Dynamic racing line colour-blind mode.
+	/// </summary>
+	public DynamicRacingLineColourBlind DynamicRacingLineColourBlind { get; init; }
+	/// <summary>
+	/// Indicates whether the recurring rewind prompt is enabled.
+	/// </summary>
+	public bool RecurringRewindPrompt { get; init; }
 
 	static SessionDataPacket IByteParsable<SessionDataPacket>.Parse(ref BytesReader reader)
 	{
@@ -344,11 +400,11 @@ public readonly record struct SessionDataPacket() : IByteParsable<SessionDataPac
 			SpectatorCarIndex = reader.GetNextByte(),
 			IsSliProNativeSupportActive = reader.GetNextBoolean(),
 			NumMarshalZones = reader.GetNextByte(),
-			MarshalZones = reader.GetNextObjects<MarshalZone>(21),
+			MarshalZones = reader.GetNextObjects<MarshalZone>(MaxMarshalZones),
 			SafetyCarStatus = reader.GetNextEnum<SafetyCarType>(),
 			IsNetworkGame = reader.GetNextBoolean(),
 			NumWeatherForecastSamples = reader.GetNextByte(),
-			WeatherForecastSamples = reader.GetNextObjects<WeatherForecastSample>(64),
+			WeatherForecastSamples = reader.GetNextObjects<WeatherForecastSample>(MaxWeatherForecastSamples),
 			ForecastAccuracy = reader.GetNextEnum<ForecastAccuracy>(),
 			AIDifficulty = reader.GetNextByte(),
 			SeasonLinkIdentifier = reader.GetNextUInt(),
@@ -404,7 +460,20 @@ public readonly record struct SessionDataPacket() : IByteParsable<SessionDataPac
 			NumSessionsInWeekend = reader.GetNextByte(),
 			WeekendStructure = reader.GetNextEnums<SessionType>(12),
 			Sector2LapDistanceStart = reader.GetNextFloat(),
-			Sector3LapDistanceStart = reader.GetNextFloat()
+			Sector3LapDistanceStart = reader.GetNextFloat(),
+			ActiveAeroTrackStatus = reader.GetNextByte(),
+			NumActiveAeroZonesFull = reader.GetNextByte(),
+			ActiveAeroZonesFull = reader.GetNextObjects<ActiveAeroZone>(MaxActiveAeroZones),
+			NumActiveAeroZonesPartial = reader.GetNextByte(),
+			ActiveAeroZonesPartial = reader.GetNextObjects<ActiveAeroZone>(MaxActiveAeroZones),
+			NumDrsZones = reader.GetNextByte(),
+			DrsZones = reader.GetNextObjects<DRSZone>(MaxDrsZones),
+			StartReactionTime = reader.GetNextFloat(),
+			AntiLockBrakesAssist = reader.GetNextEnum<AntiLockBrakesOptions>(),
+			TractionControlAssist = reader.GetNextEnum<TractionOptions>(),
+			DynamicRacingLineHiVis = reader.GetNextBoolean(),
+			DynamicRacingLineColourBlind = reader.GetNextEnum<DynamicRacingLineColourBlind>(),
+			RecurringRewindPrompt = reader.GetNextBoolean()
 		};
 	}
 
@@ -488,5 +557,18 @@ public readonly record struct SessionDataPacket() : IByteParsable<SessionDataPac
 		writer.WriteEnums(WeekendStructure.AsReadOnlySpan());
 		writer.Write(Sector2LapDistanceStart);
 		writer.Write(Sector3LapDistanceStart);
+		writer.Write(ActiveAeroTrackStatus);
+		writer.Write(NumActiveAeroZonesFull);
+		writer.Write(ActiveAeroZonesFull.AsReadOnlySpan());
+		writer.Write(NumActiveAeroZonesPartial);
+		writer.Write(ActiveAeroZonesPartial.AsReadOnlySpan());
+		writer.Write(NumDrsZones);
+		writer.Write(DrsZones.AsReadOnlySpan());
+		writer.Write(StartReactionTime);
+		writer.WriteEnum(AntiLockBrakesAssist);
+		writer.WriteEnum(TractionControlAssist);
+		writer.Write(DynamicRacingLineHiVis);
+		writer.WriteEnum(DynamicRacingLineColourBlind);
+		writer.Write(RecurringRewindPrompt);
 	}
 }

@@ -8,7 +8,7 @@ namespace F1Game.UDP.Packets;
 /// <summary>
 /// Represents a union packet that can hold any of the F1 game UDP packet types.
 /// </summary>
-[StructLayout(LayoutKind.Explicit, Pack = 1, Size = 1460)]
+[StructLayout(LayoutKind.Explicit, Pack = 1, Size = 1470)]
 public readonly record struct UnionPacket : IByteWritable
 {
 	/// <summary>
@@ -29,6 +29,8 @@ public readonly record struct UnionPacket : IByteWritable
 	private readonly CarStatusDataPacket carStatusDataPacket;
 	[field: FieldOffset(0)]
 	private readonly CarTelemetryDataPacket carTelemetryDataPacket;
+	[field: FieldOffset(0)]
+	private readonly CarTelemetry2DataPacket carTelemetry2DataPacket;
 	[field: FieldOffset(0)]
 	private readonly EventDataPacket eventDataPacket;
 	[field: FieldOffset(0)]
@@ -77,6 +79,12 @@ public readonly record struct UnionPacket : IByteWritable
 	/// </summary>
 	/// <param name="carTelemetryDataPacket">The car telemetry data packet.</param>
 	public UnionPacket(CarTelemetryDataPacket carTelemetryDataPacket) => (this.carTelemetryDataPacket, PacketType) = (carTelemetryDataPacket, PacketType.CarTelemetry);
+
+	/// <summary>
+	/// Initializes a new instance of the <see cref="UnionPacket"/> struct with a car telemetry 2 data packet.
+	/// </summary>
+	/// <param name="carTelemetry2DataPacket">The car telemetry 2 data packet.</param>
+	public UnionPacket(CarTelemetry2DataPacket carTelemetry2DataPacket) => (this.carTelemetry2DataPacket, PacketType) = (carTelemetry2DataPacket, PacketType.CarTelemetry2);
 
 	/// <summary>
 	/// Initializes a new instance of the <see cref="UnionPacket"/> struct with an event data packet.
@@ -195,6 +203,18 @@ public readonly record struct UnionPacket : IByteWritable
 	{
 		var isRightPacket = PacketType == PacketType.CarTelemetry;
 		carTelemetryDataPacket = isRightPacket ? this.carTelemetryDataPacket : default;
+		return isRightPacket;
+	}
+
+	/// <summary>
+	/// Tries to get the car telemetry 2 data packet from this union.
+	/// </summary>
+	/// <param name="carTelemetry2DataPacket">When this method returns, contains the car telemetry 2 data packet if the packet type matches; otherwise, the default value.</param>
+	/// <returns><c>true</c> if the packet type is <see cref="PacketType.CarTelemetry2"/>; otherwise, <c>false</c>.</returns>
+	public bool TryGetCarTelemetry2DataPacket(out CarTelemetry2DataPacket carTelemetry2DataPacket)
+	{
+		var isRightPacket = PacketType == PacketType.CarTelemetry2;
+		carTelemetry2DataPacket = isRightPacket ? this.carTelemetry2DataPacket : default;
 		return isRightPacket;
 	}
 
@@ -350,6 +370,7 @@ public readonly record struct UnionPacket : IByteWritable
 			PacketType.CarSetups => carSetupDataPacket,
 			PacketType.CarStatus => carStatusDataPacket,
 			PacketType.CarTelemetry => carTelemetryDataPacket,
+			PacketType.CarTelemetry2 => carTelemetry2DataPacket,
 			PacketType.Event => eventDataPacket,
 			PacketType.FinalClassification => finalClassificationDataPacket,
 			PacketType.MotionEx => motionExDataPacket,
@@ -391,6 +412,12 @@ public readonly record struct UnionPacket : IByteWritable
 	/// </summary>
 	/// <param name="packet">The car telemetry data packet to convert.</param>
 	public static implicit operator UnionPacket(CarTelemetryDataPacket packet) => new(packet);
+
+	/// <summary>
+	/// Implicitly converts a <see cref="CarTelemetry2DataPacket"/> to a <see cref="UnionPacket"/>.
+	/// </summary>
+	/// <param name="packet">The car telemetry 2 data packet to convert.</param>
+	public static implicit operator UnionPacket(CarTelemetry2DataPacket packet) => new(packet);
 
 	/// <summary>
 	/// Implicitly converts an <see cref="EventDataPacket"/> to a <see cref="UnionPacket"/>.

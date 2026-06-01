@@ -19,7 +19,7 @@ public readonly record struct ButtonsEvent() : IByteParsable<ButtonsEvent>, IByt
 	{
 		return new()
 		{
-			ButtonStatus = reader.GetNextUIntEnum<ButtonFlag>(),
+			ButtonStatus = reader.GetNextEnum<ButtonFlag>(),
 		};
 	}
 

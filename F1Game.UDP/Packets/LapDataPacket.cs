@@ -9,14 +9,14 @@ namespace F1Game.UDP.Packets;
 [StructLayout(LayoutKind.Sequential, Pack = 1)]
 public readonly record struct LapDataPacket() : IByteParsable<LapDataPacket>, ISizeable, IByteWritable, IHaveHeader
 {
-	static int ISizeable.Size => 1285;
+	static int ISizeable.Size => 1399;
 
 	/// <inheritdoc/>
 	public PacketHeader Header { get; init; }
 	/// <summary>
 	/// Lap data for all cars in the session.
 	/// </summary>
-	public Array22<LapData> LapData { get; init; }
+	public Array24<LapData> LapData { get; init; }
 	/// <summary>
 	/// Index of Personal Best car in time trial (255 if invalid)
 	/// </summary>
@@ -31,7 +31,7 @@ public readonly record struct LapDataPacket() : IByteParsable<LapDataPacket>, IS
 		return new()
 		{
 			Header = reader.GetNextObject<PacketHeader>(),
-			LapData = reader.GetNextObjects<LapData>(22),
+			LapData = reader.GetNextObjects<LapData>(ProtocolLimits.MaxCars),
 			TimeTrialPBCarIdx = reader.GetNextByte(),
 			TimeTrialRivalCarIdx = reader.GetNextByte(),
 		};

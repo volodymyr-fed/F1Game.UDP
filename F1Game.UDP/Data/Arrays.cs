@@ -17,8 +17,8 @@ public partial struct Array20<T>;
 [AutoInlineArray(21)]
 public partial struct Array21<T>;
 
-[AutoInlineArray(22)]
-public partial struct Array22<T>;
+[AutoInlineArray(24)]
+public partial struct Array24<T>;
 
 [AutoInlineArray(32)]
 public partial struct Array32<T>;

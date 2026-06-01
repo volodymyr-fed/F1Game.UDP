@@ -8,7 +8,7 @@ namespace F1Game.UDP.Data;
 [StructLayout(LayoutKind.Sequential, Pack = 1)]
 public readonly record struct TimeTrialDataSet() : IByteParsable<TimeTrialDataSet>, IByteWritable, ISizeable
 {
-	static int ISizeable.Size => 24;
+	static int ISizeable.Size => 25;
 
 	/// <summary>
 	/// Index of the car this data relates to.

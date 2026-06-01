@@ -54,6 +54,7 @@ sealed class PacketReaderFixture
 	[TestCase(PacketType.TyreSets, typeof(TyreSetsDataPacket))]
 	[TestCase(PacketType.MotionEx, typeof(MotionExDataPacket))]
 	[TestCase(PacketType.TimeTrial, typeof(TimeTrialDataPacket))]
+	[TestCase(PacketType.CarTelemetry2, typeof(CarTelemetry2DataPacket))]
 	public void ToPacket_ThrowsNotEnoughBytesException(PacketType packetType, Type expectedType)
 	{
 		byte[] bytes = new byte[PacketHeader.Size];
@@ -70,7 +71,7 @@ sealed class PacketReaderFixture
 	public void ReadCarDamageDataPacket()
 	{
 		UnionPacket packet = BuildPacket<CarDamageDataPacket>()
-			.With(x => x.CarDamageData, fixture.CreateMany<CarDamageData>(22).ToArray())
+			.With(x => x.CarDamageData, fixture.CreateMany<CarDamageData>(ProtocolLimits.MaxCars).ToArray())
 			.Create();
 
 		var bytes = new byte[GetSize<CarDamageDataPacket>()];
@@ -85,7 +86,7 @@ sealed class PacketReaderFixture
 	public void ReadCarSetupDataPacket()
 	{
 		UnionPacket packet = BuildPacket<CarSetupDataPacket>()
-			.With(x => x.CarSetups, fixture.CreateMany<CarSetupData>(22).ToArray())
+			.With(x => x.CarSetups, fixture.CreateMany<CarSetupData>(ProtocolLimits.MaxCars).ToArray())
 			.Create();
 
 		var bytes = new byte[GetSize<CarSetupDataPacket>()];
@@ -100,7 +101,7 @@ sealed class PacketReaderFixture
 	public void ReadCarStatusDataPacket()
 	{
 		UnionPacket packet = BuildPacket<CarStatusDataPacket>()
-			.With(x => x.CarStatusData, fixture.CreateMany<CarStatusData>(22).ToArray())
+			.With(x => x.CarStatusData, fixture.CreateMany<CarStatusData>(ProtocolLimits.MaxCars).ToArray())
 			.Create();
 
 		var bytes = new byte[GetSize<CarStatusDataPacket>()];
@@ -115,10 +116,25 @@ sealed class PacketReaderFixture
 	public void ReadCarTelemetryDataPacket()
 	{
 		UnionPacket packet = BuildPacket<CarTelemetryDataPacket>()
-			.With(x => x.CarTelemetryData, fixture.CreateMany<CarTelemetryData>(22).ToArray())
+			.With(x => x.CarTelemetryData, fixture.CreateMany<CarTelemetryData>(ProtocolLimits.MaxCars).ToArray())
 			.Create();
 
 		var bytes = new byte[GetSize<CarTelemetryDataPacket>()];
+		var writer = new BytesWriter(bytes);
+		writer.Write(packet);
+
+		bytes.ToPacket().Should().BeEquivalentTo(packet, Configure);
+		bytes.ToPacketWithReader().Should().BeEquivalentTo(packet, Configure);
+	}
+
+	[Test]
+	public void ReadCarTelemetry2DataPacket()
+	{
+		UnionPacket packet = BuildPacket<CarTelemetry2DataPacket>()
+			.With(x => x.CarTelemetry2Data, fixture.CreateMany<CarTelemetry2Data>(ProtocolLimits.MaxCars).ToArray())
+			.Create();
+
+		var bytes = new byte[GetSize<CarTelemetry2DataPacket>()];
 		var writer = new BytesWriter(bytes);
 		writer.Write(packet);
 
@@ -185,10 +201,10 @@ sealed class PacketReaderFixture
 	public void ReadFinalClassificationDataPacket()
 	{
 		var classificationData = fixture.Build<FinalClassificationData>()
-			.With(x => x.TyreStintsActual, () => fixture.CreateMany<ActualCompound>(8).ToArray())
-			.With(x => x.TyreStintsVisual, () => fixture.CreateMany<VisualCompound>(8).ToArray())
-			.With(x => x.TyreStintsEndLaps, () => fixture.CreateMany<byte>(8).ToArray())
-			.CreateMany(22)
+			.With(x => x.TyreStintsActual, () => fixture.CreateMany<ActualCompound>(FinalClassificationData.MaxTyreStints).ToArray())
+			.With(x => x.TyreStintsVisual, () => fixture.CreateMany<VisualCompound>(FinalClassificationData.MaxTyreStints).ToArray())
+			.With(x => x.TyreStintsEndLaps, () => fixture.CreateMany<byte>(FinalClassificationData.MaxTyreStints).ToArray())
+			.CreateMany(ProtocolLimits.MaxCars)
 			.ToArray();
 
 		UnionPacket packet = BuildPacket<FinalClassificationDataPacket>()
@@ -207,7 +223,7 @@ sealed class PacketReaderFixture
 	public void ReadLapDataPacket()
 	{
 		UnionPacket packet = BuildPacket<LapDataPacket>()
-			.With(x => x.LapData, fixture.CreateMany<LapData>(22).ToArray())
+			.With(x => x.LapData, fixture.CreateMany<LapData>(ProtocolLimits.MaxCars).ToArray())
 			.Create();
 
 		var bytes = new byte[GetSize<LapDataPacket>()];
@@ -223,7 +239,7 @@ sealed class PacketReaderFixture
 	{
 		var lobbyPlayers = fixture.Build<LobbyInfoData>()
 			.With(x => x.NameBytes, fixture.Create<string>().AsArray32Bytes())
-			.CreateMany(22)
+			.CreateMany(ProtocolLimits.MaxCars)
 			.ToArray();
 
 		UnionPacket packet = BuildPacket<LobbyInfoDataPacket>()
@@ -242,7 +258,7 @@ sealed class PacketReaderFixture
 	public void ReadMotionDataPacket()
 	{
 		UnionPacket packet = BuildPacket<MotionDataPacket>()
-			.With(x => x.CarMotionData, fixture.CreateMany<CarMotionData>(22).ToArray())
+			.With(x => x.CarMotionData, fixture.CreateMany<CarMotionData>(ProtocolLimits.MaxCars).ToArray())
 			.Create();
 
 		var bytes = new byte[GetSize<MotionDataPacket>()];
@@ -273,7 +289,7 @@ sealed class PacketReaderFixture
 		var participants = fixture.Build<ParticipantData>()
 			.With(x => x.NameBytes, fixture.Create<string>().AsArray32Bytes())
 			.With(x => x.LiveryColors, fixture.CreateMany<LiveryColor>(4).ToArray())
-			.CreateMany(22)
+			.CreateMany(ProtocolLimits.MaxCars)
 			.ToArray();
 
 		UnionPacket packet = BuildPacket<ParticipantsDataPacket>()
@@ -292,9 +308,16 @@ sealed class PacketReaderFixture
 	public void ReadSessionDataPacket()
 	{
 		UnionPacket packet = BuildPacket<SessionDataPacket>()
-			.With(x => x.MarshalZones, fixture.CreateMany<MarshalZone>(21).ToArray())
-			.With(x => x.WeatherForecastSamples, fixture.CreateMany<WeatherForecastSample>(64).ToArray())
+			.With(x => x.MarshalZones, fixture.CreateMany<MarshalZone>(SessionDataPacket.MaxMarshalZones).ToArray())
+			.With(x => x.WeatherForecastSamples, fixture.CreateMany<WeatherForecastSample>(SessionDataPacket.MaxWeatherForecastSamples).ToArray())
 			.With(x => x.WeekendStructure, fixture.CreateMany<SessionType>(12).ToArray())
+			.With(x => x.DynamicRacingLineColourBlind, DynamicRacingLineColourBlind.Protanopia)
+			.With(x => x.NumActiveAeroZonesFull, (byte)SessionDataPacket.MaxActiveAeroZones)
+			.With(x => x.ActiveAeroZonesFull, fixture.CreateMany<ActiveAeroZone>(SessionDataPacket.MaxActiveAeroZones).ToArray())
+			.With(x => x.NumActiveAeroZonesPartial, (byte)SessionDataPacket.MaxActiveAeroZones)
+			.With(x => x.ActiveAeroZonesPartial, fixture.CreateMany<ActiveAeroZone>(SessionDataPacket.MaxActiveAeroZones).ToArray())
+			.With(x => x.NumDrsZones, (byte)SessionDataPacket.MaxDrsZones)
+			.With(x => x.DrsZones, fixture.CreateMany<DRSZone>(SessionDataPacket.MaxDrsZones).ToArray())
 			.Create();
 
 		var bytes = new byte[GetSize<SessionDataPacket>()];
@@ -309,8 +332,8 @@ sealed class PacketReaderFixture
 	public void ReadSessionHistoryDataPacket()
 	{
 		UnionPacket packet = BuildPacket<SessionHistoryDataPacket>()
-			.With(x => x.LapHistoryData, fixture.CreateMany<LapHistoryData>(100).ToArray())
-			.With(x => x.TyreStintsHistoryData, fixture.CreateMany<TyreStintHistoryData>(8).ToArray())
+			.With(x => x.LapHistoryData, fixture.CreateMany<LapHistoryData>(SessionHistoryDataPacket.MaxLapHistoryEntries).ToArray())
+			.With(x => x.TyreStintsHistoryData, fixture.CreateMany<TyreStintHistoryData>(SessionHistoryDataPacket.MaxTyreStints).ToArray())
 			.Create();
 
 		var bytes = new byte[GetSize<SessionHistoryDataPacket>()];
@@ -325,7 +348,7 @@ sealed class PacketReaderFixture
 	public void ReadTyreSetsDataPacket()
 	{
 		UnionPacket packet = BuildPacket<TyreSetsDataPacket>()
-			.With(x => x.TyreSetDatas, fixture.CreateMany<TyreSetData>(20).ToArray())
+			.With(x => x.TyreSetDatas, fixture.CreateMany<TyreSetData>(TyreSetsDataPacket.MaxTyreSets).ToArray())
 			.Create();
 
 		var bytes = new byte[GetSize<TyreSetsDataPacket>()];
@@ -352,8 +375,8 @@ sealed class PacketReaderFixture
 	[Test]
 	public void ReadLapPositionsDataPacket()
 	{
-		var positionsPerLapForVehicle = Enumerable.Range(0, 50)
-			.Select(_ => Array22<byte>.Create(fixture.CreateMany<byte>(22).ToArray()))
+		var positionsPerLapForVehicle = Enumerable.Range(0, LapPositionsDataPacket.MaxLapsPerPacket)
+			.Select(_ => Array24<byte>.Create(fixture.CreateMany<byte>(ProtocolLimits.MaxCars).ToArray()))
 			.ToArray();
 
 		UnionPacket packet = BuildPacket<LapPositionsDataPacket>()
@@ -376,6 +399,7 @@ sealed class PacketReaderFixture
 			CarSetupDataPacket => PacketType.CarSetups,
 			CarStatusDataPacket => PacketType.CarStatus,
 			CarTelemetryDataPacket => PacketType.CarTelemetry,
+			CarTelemetry2DataPacket => PacketType.CarTelemetry2,
 			EventDataPacket => PacketType.Event,
 			FinalClassificationDataPacket => PacketType.FinalClassification,
 			LapDataPacket => PacketType.LapData,

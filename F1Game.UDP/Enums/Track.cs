@@ -35,4 +35,5 @@ public enum Track : sbyte
 	SilverstoneReverse = 39,
 	AustriaReverse = 40,
 	ZandvoortReverse = 41,
+	Madrid = 42,
 }

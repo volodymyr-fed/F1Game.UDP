@@ -19,6 +19,8 @@ namespace F1Game.UDP.Packets;
 public readonly record struct SessionHistoryDataPacket() : IByteParsable<SessionHistoryDataPacket>, ISizeable, IByteWritable, IHaveHeader
 {
 	static int ISizeable.Size => 1460;
+	internal const int MaxLapHistoryEntries = 100;
+	internal const int MaxTyreStints = 8;
 
 	/// <inheritdoc/>
 	public PacketHeader Header { get; init; }
@@ -73,8 +75,8 @@ public readonly record struct SessionHistoryDataPacket() : IByteParsable<Session
 			BestSector1LapNum = reader.GetNextByte(),
 			BestSector2LapNum = reader.GetNextByte(),
 			BestSector3LapNum = reader.GetNextByte(),
-			LapHistoryData = reader.GetNextObjects<LapHistoryData>(100),
-			TyreStintsHistoryData = reader.GetNextObjects<TyreStintHistoryData>(8)
+			LapHistoryData = reader.GetNextObjects<LapHistoryData>(MaxLapHistoryEntries),
+			TyreStintsHistoryData = reader.GetNextObjects<TyreStintHistoryData>(MaxTyreStints)
 		};
 	}
 

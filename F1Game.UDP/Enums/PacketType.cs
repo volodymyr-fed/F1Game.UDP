@@ -23,4 +23,5 @@ public enum PacketType : byte
 	MotionEx = 13,
 	TimeTrial = 14,
 	LapPositions = 15,
+	CarTelemetry2 = 16,
 }

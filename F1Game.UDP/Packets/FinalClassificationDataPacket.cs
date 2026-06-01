@@ -10,7 +10,7 @@ namespace F1Game.UDP.Packets;
 [StructLayout(LayoutKind.Sequential, Pack = 1)]
 public readonly record struct FinalClassificationDataPacket() : IByteParsable<FinalClassificationDataPacket>, ISizeable, IByteWritable, IHaveHeader
 {
-	static int ISizeable.Size => 1042;
+	static int ISizeable.Size => 1134;
 
 	/// <inheritdoc/>
 	public PacketHeader Header { get; init; }
@@ -21,7 +21,7 @@ public readonly record struct FinalClassificationDataPacket() : IByteParsable<Fi
 	/// <summary>
 	/// Final classification data for all cars in the session. Use <see cref="NumCars"/> to determine how many entries are valid.
 	/// </summary>
-	public Array22<FinalClassificationData> ClassificationData { get; init; }
+	public Array24<FinalClassificationData> ClassificationData { get; init; }
 
 	static FinalClassificationDataPacket IByteParsable<FinalClassificationDataPacket>.Parse(ref BytesReader reader)
 	{
@@ -29,7 +29,7 @@ public readonly record struct FinalClassificationDataPacket() : IByteParsable<Fi
 		{
 			Header = reader.GetNextObject<PacketHeader>(),
 			NumCars = reader.GetNextByte(),
-			ClassificationData = reader.GetNextObjects<FinalClassificationData>(22)
+			ClassificationData = reader.GetNextObjects<FinalClassificationData>(ProtocolLimits.MaxCars)
 		};
 	}
 

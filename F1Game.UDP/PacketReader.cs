@@ -47,6 +47,7 @@ public static class PacketReader
 			PacketType.MotionEx => CreateWithMarshal<MotionExDataPacket>(bytes, ref packet),
 			PacketType.TimeTrial => CreateWithMarshal<TimeTrialDataPacket>(bytes, ref packet),
 			PacketType.LapPositions => CreateWithMarshal<LapPositionsDataPacket>(bytes, ref packet),
+			PacketType.CarTelemetry2 => CreateWithMarshal<CarTelemetry2DataPacket>(bytes, ref packet),
 			_ => throw new InvalidPacketTypeException(packetType),
 		};
 	}
@@ -77,6 +78,7 @@ public static class PacketReader
 			PacketType.MotionEx => CreateWithReader<MotionExDataPacket>(bytes),
 			PacketType.TimeTrial => CreateWithReader<TimeTrialDataPacket>(bytes),
 			PacketType.LapPositions => CreateWithReader<LapPositionsDataPacket>(bytes),
+			PacketType.CarTelemetry2 => CreateWithReader<CarTelemetry2DataPacket>(bytes),
 			_ => throw new InvalidPacketTypeException(packetType),
 		};
 	}

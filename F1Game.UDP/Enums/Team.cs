@@ -5,7 +5,7 @@ namespace F1Game.UDP.Enums;
 /// <summary>
 /// Represents the teams in the F1 game including F1, F2 and generic teams.
 /// </summary>
-public enum Team : byte
+public enum Team : ushort
 {
 	Mercedes = 0,
 	Ferrari = 1,
@@ -44,4 +44,26 @@ public enum Team : byte
 	Haas24 = 192,
 	McLaren24 = 193,
 	Sauber24 = 194,
+	ArtGP25 = 465,
+	Campos25 = 466,
+	RodinMotorsport25 = 467,
+	AIXRacing25 = 468,
+	Dams25 = 469,
+	Hitech25 = 470,
+	MPMotorsport25 = 471,
+	Prema25 = 472,
+	Trident25 = 473,
+	VanAmersfoortRacing25 = 474,
+	Invicta25 = 475,
+	Mercedes26 = 476,
+	Ferrari26 = 477,
+	RedBullRacing26 = 478,
+	Williams26 = 479,
+	AstonMartin26 = 480,
+	Alpine26 = 481,
+	RacingBulls26 = 482,
+	Haas26 = 483,
+	McLaren26 = 484,
+	Audi26 = 485,
+	Cadillac26 = 486,
 }
