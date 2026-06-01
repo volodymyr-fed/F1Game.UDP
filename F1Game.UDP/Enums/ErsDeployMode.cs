@@ -10,5 +10,5 @@ public enum ErsDeployMode : byte
 	None = 0,
 	Medium = 1,
 	Hotlap = 2,
-	Overtake = 3
+	Boost = 3
 }

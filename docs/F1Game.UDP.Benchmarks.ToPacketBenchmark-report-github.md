@@ -2,108 +2,114 @@
 
 BenchmarkDotNet v0.15.6, Windows 10 (10.0.19045.6466/22H2/2022Update)
 Intel Core i7-10700K CPU 3.80GHz (Max: 3.79GHz), 1 CPU, 16 logical and 8 physical cores
-.NET SDK 10.0.100
-  [Host] : .NET 8.0.22 (8.0.22, 8.0.2225.52707), X64 RyuJIT x86-64-v3
-  NET10  : .NET 10.0.0 (10.0.0, 10.0.25.52411), X64 RyuJIT x86-64-v3
-  NET8   : .NET 8.0.22 (8.0.22, 8.0.2225.52707), X64 RyuJIT x86-64-v3
-  NET9   : .NET 9.0.11 (9.0.11, 9.0.1125.51716), X64 RyuJIT x86-64-v3
+.NET SDK 10.0.300
+  [Host] : .NET 10.0.8 (10.0.8, 10.0.826.23019), X64 RyuJIT x86-64-v3
+  NET10  : .NET 10.0.8 (10.0.8, 10.0.826.23019), X64 RyuJIT x86-64-v3
+  NET8   : .NET 8.0.27 (8.0.27, 8.0.2726.22922), X64 RyuJIT x86-64-v3
+  NET9   : .NET 9.0.16 (9.0.16, 9.0.1626.22923), X64 RyuJIT x86-64-v3
 
 
 ```
 | Method     | Job   | Runtime   | Type                | Mean     | Error    | StdDev   | Ratio | RatioSD | Allocated | Alloc Ratio |
 |----------- |------ |---------- |-------------------- |---------:|---------:|---------:|------:|--------:|----------:|------------:|
-| **ReadPacket** | **NET10** | **.NET 10.0** | **Motion**              | **57.41 ns** | **0.222 ns** | **0.197 ns** |  **1.00** |    **0.00** |         **-** |          **NA** |
+| **ReadPacket** | **NET10** | **.NET 10.0** | **Motion**              | **58.07 ns** | **0.115 ns** | **0.102 ns** |  **1.00** |    **0.00** |         **-** |          **NA** |
 |            |       |           |                     |          |          |          |       |         |           |             |
-| ReadPacket | NET8  | .NET 8.0  | Motion              | 60.05 ns | 0.231 ns | 0.205 ns |  1.00 |    0.00 |         - |          NA |
+| ReadPacket | NET8  | .NET 8.0  | Motion              | 50.96 ns | 0.227 ns | 0.201 ns |  1.00 |    0.01 |         - |          NA |
 |            |       |           |                     |          |          |          |       |         |           |             |
-| ReadPacket | NET9  | .NET 9.0  | Motion              | 58.03 ns | 0.265 ns | 0.248 ns |  1.00 |    0.01 |         - |          NA |
+| ReadPacket | NET9  | .NET 9.0  | Motion              | 76.24 ns | 0.356 ns | 0.278 ns |  1.00 |    0.00 |         - |          NA |
 |            |       |           |                     |          |          |          |       |         |           |             |
-| **ReadPacket** | **NET10** | **.NET 10.0** | **Session**             | **56.08 ns** | **0.258 ns** | **0.242 ns** |  **1.00** |    **0.01** |         **-** |          **NA** |
+| **ReadPacket** | **NET10** | **.NET 10.0** | **Session**             | **68.96 ns** | **0.120 ns** | **0.093 ns** |  **1.00** |    **0.00** |         **-** |          **NA** |
 |            |       |           |                     |          |          |          |       |         |           |             |
-| ReadPacket | NET8  | .NET 8.0  | Session             | 50.98 ns | 0.142 ns | 0.133 ns |  1.00 |    0.00 |         - |          NA |
+| ReadPacket | NET8  | .NET 8.0  | Session             | 49.64 ns | 0.141 ns | 0.118 ns |  1.00 |    0.00 |         - |          NA |
 |            |       |           |                     |          |          |          |       |         |           |             |
-| ReadPacket | NET9  | .NET 9.0  | Session             | 54.99 ns | 0.153 ns | 0.128 ns |  1.00 |    0.00 |         - |          NA |
+| ReadPacket | NET9  | .NET 9.0  | Session             | 57.06 ns | 0.042 ns | 0.035 ns |  1.00 |    0.00 |         - |          NA |
 |            |       |           |                     |          |          |          |       |         |           |             |
-| **ReadPacket** | **NET10** | **.NET 10.0** | **LapData**             | **57.15 ns** | **0.175 ns** | **0.164 ns** |  **1.00** |    **0.00** |         **-** |          **NA** |
+| **ReadPacket** | **NET10** | **.NET 10.0** | **LapData**             | **59.66 ns** | **0.229 ns** | **0.214 ns** |  **1.00** |    **0.00** |         **-** |          **NA** |
 |            |       |           |                     |          |          |          |       |         |           |             |
-| ReadPacket | NET8  | .NET 8.0  | LapData             | 59.78 ns | 0.227 ns | 0.213 ns |  1.00 |    0.00 |         - |          NA |
+| ReadPacket | NET8  | .NET 8.0  | LapData             | 52.07 ns | 0.081 ns | 0.072 ns |  1.00 |    0.00 |         - |          NA |
 |            |       |           |                     |          |          |          |       |         |           |             |
-| ReadPacket | NET9  | .NET 9.0  | LapData             | 57.41 ns | 0.170 ns | 0.159 ns |  1.00 |    0.00 |         - |          NA |
+| ReadPacket | NET9  | .NET 9.0  | LapData             | 61.87 ns | 0.229 ns | 0.203 ns |  1.00 |    0.00 |         - |          NA |
 |            |       |           |                     |          |          |          |       |         |           |             |
-| **ReadPacket** | **NET10** | **.NET 10.0** | **Event**               | **51.15 ns** | **0.159 ns** | **0.133 ns** |  **1.00** |    **0.00** |         **-** |          **NA** |
+| **ReadPacket** | **NET10** | **.NET 10.0** | **Event**               | **51.86 ns** | **0.106 ns** | **0.094 ns** |  **1.00** |    **0.00** |         **-** |          **NA** |
 |            |       |           |                     |          |          |          |       |         |           |             |
-| ReadPacket | NET8  | .NET 8.0  | Event               | 45.43 ns | 0.359 ns | 0.336 ns |  1.00 |    0.01 |         - |          NA |
+| ReadPacket | NET8  | .NET 8.0  | Event               | 45.17 ns | 0.036 ns | 0.030 ns |  1.00 |    0.00 |         - |          NA |
 |            |       |           |                     |          |          |          |       |         |           |             |
-| ReadPacket | NET9  | .NET 9.0  | Event               | 52.13 ns | 0.196 ns | 0.183 ns |  1.00 |    0.00 |         - |          NA |
+| ReadPacket | NET9  | .NET 9.0  | Event               | 52.69 ns | 0.064 ns | 0.050 ns |  1.00 |    0.00 |         - |          NA |
 |            |       |           |                     |          |          |          |       |         |           |             |
-| **ReadPacket** | **NET10** | **.NET 10.0** | **Participants**        | **58.79 ns** | **0.281 ns** | **0.219 ns** |  **1.00** |    **0.01** |         **-** |          **NA** |
+| **ReadPacket** | **NET10** | **.NET 10.0** | **Participants**        | **60.61 ns** | **0.317 ns** | **0.296 ns** |  **1.00** |    **0.01** |         **-** |          **NA** |
 |            |       |           |                     |          |          |          |       |         |           |             |
-| ReadPacket | NET8  | .NET 8.0  | Participants        | 55.56 ns | 0.176 ns | 0.165 ns |  1.00 |    0.00 |         - |          NA |
+| ReadPacket | NET8  | .NET 8.0  | Participants        | 65.87 ns | 0.367 ns | 0.344 ns |  1.00 |    0.01 |         - |          NA |
 |            |       |           |                     |          |          |          |       |         |           |             |
-| ReadPacket | NET9  | .NET 9.0  | Participants        | 57.52 ns | 0.314 ns | 0.294 ns |  1.00 |    0.01 |         - |          NA |
+| ReadPacket | NET9  | .NET 9.0  | Participants        | 61.58 ns | 0.056 ns | 0.050 ns |  1.00 |    0.00 |         - |          NA |
 |            |       |           |                     |          |          |          |       |         |           |             |
-| **ReadPacket** | **NET10** | **.NET 10.0** | **CarSetups**           | **56.79 ns** | **0.224 ns** | **0.187 ns** |  **1.00** |    **0.00** |         **-** |          **NA** |
+| **ReadPacket** | **NET10** | **.NET 10.0** | **CarSetups**           | **57.77 ns** | **0.328 ns** | **0.274 ns** |  **1.00** |    **0.01** |         **-** |          **NA** |
 |            |       |           |                     |          |          |          |       |         |           |             |
-| ReadPacket | NET8  | .NET 8.0  | CarSetups           | 58.23 ns | 0.408 ns | 0.382 ns |  1.00 |    0.01 |         - |          NA |
+| ReadPacket | NET8  | .NET 8.0  | CarSetups           | 50.32 ns | 0.097 ns | 0.086 ns |  1.00 |    0.00 |         - |          NA |
 |            |       |           |                     |          |          |          |       |         |           |             |
-| ReadPacket | NET9  | .NET 9.0  | CarSetups           | 56.85 ns | 0.215 ns | 0.201 ns |  1.00 |    0.00 |         - |          NA |
+| ReadPacket | NET9  | .NET 9.0  | CarSetups           | 59.00 ns | 0.248 ns | 0.207 ns |  1.00 |    0.00 |         - |          NA |
 |            |       |           |                     |          |          |          |       |         |           |             |
-| **ReadPacket** | **NET10** | **.NET 10.0** | **CarTelemetry**        | **59.80 ns** | **0.300 ns** | **0.281 ns** |  **1.00** |    **0.01** |         **-** |          **NA** |
+| **ReadPacket** | **NET10** | **.NET 10.0** | **CarTelemetry**        | **58.25 ns** | **0.042 ns** | **0.039 ns** |  **1.00** |    **0.00** |         **-** |          **NA** |
 |            |       |           |                     |          |          |          |       |         |           |             |
-| ReadPacket | NET8  | .NET 8.0  | CarTelemetry        | 62.16 ns | 0.398 ns | 0.372 ns |  1.00 |    0.01 |         - |          NA |
+| ReadPacket | NET8  | .NET 8.0  | CarTelemetry        | 59.32 ns | 0.080 ns | 0.067 ns |  1.00 |    0.00 |         - |          NA |
 |            |       |           |                     |          |          |          |       |         |           |             |
-| ReadPacket | NET9  | .NET 9.0  | CarTelemetry        | 58.30 ns | 0.261 ns | 0.218 ns |  1.00 |    0.01 |         - |          NA |
+| ReadPacket | NET9  | .NET 9.0  | CarTelemetry        | 63.13 ns | 0.084 ns | 0.070 ns |  1.00 |    0.00 |         - |          NA |
 |            |       |           |                     |          |          |          |       |         |           |             |
-| **ReadPacket** | **NET10** | **.NET 10.0** | **CarStatus**           | **57.32 ns** | **0.269 ns** | **0.252 ns** |  **1.00** |    **0.01** |         **-** |          **NA** |
+| **ReadPacket** | **NET10** | **.NET 10.0** | **CarStatus**           | **61.70 ns** | **1.269 ns** | **1.860 ns** |  **1.00** |    **0.04** |         **-** |          **NA** |
 |            |       |           |                     |          |          |          |       |         |           |             |
-| ReadPacket | NET8  | .NET 8.0  | CarStatus           | 55.38 ns | 0.212 ns | 0.198 ns |  1.00 |    0.00 |         - |          NA |
+| ReadPacket | NET8  | .NET 8.0  | CarStatus           | 60.35 ns | 0.126 ns | 0.112 ns |  1.00 |    0.00 |         - |          NA |
 |            |       |           |                     |          |          |          |       |         |           |             |
-| ReadPacket | NET9  | .NET 9.0  | CarStatus           | 64.95 ns | 0.289 ns | 0.270 ns |  1.00 |    0.01 |         - |          NA |
+| ReadPacket | NET9  | .NET 9.0  | CarStatus           | 60.12 ns | 0.071 ns | 0.063 ns |  1.00 |    0.00 |         - |          NA |
 |            |       |           |                     |          |          |          |       |         |           |             |
-| **ReadPacket** | **NET10** | **.NET 10.0** | **FinalClassification** | **56.70 ns** | **0.220 ns** | **0.206 ns** |  **1.00** |    **0.00** |         **-** |          **NA** |
+| **ReadPacket** | **NET10** | **.NET 10.0** | **FinalClassification** | **57.59 ns** | **0.038 ns** | **0.032 ns** |  **1.00** |    **0.00** |         **-** |          **NA** |
 |            |       |           |                     |          |          |          |       |         |           |             |
-| ReadPacket | NET8  | .NET 8.0  | FinalClassification | 58.32 ns | 0.372 ns | 0.348 ns |  1.00 |    0.01 |         - |          NA |
+| ReadPacket | NET8  | .NET 8.0  | FinalClassification | 54.88 ns | 0.137 ns | 0.121 ns |  1.00 |    0.00 |         - |          NA |
 |            |       |           |                     |          |          |          |       |         |           |             |
-| ReadPacket | NET9  | .NET 9.0  | FinalClassification | 57.80 ns | 0.217 ns | 0.203 ns |  1.00 |    0.00 |         - |          NA |
+| ReadPacket | NET9  | .NET 9.0  | FinalClassification | 59.26 ns | 0.195 ns | 0.173 ns |  1.00 |    0.00 |         - |          NA |
 |            |       |           |                     |          |          |          |       |         |           |             |
-| **ReadPacket** | **NET10** | **.NET 10.0** | **LobbyInfo**           | **55.41 ns** | **0.212 ns** | **0.188 ns** |  **1.00** |    **0.00** |         **-** |          **NA** |
+| **ReadPacket** | **NET10** | **.NET 10.0** | **LobbyInfo**           | **57.91 ns** | **0.179 ns** | **0.159 ns** |  **1.00** |    **0.00** |         **-** |          **NA** |
 |            |       |           |                     |          |          |          |       |         |           |             |
-| ReadPacket | NET8  | .NET 8.0  | LobbyInfo           | 59.69 ns | 0.484 ns | 0.453 ns |  1.00 |    0.01 |         - |          NA |
+| ReadPacket | NET8  | .NET 8.0  | LobbyInfo           | 49.99 ns | 0.057 ns | 0.048 ns |  1.00 |    0.00 |         - |          NA |
 |            |       |           |                     |          |          |          |       |         |           |             |
-| ReadPacket | NET9  | .NET 9.0  | LobbyInfo           | 56.79 ns | 0.251 ns | 0.235 ns |  1.00 |    0.01 |         - |          NA |
+| ReadPacket | NET9  | .NET 9.0  | LobbyInfo           | 69.24 ns | 0.101 ns | 0.079 ns |  1.00 |    0.00 |         - |          NA |
 |            |       |           |                     |          |          |          |       |         |           |             |
-| **ReadPacket** | **NET10** | **.NET 10.0** | **CarDamage**           | **56.58 ns** | **0.386 ns** | **0.342 ns** |  **1.00** |    **0.01** |         **-** |          **NA** |
+| **ReadPacket** | **NET10** | **.NET 10.0** | **CarDamage**           | **57.31 ns** | **0.232 ns** | **0.206 ns** |  **1.00** |    **0.00** |         **-** |          **NA** |
 |            |       |           |                     |          |          |          |       |         |           |             |
-| ReadPacket | NET8  | .NET 8.0  | CarDamage           | 52.11 ns | 0.173 ns | 0.153 ns |  1.00 |    0.00 |         - |          NA |
+| ReadPacket | NET8  | .NET 8.0  | CarDamage           | 49.30 ns | 0.122 ns | 0.095 ns |  1.00 |    0.00 |         - |          NA |
 |            |       |           |                     |          |          |          |       |         |           |             |
-| ReadPacket | NET9  | .NET 9.0  | CarDamage           | 56.23 ns | 0.263 ns | 0.246 ns |  1.00 |    0.01 |         - |          NA |
+| ReadPacket | NET9  | .NET 9.0  | CarDamage           | 65.49 ns | 0.070 ns | 0.065 ns |  1.00 |    0.00 |         - |          NA |
 |            |       |           |                     |          |          |          |       |         |           |             |
-| **ReadPacket** | **NET10** | **.NET 10.0** | **SessionHistory**      | **57.59 ns** | **0.283 ns** | **0.265 ns** |  **1.00** |    **0.01** |         **-** |          **NA** |
+| **ReadPacket** | **NET10** | **.NET 10.0** | **SessionHistory**      | **63.58 ns** | **0.108 ns** | **0.090 ns** |  **1.00** |    **0.00** |         **-** |          **NA** |
 |            |       |           |                     |          |          |          |       |         |           |             |
-| ReadPacket | NET8  | .NET 8.0  | SessionHistory      | 59.94 ns | 0.537 ns | 0.503 ns |  1.00 |    0.01 |         - |          NA |
+| ReadPacket | NET8  | .NET 8.0  | SessionHistory      | 60.38 ns | 0.283 ns | 0.265 ns |  1.00 |    0.01 |         - |          NA |
 |            |       |           |                     |          |          |          |       |         |           |             |
-| ReadPacket | NET9  | .NET 9.0  | SessionHistory      | 58.46 ns | 0.368 ns | 0.344 ns |  1.00 |    0.01 |         - |          NA |
+| ReadPacket | NET9  | .NET 9.0  | SessionHistory      | 61.34 ns | 0.050 ns | 0.042 ns |  1.00 |    0.00 |         - |          NA |
 |            |       |           |                     |          |          |          |       |         |           |             |
-| **ReadPacket** | **NET10** | **.NET 10.0** | **TyreSets**            | **51.77 ns** | **0.239 ns** | **0.223 ns** |  **1.00** |    **0.01** |         **-** |          **NA** |
+| **ReadPacket** | **NET10** | **.NET 10.0** | **TyreSets**            | **52.52 ns** | **0.197 ns** | **0.184 ns** |  **1.00** |    **0.00** |         **-** |          **NA** |
 |            |       |           |                     |          |          |          |       |         |           |             |
-| ReadPacket | NET8  | .NET 8.0  | TyreSets            | 46.76 ns | 0.568 ns | 0.531 ns |  1.00 |    0.02 |         - |          NA |
+| ReadPacket | NET8  | .NET 8.0  | TyreSets            | 45.98 ns | 0.112 ns | 0.093 ns |  1.00 |    0.00 |         - |          NA |
 |            |       |           |                     |          |          |          |       |         |           |             |
-| ReadPacket | NET9  | .NET 9.0  | TyreSets            | 51.54 ns | 0.186 ns | 0.174 ns |  1.00 |    0.00 |         - |          NA |
+| ReadPacket | NET9  | .NET 9.0  | TyreSets            | 53.62 ns | 0.033 ns | 0.026 ns |  1.00 |    0.00 |         - |          NA |
 |            |       |           |                     |          |          |          |       |         |           |             |
-| **ReadPacket** | **NET10** | **.NET 10.0** | **MotionEx**            | **51.83 ns** | **0.300 ns** | **0.281 ns** |  **1.00** |    **0.01** |         **-** |          **NA** |
+| **ReadPacket** | **NET10** | **.NET 10.0** | **MotionEx**            | **53.40 ns** | **0.126 ns** | **0.111 ns** |  **1.00** |    **0.00** |         **-** |          **NA** |
 |            |       |           |                     |          |          |          |       |         |           |             |
-| ReadPacket | NET8  | .NET 8.0  | MotionEx            | 48.59 ns | 0.445 ns | 0.416 ns |  1.00 |    0.01 |         - |          NA |
+| ReadPacket | NET8  | .NET 8.0  | MotionEx            | 45.38 ns | 0.047 ns | 0.042 ns |  1.00 |    0.00 |         - |          NA |
 |            |       |           |                     |          |          |          |       |         |           |             |
-| ReadPacket | NET9  | .NET 9.0  | MotionEx            | 54.15 ns | 0.233 ns | 0.218 ns |  1.00 |    0.01 |         - |          NA |
+| ReadPacket | NET9  | .NET 9.0  | MotionEx            | 53.68 ns | 0.048 ns | 0.037 ns |  1.00 |    0.00 |         - |          NA |
 |            |       |           |                     |          |          |          |       |         |           |             |
-| **ReadPacket** | **NET10** | **.NET 10.0** | **TimeTrial**           | **51.56 ns** | **0.344 ns** | **0.322 ns** |  **1.00** |    **0.01** |         **-** |          **NA** |
+| **ReadPacket** | **NET10** | **.NET 10.0** | **TimeTrial**           | **52.23 ns** | **0.028 ns** | **0.022 ns** |  **1.00** |    **0.00** |         **-** |          **NA** |
 |            |       |           |                     |          |          |          |       |         |           |             |
-| ReadPacket | NET8  | .NET 8.0  | TimeTrial           | 46.21 ns | 0.294 ns | 0.261 ns |  1.00 |    0.01 |         - |          NA |
+| ReadPacket | NET8  | .NET 8.0  | TimeTrial           | 44.92 ns | 0.098 ns | 0.086 ns |  1.00 |    0.00 |         - |          NA |
 |            |       |           |                     |          |          |          |       |         |           |             |
-| ReadPacket | NET9  | .NET 9.0  | TimeTrial           | 57.60 ns | 0.173 ns | 0.161 ns |  1.00 |    0.00 |         - |          NA |
+| ReadPacket | NET9  | .NET 9.0  | TimeTrial           | 52.50 ns | 0.027 ns | 0.025 ns |  1.00 |    0.00 |         - |          NA |
 |            |       |           |                     |          |          |          |       |         |           |             |
-| **ReadPacket** | **NET10** | **.NET 10.0** | **LapPositions**        | **56.11 ns** | **0.268 ns** | **0.251 ns** |  **1.00** |    **0.01** |         **-** |          **NA** |
+| **ReadPacket** | **NET10** | **.NET 10.0** | **LapPositions**        | **57.56 ns** | **0.036 ns** | **0.028 ns** |  **1.00** |    **0.00** |         **-** |          **NA** |
 |            |       |           |                     |          |          |          |       |         |           |             |
-| ReadPacket | NET8  | .NET 8.0  | LapPositions        | 54.10 ns | 0.352 ns | 0.312 ns |  1.00 |    0.01 |         - |          NA |
+| ReadPacket | NET8  | .NET 8.0  | LapPositions        | 52.58 ns | 0.142 ns | 0.126 ns |  1.00 |    0.00 |         - |          NA |
 |            |       |           |                     |          |          |          |       |         |           |             |
-| ReadPacket | NET9  | .NET 9.0  | LapPositions        | 56.68 ns | 0.178 ns | 0.158 ns |  1.00 |    0.00 |         - |          NA |
+| ReadPacket | NET9  | .NET 9.0  | LapPositions        | 58.54 ns | 0.129 ns | 0.100 ns |  1.00 |    0.00 |         - |          NA |
+|            |       |           |                     |          |          |          |       |         |           |             |
+| **ReadPacket** | **NET10** | **.NET 10.0** | **CarTelemetry2**       | **53.53 ns** | **0.089 ns** | **0.074 ns** |  **1.00** |    **0.00** |         **-** |          **NA** |
+|            |       |           |                     |          |          |          |       |         |           |             |
+| ReadPacket | NET8  | .NET 8.0  | CarTelemetry2       | 45.95 ns | 0.042 ns | 0.033 ns |  1.00 |    0.00 |         - |          NA |
+|            |       |           |                     |          |          |          |       |         |           |             |
+| ReadPacket | NET9  | .NET 9.0  | CarTelemetry2       | 53.19 ns | 0.032 ns | 0.027 ns |  1.00 |    0.00 |         - |          NA |

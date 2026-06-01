@@ -13,14 +13,14 @@ namespace F1Game.UDP.Packets;
 [StructLayout(LayoutKind.Sequential, Pack = 1)]
 public readonly record struct CarSetupDataPacket() : IByteParsable<CarSetupDataPacket>, ISizeable, IByteWritable, IHaveHeader
 {
-	static int ISizeable.Size => 1133;
+	static int ISizeable.Size => 1233;
 
 	/// <inheritdoc/>
 	public PacketHeader Header { get; init; }
 	/// <summary>
 	/// Car setup data for all cars in the session.
 	/// </summary>
-	public Array22<CarSetupData> CarSetups { get; init; }
+	public Array24<CarSetupData> CarSetups { get; init; }
 	/// <summary>
 	/// Value of front wing after next pit stop - player only
 	/// </summary>
@@ -31,7 +31,7 @@ public readonly record struct CarSetupDataPacket() : IByteParsable<CarSetupDataP
 		return new()
 		{
 			Header = reader.GetNextObject<PacketHeader>(),
-			CarSetups = reader.GetNextObjects<CarSetupData>(22),
+			CarSetups = reader.GetNextObjects<CarSetupData>(ProtocolLimits.MaxCars),
 			NextFrontWingValue = reader.GetNextFloat()
 		};
 	}

@@ -8,7 +8,7 @@ namespace F1Game.UDP.Data;
 [StructLayout(LayoutKind.Sequential, Pack = 1)]
 public readonly record struct ParticipantData() : IByteParsable<ParticipantData>, IByteWritable, ISizeable
 {
-	static int ISizeable.Size => 57;
+	static int ISizeable.Size => 60;
 
 	/// <summary>
 	/// Whether the vehicle is AI or Human.
@@ -21,7 +21,7 @@ public readonly record struct ParticipantData() : IByteParsable<ParticipantData>
 	/// <summary>
 	/// The network id – unique identifier for network players.
 	/// </summary>
-	public byte NetworkId { get; init; }
+	public ushort NetworkId { get; init; }
 	/// <summary>
 	/// The team.
 	/// </summary>
@@ -77,12 +77,12 @@ public readonly record struct ParticipantData() : IByteParsable<ParticipantData>
 		{
 			IsAiControlled = reader.GetNextBoolean(),
 			Driver = reader.GetNextEnum<Driver>(),
-			NetworkId = reader.GetNextByte(),
+			NetworkId = reader.GetNextUShort(),
 			Team = reader.GetNextEnum<Team>(),
 			IsMyTeam = reader.GetNextBoolean(),
 			RaceNumber = reader.GetNextByte(),
 			Nationality = reader.GetNextEnum<Nationality>(),
-			NameBytes = reader.GetNextBytes(32),
+			NameBytes = reader.GetNextBytes(ProtocolLimits.ParticipantNameMaxBytes),
 			IsTelemetryPublic = reader.GetNextBoolean(),
 			ShowOnlineNames = reader.GetNextBoolean(),
 			TechLevel = reader.GetNextUShort(),

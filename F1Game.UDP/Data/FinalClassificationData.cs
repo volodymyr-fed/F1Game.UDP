@@ -9,6 +9,7 @@ namespace F1Game.UDP.Data;
 public readonly record struct FinalClassificationData() : IByteParsable<FinalClassificationData>, IByteWritable, ISizeable
 {
 	static int ISizeable.Size => 46;
+	internal const int MaxTyreStints = 8;
 
 	/// <summary>
 	/// The finishing position.
@@ -87,9 +88,9 @@ public readonly record struct FinalClassificationData() : IByteParsable<FinalCla
 			PenaltiesTime = reader.GetNextByte(),
 			NumPenalties = reader.GetNextByte(),
 			NumTyreStints = reader.GetNextByte(),
-			TyreStintsActual = reader.GetNextEnums<ActualCompound>(8),
-			TyreStintsVisual = reader.GetNextEnums<VisualCompound>(8),
-			TyreStintsEndLaps = reader.GetNextBytes(8),
+			TyreStintsActual = reader.GetNextEnums<ActualCompound>(MaxTyreStints),
+			TyreStintsVisual = reader.GetNextEnums<VisualCompound>(MaxTyreStints),
+			TyreStintsEndLaps = reader.GetNextBytes(MaxTyreStints),
 		};
 	}
 

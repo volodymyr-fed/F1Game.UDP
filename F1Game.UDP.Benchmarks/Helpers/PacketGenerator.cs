@@ -113,6 +113,7 @@ static class PacketGenerator
 			PacketType.Participants => GetSize<ParticipantsDataPacket>(),
 			PacketType.CarSetups => GetSize<CarSetupDataPacket>(),
 			PacketType.CarTelemetry => GetSize<CarTelemetryDataPacket>(),
+			PacketType.CarTelemetry2 => GetSize<CarTelemetry2DataPacket>(),
 			PacketType.CarStatus => GetSize<CarStatusDataPacket>(),
 			PacketType.FinalClassification => GetSize<FinalClassificationDataPacket>(),
 			PacketType.LobbyInfo => GetSize<LobbyInfoDataPacket>(),

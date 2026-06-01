@@ -9,7 +9,7 @@ namespace F1Game.UDP.Packets;
 [StructLayout(LayoutKind.Sequential, Pack = 1)]
 public readonly record struct TimeTrialDataPacket() : IByteParsable<TimeTrialDataPacket>, IByteWritable, ISizeable, IHaveHeader
 {
-	static int ISizeable.Size => 101;
+	static int ISizeable.Size => 104;
 
 	/// <inheritdoc/>
 	public PacketHeader Header { get; init; }

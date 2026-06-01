@@ -39,7 +39,7 @@ public class ThirdPartyComparisonBenchmark
 		data = PacketGenerator.GeneratePacket(Type);
 	}
 
-	// Not applicable, no libraries that support F1 24 UDP telemetry
+	// Not applicable, no third-party libraries here support the 2026 UDP packet surface.
 	//[Benchmark(Baseline = true)]
 	public UnionPacket ReadF1GameUDP()
 	{

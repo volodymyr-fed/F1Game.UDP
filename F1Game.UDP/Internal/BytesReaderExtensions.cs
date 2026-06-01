@@ -78,15 +78,45 @@ static class BytesReaderExtensions
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
 	public static T GetNextEnum<T>(this ref BytesReader reader) where T : struct, Enum, IConvertible
 	{
-		var byteEnumValue = reader.GetNextByte();
-		return Unsafe.As<byte, T>(ref byteEnumValue);
-	}
+		var type = Enum.GetUnderlyingType(typeof(T));
 
-	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-	public static T GetNextUIntEnum<T>(this ref BytesReader reader) where T : struct, Enum, IConvertible
-	{
-		var uintEnumValue = reader.GetNextUInt();
-		return Unsafe.As<uint, T>(ref uintEnumValue);
+		if (type == typeof(byte))
+		{
+			var byteEnumValue = reader.GetNextByte();
+			return Unsafe.As<byte, T>(ref byteEnumValue);
+		}
+
+		if (type == typeof(sbyte))
+		{
+			var sbyteEnumValue = reader.GetNextSbyte();
+			return Unsafe.As<sbyte, T>(ref sbyteEnumValue);
+		}
+
+		if (type == typeof(short))
+		{
+			var shortEnumValue = reader.GetNextShort();
+			return Unsafe.As<short, T>(ref shortEnumValue);
+		}
+
+		if (type == typeof(ushort))
+		{
+			var ushortEnumValue = reader.GetNextUShort();
+			return Unsafe.As<ushort, T>(ref ushortEnumValue);
+		}
+
+		if (type == typeof(int))
+		{
+			var intEnumValue = reader.GetNextInt();
+			return Unsafe.As<int, T>(ref intEnumValue);
+		}
+
+		if (type == typeof(uint))
+		{
+			var uintEnumValue = reader.GetNextUInt();
+			return Unsafe.As<uint, T>(ref uintEnumValue);
+		}
+
+		throw new NotSupportedException($"Unsupported enum underlying type '{type}' for {typeof(T)}.");
 	}
 
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -101,10 +131,8 @@ static class BytesReaderExtensions
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
 	public static ReadOnlySpan<T> GetNextEnums<T>(this ref BytesReader reader, int length, Array100<T> buffer = default) where T : struct, Enum, IConvertible
 	{
-		var byteValues = reader.GetNextBytes(length);
-		var enumValues = MemoryMarshal.Cast<byte, T>(byteValues);
-
-		enumValues.CopyTo(buffer);
+		for (var i = 0; i < length; i++)
+			buffer[i] = reader.GetNextEnum<T>();
 
 		return buffer.AsReadOnlySpan()[..length];
 	}

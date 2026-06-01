@@ -9,21 +9,21 @@ namespace F1Game.UDP.Packets;
 [StructLayout(LayoutKind.Sequential, Pack = 1)]
 public readonly record struct CarStatusDataPacket() : IByteParsable<CarStatusDataPacket>, ISizeable, IByteWritable, IHaveHeader
 {
-	static int ISizeable.Size => 1239;
+	static int ISizeable.Size => 1445;
 
 	/// <inheritdoc/>
 	public PacketHeader Header { get; init; }
 	/// <summary>
 	/// Car status data for all cars in the session.
 	/// </summary>
-	public Array22<CarStatusData> CarStatusData { get; init; }
+	public Array24<CarStatusData> CarStatusData { get; init; }
 
 	static CarStatusDataPacket IByteParsable<CarStatusDataPacket>.Parse(ref BytesReader reader)
 	{
 		return new()
 		{
 			Header = reader.GetNextObject<PacketHeader>(),
-			CarStatusData = reader.GetNextObjects<CarStatusData>(22)
+			CarStatusData = reader.GetNextObjects<CarStatusData>(ProtocolLimits.MaxCars)
 		};
 	}
 

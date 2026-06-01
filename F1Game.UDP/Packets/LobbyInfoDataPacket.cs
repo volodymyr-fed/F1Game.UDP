@@ -10,7 +10,7 @@ namespace F1Game.UDP.Packets;
 [StructLayout(LayoutKind.Sequential, Pack = 1)]
 public readonly record struct LobbyInfoDataPacket() : IByteParsable<LobbyInfoDataPacket>, ISizeable, IByteWritable, IHaveHeader
 {
-	static int ISizeable.Size => 954;
+	static int ISizeable.Size => 1062;
 
 	/// <inheritdoc/>
 	public PacketHeader Header { get; init; }
@@ -21,7 +21,7 @@ public readonly record struct LobbyInfoDataPacket() : IByteParsable<LobbyInfoDat
 	/// <summary>
 	/// List of players in the lobby.
 	/// </summary>
-	public Array22<LobbyInfoData> LobbyPlayers { get; init; }
+	public Array24<LobbyInfoData> LobbyPlayers { get; init; }
 
 	static LobbyInfoDataPacket IByteParsable<LobbyInfoDataPacket>.Parse(ref BytesReader reader)
 	{
@@ -29,7 +29,7 @@ public readonly record struct LobbyInfoDataPacket() : IByteParsable<LobbyInfoDat
 		{
 			Header = reader.GetNextObject<PacketHeader>(),
 			NumPlayers = reader.GetNextByte(),
-			LobbyPlayers = reader.GetNextObjects<LobbyInfoData>(22)
+			LobbyPlayers = reader.GetNextObjects<LobbyInfoData>(ProtocolLimits.MaxCars)
 		};
 	}
 

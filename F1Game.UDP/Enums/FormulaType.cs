@@ -15,4 +15,5 @@ public enum FormulaType : byte
 	Esports = 6,
 	F1World = 8,
 	F1Elimination = 9,
+	F126 = 13,
 }

@@ -8,7 +8,7 @@ namespace F1Game.UDP.Data;
 [StructLayout(LayoutKind.Sequential, Pack = 1)]
 public readonly record struct CarTelemetryData() : IByteParsable<CarTelemetryData>, IByteWritable, ISizeable
 {
-	static int ISizeable.Size => 60;
+	static int ISizeable.Size => 59;
 
 	/// <summary>
 	/// Speed of car in kilometres per hour.
@@ -65,7 +65,7 @@ public readonly record struct CarTelemetryData() : IByteParsable<CarTelemetryDat
 	/// <summary>
 	/// Engine temperature (celsius).
 	/// </summary>
-	public ushort EngineTemperature { get; init; }
+	public byte EngineTemperature { get; init; }
 	/// <summary>
 	/// Tyres pressure (PSI).
 	/// </summary>
@@ -92,7 +92,7 @@ public readonly record struct CarTelemetryData() : IByteParsable<CarTelemetryDat
 			BrakesTemperature = reader.GetNextTyresUShort(),
 			TyresSurfaceTemperature = reader.GetNextTyresByte(),
 			TyresInnerTemperature = reader.GetNextTyresByte(),
-			EngineTemperature = reader.GetNextUShort(),
+			EngineTemperature = reader.GetNextByte(),
 			TyresPressure = reader.GetNextTyresFloat(),
 			SurfaceType = reader.GetNextTyresEnum<Surface>(),
 		};

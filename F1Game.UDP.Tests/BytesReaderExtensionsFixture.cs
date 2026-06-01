@@ -158,9 +158,20 @@ sealed class BytesReaderExtensionsFixture
 		var bytes = new byte[] { 0x02 };
 		var reader = CreateBytesReader(bytes);
 
-		var result = reader.GetNextEnum<TestEnum>();
+		var result = reader.GetNextEnum<TestEnumByte>();
 
-		result.Should().Be(TestEnum.Two);
+		result.Should().Be(TestEnumByte.Two);
+	}
+
+	[Test]
+	public void GetNextUShortEnum_ShouldReturnEnumValue()
+	{
+		var bytes = new byte[] { 0x02, 0x00 };
+		var reader = CreateBytesReader(bytes);
+
+		var result = reader.GetNextEnum<TestEnumUShort>();
+
+		result.Should().Be(TestEnumUShort.Two);
 	}
 
 	[Test]
@@ -169,7 +180,7 @@ sealed class BytesReaderExtensionsFixture
 		var bytes = new byte[] { 0x02, 0x00, 0x00, 0x00 };
 		var reader = CreateBytesReader(bytes);
 
-		var result = reader.GetNextUIntEnum<TestEnum>();
+		var result = reader.GetNextEnum<TestEnum>();
 
 		result.Should().Be(TestEnum.Two);
 	}
@@ -187,6 +198,13 @@ sealed class BytesReaderExtensionsFixture
 	}
 
 	enum TestEnum
+	{
+		One = 1,
+		Two = 2,
+		Three = 3
+	}
+
+	enum TestEnumUShort : ushort
 	{
 		One = 1,
 		Two = 2,

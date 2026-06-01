@@ -316,7 +316,7 @@ public readonly record struct EventDetails : IByteParsable<EventDetails>, IByteW
 
 	static EventDetails IByteParsable<EventDetails>.Parse(ref BytesReader reader)
 	{
-		var eventType = reader.GetNextUIntEnum<EventType>();
+		var eventType = reader.GetNextEnum<EventType>();
 
 		return eventType switch
 		{
