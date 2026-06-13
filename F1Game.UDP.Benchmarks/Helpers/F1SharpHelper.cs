@@ -1,4 +1,6 @@
-﻿using F1Sharp;
+﻿#pragma warning disable CA2263
+
+using F1Sharp;
 using F1Sharp.Packets;
 
 using System.Runtime.InteropServices;

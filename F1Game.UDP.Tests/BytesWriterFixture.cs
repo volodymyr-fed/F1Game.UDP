@@ -240,7 +240,7 @@ sealed class BytesWriterFixture
 		Three = 3
 	}
 
-	record TestInt(int Value) : IByteWritable
+	sealed record TestInt(int Value) : IByteWritable
 	{
 		public void WriteBytes(ref BytesWriter writer)
 		{

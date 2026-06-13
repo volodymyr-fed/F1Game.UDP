@@ -193,7 +193,7 @@ sealed class BytesReaderExtensionsFixture
 		Three = 3
 	}
 
-	record TestInt(int Value) : IByteParsable<TestInt>
+	sealed record TestInt(int Value) : IByteParsable<TestInt>
 	{
 		static TestInt IByteParsable<TestInt>.Parse(ref BytesReader reader)
 		{

@@ -24,7 +24,7 @@ sealed class PacketReaderFixture
 		Action act = () => bytes.ToPacket();
 
 		act.Should().Throw<NotEnoughBytesException>()
-			.Which.TypeToParse.Should().Be(typeof(PacketHeader));
+			.Which.TypeToParse.Should().Be<PacketHeader>();
 	}
 
 	[Test]
