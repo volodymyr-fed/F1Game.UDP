@@ -1,166 +1,167 @@
 ```
 
-BenchmarkDotNet v0.15.6, Windows 10 (10.0.19045.6466/22H2/2022Update)
+BenchmarkDotNet v0.16.0-preview.2, Windows 10 (10.0.19045.6466/22H2/2022Update)
 Intel Core i7-10700K CPU 3.80GHz (Max: 3.79GHz), 1 CPU, 16 logical and 8 physical cores
-.NET SDK 10.0.300
-  [Host] : .NET 10.0.8 (10.0.8, 10.0.826.23019), X64 RyuJIT x86-64-v3
-  NET10  : .NET 10.0.8 (10.0.8, 10.0.826.23019), X64 RyuJIT x86-64-v3
-  NET8   : .NET 8.0.27 (8.0.27, 8.0.2726.22922), X64 RyuJIT x86-64-v3
-  NET9   : .NET 9.0.16 (9.0.16, 9.0.1626.22923), X64 RyuJIT x86-64-v3
+Memory: 31.92 GB Total, 14.11 GB Available
+.NET SDK 11.0.100
+  [Host] : .NET 9.0.23 (9.0.23, 9.0.2326.52216), X64 RyuJIT x86-64-v3
+  NET9   : .NET 9.0.23 (9.0.23, 9.0.2326.52216), X64 RyuJIT x86-64-v3
+  NET10  : .NET 10.0.15 (10.0.15, 10.0.1526.53008), X64 RyuJIT x86-64-v3
+  NET11  : .NET 11.0.0 (11.0.0, 11.0.26.53018), X64 RyuJIT x86-64-v3
 
 
 ```
 | Method               | Job   | Runtime   | Type                | Mean        | Error     | StdDev    | Ratio | RatioSD | Allocated | Alloc Ratio |
 |--------------------- |------ |---------- |-------------------- |------------:|----------:|----------:|------:|--------:|----------:|------------:|
-| **ReadF1GameUDPReader**  | **NET10** | **.NET 10.0** | **Motion**              | **1,371.15 ns** |  **6.838 ns** |  **6.396 ns** | **23.82** |    **0.18** |         **-** |          **NA** |
-| ReadF1GameUDPMarshal | NET10 | .NET 10.0 | Motion              |    57.57 ns |  0.382 ns |  0.357 ns |  1.00 |    0.01 |         - |          NA |
+| **ReadF1GameUDPReader**  | **NET9**  | **.NET 9.0**  | **Motion**              | **1,521.49 ns** |  **1.115 ns** |  **0.931 ns** | **21.42** |    **0.14** |         **-** |          **NA** |
+| ReadF1GameUDPMarshal | NET9  | .NET 9.0  | Motion              |    71.03 ns |  0.575 ns |  0.480 ns |  1.00 |    0.00 |         - |          NA |
 |                      |       |           |                     |             |           |           |       |         |           |             |
-| ReadF1GameUDPReader  | NET8  | .NET 8.0  | Motion              | 1,413.23 ns |  6.092 ns |  5.698 ns | 25.60 |    0.12 |         - |          NA |
-| ReadF1GameUDPMarshal | NET8  | .NET 8.0  | Motion              |    55.21 ns |  0.139 ns |  0.130 ns |  1.00 |    0.00 |         - |          NA |
+| ReadF1GameUDPReader  | NET10 | .NET 10.0 | Motion              | 1,355.08 ns | 11.066 ns | 10.351 ns | 18.24 |    0.14 |         - |          NA |
+| ReadF1GameUDPMarshal | NET10 | .NET 10.0 | Motion              |    74.31 ns |  0.238 ns |  0.199 ns |  1.00 |    0.00 |         - |          NA |
 |                      |       |           |                     |             |           |           |       |         |           |             |
-| ReadF1GameUDPReader  | NET9  | .NET 9.0  | Motion              | 1,537.32 ns |  5.452 ns |  4.833 ns | 25.55 |    0.10 |         - |          NA |
-| ReadF1GameUDPMarshal | NET9  | .NET 9.0  | Motion              |    60.18 ns |  0.181 ns |  0.160 ns |  1.00 |    0.00 |         - |          NA |
+| ReadF1GameUDPReader  | NET11 | .NET 11.0 | Motion              | 1,349.38 ns |  3.079 ns |  2.730 ns | 18.77 |    0.07 |         - |          NA |
+| ReadF1GameUDPMarshal | NET11 | .NET 11.0 | Motion              |    71.88 ns |  0.292 ns |  0.228 ns |  1.00 |    0.00 |         - |          NA |
 |                      |       |           |                     |             |           |           |       |         |           |             |
-| **ReadF1GameUDPReader**  | **NET10** | **.NET 10.0** | **Session**             | **1,595.53 ns** |  **8.241 ns** |  **7.708 ns** | **28.65** |    **0.16** |         **-** |          **NA** |
-| ReadF1GameUDPMarshal | NET10 | .NET 10.0 | Session             |    55.69 ns |  0.217 ns |  0.181 ns |  1.00 |    0.00 |         - |          NA |
+| **ReadF1GameUDPReader**  | **NET9**  | **.NET 9.0**  | **Session**             | **1,800.98 ns** | **10.367 ns** |  **8.094 ns** | **25.46** |    **0.15** |         **-** |          **NA** |
+| ReadF1GameUDPMarshal | NET9  | .NET 9.0  | Session             |    70.74 ns |  0.315 ns |  0.294 ns |  1.00 |    0.00 |         - |          NA |
 |                      |       |           |                     |             |           |           |       |         |           |             |
-| ReadF1GameUDPReader  | NET8  | .NET 8.0  | Session             | 1,739.08 ns |  5.592 ns |  5.231 ns | 29.87 |    0.18 |         - |          NA |
-| ReadF1GameUDPMarshal | NET8  | .NET 8.0  | Session             |    58.22 ns |  0.345 ns |  0.322 ns |  1.00 |    0.01 |         - |          NA |
+| ReadF1GameUDPReader  | NET10 | .NET 10.0 | Session             | 1,622.27 ns |  6.923 ns |  6.137 ns | 23.13 |    0.10 |         - |          NA |
+| ReadF1GameUDPMarshal | NET10 | .NET 10.0 | Session             |    70.14 ns |  0.250 ns |  0.196 ns |  1.00 |    0.00 |         - |          NA |
 |                      |       |           |                     |             |           |           |       |         |           |             |
-| ReadF1GameUDPReader  | NET9  | .NET 9.0  | Session             | 1,790.73 ns |  7.752 ns |  6.872 ns | 31.59 |    0.15 |         - |          NA |
-| ReadF1GameUDPMarshal | NET9  | .NET 9.0  | Session             |    56.69 ns |  0.186 ns |  0.165 ns |  1.00 |    0.00 |         - |          NA |
+| ReadF1GameUDPReader  | NET11 | .NET 11.0 | Session             | 1,628.05 ns |  7.517 ns |  6.663 ns | 23.93 |    0.17 |         - |          NA |
+| ReadF1GameUDPMarshal | NET11 | .NET 11.0 | Session             |    68.04 ns |  0.427 ns |  0.400 ns |  1.00 |    0.00 |         - |          NA |
 |                      |       |           |                     |             |           |           |       |         |           |             |
-| **ReadF1GameUDPReader**  | **NET10** | **.NET 10.0** | **LapData**             | **1,783.23 ns** |  **5.096 ns** |  **4.517 ns** | **30.44** |    **0.13** |         **-** |          **NA** |
-| ReadF1GameUDPMarshal | NET10 | .NET 10.0 | LapData             |    58.59 ns |  0.221 ns |  0.207 ns |  1.00 |    0.00 |         - |          NA |
+| **ReadF1GameUDPReader**  | **NET9**  | **.NET 9.0**  | **LapData**             | **1,963.40 ns** |  **5.507 ns** |  **4.598 ns** | **25.78** |    **0.33** |         **-** |          **NA** |
+| ReadF1GameUDPMarshal | NET9  | .NET 9.0  | LapData             |    76.18 ns |  1.050 ns |  0.982 ns |  1.00 |    0.00 |         - |          NA |
 |                      |       |           |                     |             |           |           |       |         |           |             |
-| ReadF1GameUDPReader  | NET8  | .NET 8.0  | LapData             | 1,898.45 ns |  6.881 ns |  6.100 ns | 36.30 |    0.20 |         - |          NA |
-| ReadF1GameUDPMarshal | NET8  | .NET 8.0  | LapData             |    52.29 ns |  0.258 ns |  0.241 ns |  1.00 |    0.01 |         - |          NA |
+| ReadF1GameUDPReader  | NET10 | .NET 10.0 | LapData             | 1,806.75 ns | 13.146 ns | 11.654 ns | 24.72 |    0.19 |         - |          NA |
+| ReadF1GameUDPMarshal | NET10 | .NET 10.0 | LapData             |    73.08 ns |  0.383 ns |  0.340 ns |  1.00 |    0.00 |         - |          NA |
 |                      |       |           |                     |             |           |           |       |         |           |             |
-| ReadF1GameUDPReader  | NET9  | .NET 9.0  | LapData             | 1,971.49 ns |  8.134 ns |  7.210 ns | 29.86 |    0.14 |         - |          NA |
-| ReadF1GameUDPMarshal | NET9  | .NET 9.0  | LapData             |    66.02 ns |  0.223 ns |  0.198 ns |  1.00 |    0.00 |         - |          NA |
+| ReadF1GameUDPReader  | NET11 | .NET 11.0 | LapData             | 1,797.03 ns |  9.899 ns |  8.775 ns | 24.37 |    0.19 |         - |          NA |
+| ReadF1GameUDPMarshal | NET11 | .NET 11.0 | LapData             |    73.74 ns |  0.493 ns |  0.461 ns |  1.00 |    0.00 |         - |          NA |
 |                      |       |           |                     |             |           |           |       |         |           |             |
-| **ReadF1GameUDPReader**  | **NET10** | **.NET 10.0** | **Event**               |   **683.07 ns** |  **3.124 ns** |  **2.922 ns** | **13.17** |    **0.07** |         **-** |          **NA** |
-| ReadF1GameUDPMarshal | NET10 | .NET 10.0 | Event               |    51.87 ns |  0.171 ns |  0.160 ns |  1.00 |    0.00 |         - |          NA |
+| **ReadF1GameUDPReader**  | **NET9**  | **.NET 9.0**  | **Event**               |   **653.67 ns** |  **2.138 ns** |  **1.785 ns** |  **9.91** |    **0.05** |         **-** |          **NA** |
+| ReadF1GameUDPMarshal | NET9  | .NET 9.0  | Event               |    65.93 ns |  0.334 ns |  0.312 ns |  1.00 |    0.00 |         - |          NA |
 |                      |       |           |                     |             |           |           |       |         |           |             |
-| ReadF1GameUDPReader  | NET8  | .NET 8.0  | Event               |   547.59 ns |  1.365 ns |  1.210 ns | 11.98 |    0.05 |         - |          NA |
-| ReadF1GameUDPMarshal | NET8  | .NET 8.0  | Event               |    45.71 ns |  0.193 ns |  0.171 ns |  1.00 |    0.01 |         - |          NA |
+| ReadF1GameUDPReader  | NET10 | .NET 10.0 | Event               |   718.35 ns |  1.916 ns |  1.600 ns | 11.50 |    0.06 |         - |          NA |
+| ReadF1GameUDPMarshal | NET10 | .NET 10.0 | Event               |    62.46 ns |  0.338 ns |  0.300 ns |  1.00 |    0.00 |         - |          NA |
 |                      |       |           |                     |             |           |           |       |         |           |             |
-| ReadF1GameUDPReader  | NET9  | .NET 9.0  | Event               |   658.48 ns |  3.766 ns |  3.338 ns | 12.49 |    0.08 |         - |          NA |
-| ReadF1GameUDPMarshal | NET9  | .NET 9.0  | Event               |    52.73 ns |  0.212 ns |  0.198 ns |  1.00 |    0.01 |         - |          NA |
+| ReadF1GameUDPReader  | NET11 | .NET 11.0 | Event               |   701.93 ns |  2.071 ns |  1.836 ns | 11.07 |    0.04 |         - |          NA |
+| ReadF1GameUDPMarshal | NET11 | .NET 11.0 | Event               |    63.41 ns |  0.187 ns |  0.175 ns |  1.00 |    0.00 |         - |          NA |
 |                      |       |           |                     |             |           |           |       |         |           |             |
-| **ReadF1GameUDPReader**  | **NET10** | **.NET 10.0** | **Participants**        | **2,056.13 ns** |  **4.605 ns** |  **3.846 ns** | **34.12** |    **0.13** |         **-** |          **NA** |
-| ReadF1GameUDPMarshal | NET10 | .NET 10.0 | Participants        |    60.26 ns |  0.221 ns |  0.206 ns |  1.00 |    0.00 |         - |          NA |
+| **ReadF1GameUDPReader**  | **NET9**  | **.NET 9.0**  | **Participants**        | **2,152.63 ns** |  **9.236 ns** |  **8.187 ns** | **28.59** |    **0.20** |         **-** |          **NA** |
+| ReadF1GameUDPMarshal | NET9  | .NET 9.0  | Participants        |    75.28 ns |  0.546 ns |  0.456 ns |  1.00 |    0.00 |         - |          NA |
 |                      |       |           |                     |             |           |           |       |         |           |             |
-| ReadF1GameUDPReader  | NET8  | .NET 8.0  | Participants        | 2,078.70 ns | 10.433 ns |  9.249 ns | 31.27 |    0.35 |         - |          NA |
-| ReadF1GameUDPMarshal | NET8  | .NET 8.0  | Participants        |    66.48 ns |  0.769 ns |  0.719 ns |  1.00 |    0.01 |         - |          NA |
+| ReadF1GameUDPReader  | NET10 | .NET 10.0 | Participants        | 2,071.50 ns | 20.037 ns | 18.743 ns | 27.48 |    0.25 |         - |          NA |
+| ReadF1GameUDPMarshal | NET10 | .NET 10.0 | Participants        |    75.39 ns |  0.256 ns |  0.214 ns |  1.00 |    0.00 |         - |          NA |
 |                      |       |           |                     |             |           |           |       |         |           |             |
-| ReadF1GameUDPReader  | NET9  | .NET 9.0  | Participants        | 2,188.71 ns | 29.836 ns | 26.448 ns | 35.01 |    0.46 |         - |          NA |
-| ReadF1GameUDPMarshal | NET9  | .NET 9.0  | Participants        |    62.52 ns |  0.408 ns |  0.381 ns |  1.00 |    0.01 |         - |          NA |
+| ReadF1GameUDPReader  | NET11 | .NET 11.0 | Participants        | 2,041.72 ns |  5.667 ns |  4.732 ns | 26.16 |    0.24 |         - |          NA |
+| ReadF1GameUDPMarshal | NET11 | .NET 11.0 | Participants        |    78.04 ns |  0.775 ns |  0.725 ns |  1.00 |    0.00 |         - |          NA |
 |                      |       |           |                     |             |           |           |       |         |           |             |
-| **ReadF1GameUDPReader**  | **NET10** | **.NET 10.0** | **CarSetups**           | **1,480.79 ns** | **14.540 ns** | **13.601 ns** | **25.55** |    **0.24** |         **-** |          **NA** |
-| ReadF1GameUDPMarshal | NET10 | .NET 10.0 | CarSetups           |    57.95 ns |  0.204 ns |  0.191 ns |  1.00 |    0.00 |         - |          NA |
+| **ReadF1GameUDPReader**  | **NET9**  | **.NET 9.0**  | **CarSetups**           | **1,626.92 ns** |  **6.001 ns** |  **5.011 ns** | **21.92** |    **0.09** |         **-** |          **NA** |
+| ReadF1GameUDPMarshal | NET9  | .NET 9.0  | CarSetups           |    74.21 ns |  0.266 ns |  0.236 ns |  1.00 |    0.00 |         - |          NA |
 |                      |       |           |                     |             |           |           |       |         |           |             |
-| ReadF1GameUDPReader  | NET8  | .NET 8.0  | CarSetups           | 1,571.83 ns |  5.906 ns |  5.235 ns | 26.36 |    0.12 |         - |          NA |
-| ReadF1GameUDPMarshal | NET8  | .NET 8.0  | CarSetups           |    59.62 ns |  0.218 ns |  0.193 ns |  1.00 |    0.00 |         - |          NA |
+| ReadF1GameUDPReader  | NET10 | .NET 10.0 | CarSetups           | 1,422.81 ns |  3.078 ns |  2.729 ns | 18.95 |    0.07 |         - |          NA |
+| ReadF1GameUDPMarshal | NET10 | .NET 10.0 | CarSetups           |    75.08 ns |  0.320 ns |  0.250 ns |  1.00 |    0.00 |         - |          NA |
 |                      |       |           |                     |             |           |           |       |         |           |             |
-| ReadF1GameUDPReader  | NET9  | .NET 9.0  | CarSetups           | 1,609.76 ns |  5.386 ns |  5.038 ns | 27.62 |    0.16 |         - |          NA |
-| ReadF1GameUDPMarshal | NET9  | .NET 9.0  | CarSetups           |    58.29 ns |  0.318 ns |  0.297 ns |  1.00 |    0.01 |         - |          NA |
+| ReadF1GameUDPReader  | NET11 | .NET 11.0 | CarSetups           | 1,425.37 ns |  5.943 ns |  4.962 ns | 19.91 |    0.32 |         - |          NA |
+| ReadF1GameUDPMarshal | NET11 | .NET 11.0 | CarSetups           |    71.61 ns |  1.243 ns |  1.162 ns |  1.00 |    0.00 |         - |          NA |
 |                      |       |           |                     |             |           |           |       |         |           |             |
-| **ReadF1GameUDPReader**  | **NET10** | **.NET 10.0** | **CarTelemetry**        | **1,959.08 ns** | **12.134 ns** | **10.132 ns** | **33.73** |    **0.18** |         **-** |          **NA** |
-| ReadF1GameUDPMarshal | NET10 | .NET 10.0 | CarTelemetry        |    58.08 ns |  0.149 ns |  0.124 ns |  1.00 |    0.00 |         - |          NA |
+| **ReadF1GameUDPReader**  | **NET9**  | **.NET 9.0**  | **CarTelemetry**        | **1,911.36 ns** | **15.551 ns** | **13.785 ns** | **25.52** |    **0.21** |         **-** |          **NA** |
+| ReadF1GameUDPMarshal | NET9  | .NET 9.0  | CarTelemetry        |    74.88 ns |  0.416 ns |  0.325 ns |  1.00 |    0.00 |         - |          NA |
 |                      |       |           |                     |             |           |           |       |         |           |             |
-| ReadF1GameUDPReader  | NET8  | .NET 8.0  | CarTelemetry        | 1,793.16 ns |  4.415 ns |  3.687 ns | 28.01 |    0.08 |         - |          NA |
-| ReadF1GameUDPMarshal | NET8  | .NET 8.0  | CarTelemetry        |    64.01 ns |  0.152 ns |  0.142 ns |  1.00 |    0.00 |         - |          NA |
+| ReadF1GameUDPReader  | NET10 | .NET 10.0 | CarTelemetry        | 1,929.90 ns |  7.786 ns |  7.283 ns | 25.65 |    0.16 |         - |          NA |
+| ReadF1GameUDPMarshal | NET10 | .NET 10.0 | CarTelemetry        |    75.25 ns |  0.417 ns |  0.390 ns |  1.00 |    0.00 |         - |          NA |
 |                      |       |           |                     |             |           |           |       |         |           |             |
-| ReadF1GameUDPReader  | NET9  | .NET 9.0  | CarTelemetry        | 1,927.58 ns | 12.481 ns | 11.675 ns | 31.36 |    0.62 |         - |          NA |
-| ReadF1GameUDPMarshal | NET9  | .NET 9.0  | CarTelemetry        |    61.48 ns |  1.236 ns |  1.214 ns |  1.00 |    0.03 |         - |          NA |
+| ReadF1GameUDPReader  | NET11 | .NET 11.0 | CarTelemetry        | 1,942.01 ns |  6.654 ns |  6.224 ns | 24.37 |    0.23 |         - |          NA |
+| ReadF1GameUDPMarshal | NET11 | .NET 11.0 | CarTelemetry        |    79.69 ns |  0.969 ns |  0.757 ns |  1.00 |    0.00 |         - |          NA |
 |                      |       |           |                     |             |           |           |       |         |           |             |
-| **ReadF1GameUDPReader**  | **NET10** | **.NET 10.0** | **CarStatus**           | **1,620.74 ns** |  **7.821 ns** |  **7.316 ns** | **25.66** |    **0.44** |         **-** |          **NA** |
-| ReadF1GameUDPMarshal | NET10 | .NET 10.0 | CarStatus           |    63.19 ns |  1.163 ns |  1.088 ns |  1.00 |    0.02 |         - |          NA |
+| **ReadF1GameUDPReader**  | **NET9**  | **.NET 9.0**  | **CarStatus**           | **1,793.96 ns** |  **4.411 ns** |  **3.683 ns** | **24.26** |    **0.15** |         **-** |          **NA** |
+| ReadF1GameUDPMarshal | NET9  | .NET 9.0  | CarStatus           |    73.95 ns |  0.510 ns |  0.452 ns |  1.00 |    0.00 |         - |          NA |
 |                      |       |           |                     |             |           |           |       |         |           |             |
-| ReadF1GameUDPReader  | NET8  | .NET 8.0  | CarStatus           | 1,771.14 ns |  7.406 ns |  6.566 ns | 32.30 |    0.14 |         - |          NA |
-| ReadF1GameUDPMarshal | NET8  | .NET 8.0  | CarStatus           |    54.83 ns |  0.172 ns |  0.143 ns |  1.00 |    0.00 |         - |          NA |
+| ReadF1GameUDPReader  | NET10 | .NET 10.0 | CarStatus           | 1,620.22 ns | 15.051 ns | 14.078 ns | 21.68 |    0.19 |         - |          NA |
+| ReadF1GameUDPMarshal | NET10 | .NET 10.0 | CarStatus           |    74.72 ns |  0.275 ns |  0.215 ns |  1.00 |    0.00 |         - |          NA |
 |                      |       |           |                     |             |           |           |       |         |           |             |
-| ReadF1GameUDPReader  | NET9  | .NET 9.0  | CarStatus           | 1,824.17 ns |  7.754 ns |  7.253 ns | 30.01 |    0.14 |         - |          NA |
-| ReadF1GameUDPMarshal | NET9  | .NET 9.0  | CarStatus           |    60.78 ns |  0.219 ns |  0.183 ns |  1.00 |    0.00 |         - |          NA |
+| ReadF1GameUDPReader  | NET11 | .NET 11.0 | CarStatus           | 1,595.48 ns |  6.084 ns |  4.750 ns | 22.36 |    0.09 |         - |          NA |
+| ReadF1GameUDPMarshal | NET11 | .NET 11.0 | CarStatus           |    71.36 ns |  0.224 ns |  0.187 ns |  1.00 |    0.00 |         - |          NA |
 |                      |       |           |                     |             |           |           |       |         |           |             |
-| **ReadF1GameUDPReader**  | **NET10** | **.NET 10.0** | **FinalClassification** | **1,925.82 ns** | **12.782 ns** | **11.331 ns** | **32.98** |    **0.33** |         **-** |          **NA** |
-| ReadF1GameUDPMarshal | NET10 | .NET 10.0 | FinalClassification |    58.40 ns |  0.529 ns |  0.495 ns |  1.00 |    0.01 |         - |          NA |
+| **ReadF1GameUDPReader**  | **NET9**  | **.NET 9.0**  | **FinalClassification** | **2,050.14 ns** |  **4.542 ns** |  **3.793 ns** | **26.37** |    **0.19** |         **-** |          **NA** |
+| ReadF1GameUDPMarshal | NET9  | .NET 9.0  | FinalClassification |    77.75 ns |  0.589 ns |  0.551 ns |  1.00 |    0.00 |         - |          NA |
 |                      |       |           |                     |             |           |           |       |         |           |             |
-| ReadF1GameUDPReader  | NET8  | .NET 8.0  | FinalClassification | 2,029.23 ns | 11.329 ns |  8.845 ns | 37.49 |    0.21 |         - |          NA |
-| ReadF1GameUDPMarshal | NET8  | .NET 8.0  | FinalClassification |    54.13 ns |  0.255 ns |  0.213 ns |  1.00 |    0.01 |         - |          NA |
+| ReadF1GameUDPReader  | NET10 | .NET 10.0 | FinalClassification | 1,919.74 ns |  5.157 ns |  4.026 ns | 27.63 |    0.16 |         - |          NA |
+| ReadF1GameUDPMarshal | NET10 | .NET 10.0 | FinalClassification |    69.49 ns |  0.446 ns |  0.395 ns |  1.00 |    0.00 |         - |          NA |
 |                      |       |           |                     |             |           |           |       |         |           |             |
-| ReadF1GameUDPReader  | NET9  | .NET 9.0  | FinalClassification | 2,086.21 ns |  6.483 ns |  5.747 ns | 34.43 |    0.13 |         - |          NA |
-| ReadF1GameUDPMarshal | NET9  | .NET 9.0  | FinalClassification |    60.59 ns |  0.168 ns |  0.157 ns |  1.00 |    0.00 |         - |          NA |
+| ReadF1GameUDPReader  | NET11 | .NET 11.0 | FinalClassification | 1,972.23 ns | 11.203 ns |  9.931 ns | 28.08 |    0.27 |         - |          NA |
+| ReadF1GameUDPMarshal | NET11 | .NET 11.0 | FinalClassification |    70.24 ns |  0.641 ns |  0.600 ns |  1.00 |    0.00 |         - |          NA |
 |                      |       |           |                     |             |           |           |       |         |           |             |
-| **ReadF1GameUDPReader**  | **NET10** | **.NET 10.0** | **LobbyInfo**           | **1,595.57 ns** | **15.028 ns** | **13.322 ns** | **27.97** |    **0.24** |         **-** |          **NA** |
-| ReadF1GameUDPMarshal | NET10 | .NET 10.0 | LobbyInfo           |    57.04 ns |  0.160 ns |  0.142 ns |  1.00 |    0.00 |         - |          NA |
+| **ReadF1GameUDPReader**  | **NET9**  | **.NET 9.0**  | **LobbyInfo**           | **1,334.97 ns** |  **4.241 ns** |  **3.759 ns** | **18.81** |    **0.07** |         **-** |          **NA** |
+| ReadF1GameUDPMarshal | NET9  | .NET 9.0  | LobbyInfo           |    70.98 ns |  0.182 ns |  0.170 ns |  1.00 |    0.00 |         - |          NA |
 |                      |       |           |                     |             |           |           |       |         |           |             |
-| ReadF1GameUDPReader  | NET8  | .NET 8.0  | LobbyInfo           | 1,268.40 ns |  5.986 ns |  5.600 ns | 25.74 |    0.14 |         - |          NA |
-| ReadF1GameUDPMarshal | NET8  | .NET 8.0  | LobbyInfo           |    49.28 ns |  0.203 ns |  0.180 ns |  1.00 |    0.00 |         - |          NA |
+| ReadF1GameUDPReader  | NET10 | .NET 10.0 | LobbyInfo           | 1,417.58 ns |  4.778 ns |  4.236 ns | 20.56 |    0.07 |         - |          NA |
+| ReadF1GameUDPMarshal | NET10 | .NET 10.0 | LobbyInfo           |    68.94 ns |  0.175 ns |  0.146 ns |  1.00 |    0.00 |         - |          NA |
 |                      |       |           |                     |             |           |           |       |         |           |             |
-| ReadF1GameUDPReader  | NET9  | .NET 9.0  | LobbyInfo           | 1,369.66 ns |  6.684 ns |  5.582 ns | 23.53 |    0.27 |         - |          NA |
-| ReadF1GameUDPMarshal | NET9  | .NET 9.0  | LobbyInfo           |    58.22 ns |  0.729 ns |  0.646 ns |  1.00 |    0.02 |         - |          NA |
+| ReadF1GameUDPReader  | NET11 | .NET 11.0 | LobbyInfo           | 1,401.01 ns | 13.957 ns | 13.056 ns | 20.28 |    0.26 |         - |          NA |
+| ReadF1GameUDPMarshal | NET11 | .NET 11.0 | LobbyInfo           |    69.09 ns |  0.799 ns |  0.667 ns |  1.00 |    0.00 |         - |          NA |
 |                      |       |           |                     |             |           |           |       |         |           |             |
-| **ReadF1GameUDPReader**  | **NET10** | **.NET 10.0** | **CarDamage**           | **1,625.51 ns** |  **2.947 ns** |  **2.301 ns** | **27.94** |    **0.14** |         **-** |          **NA** |
-| ReadF1GameUDPMarshal | NET10 | .NET 10.0 | CarDamage           |    58.17 ns |  0.360 ns |  0.300 ns |  1.00 |    0.01 |         - |          NA |
+| **ReadF1GameUDPReader**  | **NET9**  | **.NET 9.0**  | **CarDamage**           | **1,886.04 ns** |  **2.890 ns** |  **2.562 ns** | **25.41** |    **0.11** |         **-** |          **NA** |
+| ReadF1GameUDPMarshal | NET9  | .NET 9.0  | CarDamage           |    74.23 ns |  0.351 ns |  0.311 ns |  1.00 |    0.00 |         - |          NA |
 |                      |       |           |                     |             |           |           |       |         |           |             |
-| ReadF1GameUDPReader  | NET8  | .NET 8.0  | CarDamage           | 1,874.43 ns | 11.208 ns | 10.484 ns | 37.21 |    0.29 |         - |          NA |
-| ReadF1GameUDPMarshal | NET8  | .NET 8.0  | CarDamage           |    50.38 ns |  0.323 ns |  0.286 ns |  1.00 |    0.01 |         - |          NA |
+| ReadF1GameUDPReader  | NET10 | .NET 10.0 | CarDamage           | 1,638.00 ns |  9.363 ns |  8.758 ns | 22.18 |    0.19 |         - |          NA |
+| ReadF1GameUDPMarshal | NET10 | .NET 10.0 | CarDamage           |    73.85 ns |  0.645 ns |  0.538 ns |  1.00 |    0.00 |         - |          NA |
 |                      |       |           |                     |             |           |           |       |         |           |             |
-| ReadF1GameUDPReader  | NET9  | .NET 9.0  | CarDamage           | 1,901.15 ns |  1.198 ns |  1.062 ns | 29.30 |    0.10 |         - |          NA |
-| ReadF1GameUDPMarshal | NET9  | .NET 9.0  | CarDamage           |    64.90 ns |  0.281 ns |  0.234 ns |  1.00 |    0.00 |         - |          NA |
+| ReadF1GameUDPReader  | NET11 | .NET 11.0 | CarDamage           | 1,632.58 ns | 10.645 ns |  9.436 ns | 23.69 |    0.23 |         - |          NA |
+| ReadF1GameUDPMarshal | NET11 | .NET 11.0 | CarDamage           |    68.92 ns |  0.641 ns |  0.568 ns |  1.00 |    0.00 |         - |          NA |
 |                      |       |           |                     |             |           |           |       |         |           |             |
-| **ReadF1GameUDPReader**  | **NET10** | **.NET 10.0** | **SessionHistory**      | **1,703.69 ns** |  **1.631 ns** |  **1.362 ns** | **28.43** |    **0.08** |         **-** |          **NA** |
-| ReadF1GameUDPMarshal | NET10 | .NET 10.0 | SessionHistory      |    59.93 ns |  0.218 ns |  0.170 ns |  1.00 |    0.00 |         - |          NA |
+| **ReadF1GameUDPReader**  | **NET9**  | **.NET 9.0**  | **SessionHistory**      | **1,838.91 ns** |  **5.594 ns** |  **4.367 ns** | **24.33** |    **0.32** |         **-** |          **NA** |
+| ReadF1GameUDPMarshal | NET9  | .NET 9.0  | SessionHistory      |    75.58 ns |  1.074 ns |  1.004 ns |  1.00 |    0.00 |         - |          NA |
 |                      |       |           |                     |             |           |           |       |         |           |             |
-| ReadF1GameUDPReader  | NET8  | .NET 8.0  | SessionHistory      | 1,716.83 ns |  6.051 ns |  5.364 ns | 31.19 |    0.10 |         - |          NA |
-| ReadF1GameUDPMarshal | NET8  | .NET 8.0  | SessionHistory      |    55.04 ns |  0.077 ns |  0.060 ns |  1.00 |    0.00 |         - |          NA |
+| ReadF1GameUDPReader  | NET10 | .NET 10.0 | SessionHistory      | 1,704.54 ns | 10.321 ns |  8.619 ns | 23.68 |    0.13 |         - |          NA |
+| ReadF1GameUDPMarshal | NET10 | .NET 10.0 | SessionHistory      |    71.99 ns |  0.209 ns |  0.175 ns |  1.00 |    0.00 |         - |          NA |
 |                      |       |           |                     |             |           |           |       |         |           |             |
-| ReadF1GameUDPReader  | NET9  | .NET 9.0  | SessionHistory      | 1,848.68 ns |  2.145 ns |  1.675 ns | 30.62 |    0.04 |         - |          NA |
-| ReadF1GameUDPMarshal | NET9  | .NET 9.0  | SessionHistory      |    60.38 ns |  0.077 ns |  0.064 ns |  1.00 |    0.00 |         - |          NA |
+| ReadF1GameUDPReader  | NET11 | .NET 11.0 | SessionHistory      | 1,747.35 ns | 13.136 ns | 11.645 ns | 24.32 |    0.17 |         - |          NA |
+| ReadF1GameUDPMarshal | NET11 | .NET 11.0 | SessionHistory      |    71.85 ns |  0.248 ns |  0.232 ns |  1.00 |    0.00 |         - |          NA |
 |                      |       |           |                     |             |           |           |       |         |           |             |
-| **ReadF1GameUDPReader**  | **NET10** | **.NET 10.0** | **TyreSets**            |   **950.11 ns** |  **1.364 ns** |  **1.275 ns** | **17.69** |    **0.05** |         **-** |          **NA** |
-| ReadF1GameUDPMarshal | NET10 | .NET 10.0 | TyreSets            |    53.72 ns |  0.152 ns |  0.127 ns |  1.00 |    0.00 |         - |          NA |
+| **ReadF1GameUDPReader**  | **NET9**  | **.NET 9.0**  | **TyreSets**            |   **891.07 ns** |  **8.655 ns** |  **8.096 ns** | **12.91** |    **0.17** |         **-** |          **NA** |
+| ReadF1GameUDPMarshal | NET9  | .NET 9.0  | TyreSets            |    69.05 ns |  0.761 ns |  0.675 ns |  1.00 |    0.00 |         - |          NA |
 |                      |       |           |                     |             |           |           |       |         |           |             |
-| ReadF1GameUDPReader  | NET8  | .NET 8.0  | TyreSets            |   798.82 ns |  1.458 ns |  1.218 ns | 17.09 |    0.12 |         - |          NA |
-| ReadF1GameUDPMarshal | NET8  | .NET 8.0  | TyreSets            |    46.75 ns |  0.382 ns |  0.339 ns |  1.00 |    0.01 |         - |          NA |
+| ReadF1GameUDPReader  | NET10 | .NET 10.0 | TyreSets            |   997.19 ns | 19.707 ns | 25.624 ns | 15.76 |    0.42 |         - |          NA |
+| ReadF1GameUDPMarshal | NET10 | .NET 10.0 | TyreSets            |    63.29 ns |  0.669 ns |  0.626 ns |  1.00 |    0.00 |         - |          NA |
 |                      |       |           |                     |             |           |           |       |         |           |             |
-| ReadF1GameUDPReader  | NET9  | .NET 9.0  | TyreSets            |   920.72 ns |  2.115 ns |  1.978 ns | 17.08 |    0.07 |         - |          NA |
-| ReadF1GameUDPMarshal | NET9  | .NET 9.0  | TyreSets            |    53.90 ns |  0.207 ns |  0.184 ns |  1.00 |    0.00 |         - |          NA |
+| ReadF1GameUDPReader  | NET11 | .NET 11.0 | TyreSets            |   969.44 ns |  4.152 ns |  3.884 ns | 15.19 |    0.09 |         - |          NA |
+| ReadF1GameUDPMarshal | NET11 | .NET 11.0 | TyreSets            |    63.83 ns |  0.304 ns |  0.284 ns |  1.00 |    0.00 |         - |          NA |
 |                      |       |           |                     |             |           |           |       |         |           |             |
-| **ReadF1GameUDPReader**  | **NET10** | **.NET 10.0** | **MotionEx**            |   **533.37 ns** |  **1.924 ns** |  **1.706 ns** |  **9.63** |    **0.04** |         **-** |          **NA** |
-| ReadF1GameUDPMarshal | NET10 | .NET 10.0 | MotionEx            |    55.39 ns |  0.156 ns |  0.131 ns |  1.00 |    0.00 |         - |          NA |
+| **ReadF1GameUDPReader**  | **NET9**  | **.NET 9.0**  | **MotionEx**            |   **741.19 ns** |  **1.234 ns** |  **1.030 ns** | **11.14** |    **0.04** |         **-** |          **NA** |
+| ReadF1GameUDPMarshal | NET9  | .NET 9.0  | MotionEx            |    66.51 ns |  0.288 ns |  0.256 ns |  1.00 |    0.00 |         - |          NA |
 |                      |       |           |                     |             |           |           |       |         |           |             |
-| ReadF1GameUDPReader  | NET8  | .NET 8.0  | MotionEx            |   657.68 ns | 10.379 ns |  9.201 ns | 14.09 |    0.20 |         - |          NA |
-| ReadF1GameUDPMarshal | NET8  | .NET 8.0  | MotionEx            |    46.69 ns |  0.172 ns |  0.153 ns |  1.00 |    0.00 |         - |          NA |
+| ReadF1GameUDPReader  | NET10 | .NET 10.0 | MotionEx            |   519.04 ns |  1.022 ns |  0.906 ns |  7.88 |    0.02 |         - |          NA |
+| ReadF1GameUDPMarshal | NET10 | .NET 10.0 | MotionEx            |    65.83 ns |  0.145 ns |  0.135 ns |  1.00 |    0.00 |         - |          NA |
 |                      |       |           |                     |             |           |           |       |         |           |             |
-| ReadF1GameUDPReader  | NET9  | .NET 9.0  | MotionEx            |   743.97 ns |  4.390 ns |  4.107 ns | 13.95 |    0.08 |         - |          NA |
-| ReadF1GameUDPMarshal | NET9  | .NET 9.0  | MotionEx            |    53.32 ns |  0.175 ns |  0.146 ns |  1.00 |    0.00 |         - |          NA |
+| ReadF1GameUDPReader  | NET11 | .NET 11.0 | MotionEx            |   513.14 ns |  1.242 ns |  1.101 ns |  8.18 |    0.02 |         - |          NA |
+| ReadF1GameUDPMarshal | NET11 | .NET 11.0 | MotionEx            |    62.76 ns |  0.142 ns |  0.111 ns |  1.00 |    0.00 |         - |          NA |
 |                      |       |           |                     |             |           |           |       |         |           |             |
-| **ReadF1GameUDPReader**  | **NET10** | **.NET 10.0** | **TimeTrial**           |   **450.22 ns** |  **1.537 ns** |  **1.438 ns** |  **8.59** |    **0.04** |         **-** |          **NA** |
-| ReadF1GameUDPMarshal | NET10 | .NET 10.0 | TimeTrial           |    52.39 ns |  0.233 ns |  0.206 ns |  1.00 |    0.01 |         - |          NA |
+| **ReadF1GameUDPReader**  | **NET9**  | **.NET 9.0**  | **TimeTrial**           |   **698.77 ns** |  **1.808 ns** |  **1.510 ns** | **10.98** |    **0.04** |         **-** |          **NA** |
+| ReadF1GameUDPMarshal | NET9  | .NET 9.0  | TimeTrial           |    63.64 ns |  0.186 ns |  0.165 ns |  1.00 |    0.00 |         - |          NA |
 |                      |       |           |                     |             |           |           |       |         |           |             |
-| ReadF1GameUDPReader  | NET8  | .NET 8.0  | TimeTrial           |   615.20 ns |  2.944 ns |  2.458 ns | 13.49 |    0.07 |         - |          NA |
-| ReadF1GameUDPMarshal | NET8  | .NET 8.0  | TimeTrial           |    45.59 ns |  0.205 ns |  0.182 ns |  1.00 |    0.01 |         - |          NA |
+| ReadF1GameUDPReader  | NET10 | .NET 10.0 | TimeTrial           |   464.47 ns |  0.489 ns |  0.382 ns |  7.51 |    0.02 |         - |          NA |
+| ReadF1GameUDPMarshal | NET10 | .NET 10.0 | TimeTrial           |    61.83 ns |  0.192 ns |  0.160 ns |  1.00 |    0.00 |         - |          NA |
 |                      |       |           |                     |             |           |           |       |         |           |             |
-| ReadF1GameUDPReader  | NET9  | .NET 9.0  | TimeTrial           |   672.56 ns |  2.636 ns |  2.465 ns | 12.76 |    0.10 |         - |          NA |
-| ReadF1GameUDPMarshal | NET9  | .NET 9.0  | TimeTrial           |    52.72 ns |  0.432 ns |  0.361 ns |  1.00 |    0.01 |         - |          NA |
+| ReadF1GameUDPReader  | NET11 | .NET 11.0 | TimeTrial           |   472.24 ns |  2.698 ns |  2.392 ns |  7.49 |    0.04 |         - |          NA |
+| ReadF1GameUDPMarshal | NET11 | .NET 11.0 | TimeTrial           |    63.02 ns |  0.208 ns |  0.184 ns |  1.00 |    0.00 |         - |          NA |
 |                      |       |           |                     |             |           |           |       |         |           |             |
-| **ReadF1GameUDPReader**  | **NET10** | **.NET 10.0** | **LapPositions**        |   **847.23 ns** |  **6.009 ns** |  **4.691 ns** | **14.25** |    **0.26** |         **-** |          **NA** |
-| ReadF1GameUDPMarshal | NET10 | .NET 10.0 | LapPositions        |    59.46 ns |  1.212 ns |  1.074 ns |  1.00 |    0.02 |         - |          NA |
+| **ReadF1GameUDPReader**  | **NET9**  | **.NET 9.0**  | **LapPositions**        | **1,037.27 ns** |  **3.507 ns** |  **2.738 ns** | **14.03** |    **0.04** |         **-** |          **NA** |
+| ReadF1GameUDPMarshal | NET9  | .NET 9.0  | LapPositions        |    73.92 ns |  0.164 ns |  0.137 ns |  1.00 |    0.00 |         - |          NA |
 |                      |       |           |                     |             |           |           |       |         |           |             |
-| ReadF1GameUDPReader  | NET8  | .NET 8.0  | LapPositions        |   978.59 ns |  1.370 ns |  1.214 ns | 17.52 |    0.12 |         - |          NA |
-| ReadF1GameUDPMarshal | NET8  | .NET 8.0  | LapPositions        |    55.87 ns |  0.448 ns |  0.397 ns |  1.00 |    0.01 |         - |          NA |
+| ReadF1GameUDPReader  | NET10 | .NET 10.0 | LapPositions        |   893.64 ns |  2.821 ns |  2.356 ns | 12.06 |    0.04 |         - |          NA |
+| ReadF1GameUDPMarshal | NET10 | .NET 10.0 | LapPositions        |    74.11 ns |  0.197 ns |  0.175 ns |  1.00 |    0.00 |         - |          NA |
 |                      |       |           |                     |             |           |           |       |         |           |             |
-| ReadF1GameUDPReader  | NET9  | .NET 9.0  | LapPositions        | 1,070.57 ns |  2.482 ns |  2.201 ns | 14.64 |    0.05 |         - |          NA |
-| ReadF1GameUDPMarshal | NET9  | .NET 9.0  | LapPositions        |    73.11 ns |  0.248 ns |  0.207 ns |  1.00 |    0.00 |         - |          NA |
+| ReadF1GameUDPReader  | NET11 | .NET 11.0 | LapPositions        |   830.30 ns |  2.480 ns |  2.320 ns | 10.67 |    0.20 |         - |          NA |
+| ReadF1GameUDPMarshal | NET11 | .NET 11.0 | LapPositions        |    77.88 ns |  1.509 ns |  1.482 ns |  1.00 |    0.00 |         - |          NA |
 |                      |       |           |                     |             |           |           |       |         |           |             |
-| **ReadF1GameUDPReader**  | **NET10** | **.NET 10.0** | **CarTelemetry2**       |   **956.96 ns** |  **3.929 ns** |  **3.483 ns** | **18.06** |    **0.12** |         **-** |          **NA** |
-| ReadF1GameUDPMarshal | NET10 | .NET 10.0 | CarTelemetry2       |    53.00 ns |  0.367 ns |  0.325 ns |  1.00 |    0.01 |         - |          NA |
+| **ReadF1GameUDPReader**  | **NET9**  | **.NET 9.0**  | **CarTelemetry2**       |   **955.89 ns** |  **4.303 ns** |  **3.815 ns** | **14.62** |    **0.11** |         **-** |          **NA** |
+| ReadF1GameUDPMarshal | NET9  | .NET 9.0  | CarTelemetry2       |    65.37 ns |  0.516 ns |  0.457 ns |  1.00 |    0.00 |         - |          NA |
 |                      |       |           |                     |             |           |           |       |         |           |             |
-| ReadF1GameUDPReader  | NET8  | .NET 8.0  | CarTelemetry2       |   822.76 ns |  3.457 ns |  3.234 ns | 17.38 |    0.11 |         - |          NA |
-| ReadF1GameUDPMarshal | NET8  | .NET 8.0  | CarTelemetry2       |    47.34 ns |  0.261 ns |  0.232 ns |  1.00 |    0.01 |         - |          NA |
+| ReadF1GameUDPReader  | NET10 | .NET 10.0 | CarTelemetry2       |   918.40 ns | 12.323 ns | 10.290 ns | 14.10 |    0.16 |         - |          NA |
+| ReadF1GameUDPMarshal | NET10 | .NET 10.0 | CarTelemetry2       |    65.13 ns |  0.188 ns |  0.167 ns |  1.00 |    0.00 |         - |          NA |
 |                      |       |           |                     |             |           |           |       |         |           |             |
-| ReadF1GameUDPReader  | NET9  | .NET 9.0  | CarTelemetry2       | 1,020.22 ns | 17.419 ns | 16.294 ns | 18.53 |    0.36 |         - |          NA |
-| ReadF1GameUDPMarshal | NET9  | .NET 9.0  | CarTelemetry2       |    55.06 ns |  0.738 ns |  0.690 ns |  1.00 |    0.02 |         - |          NA |
+| ReadF1GameUDPReader  | NET11 | .NET 11.0 | CarTelemetry2       |   895.63 ns |  2.039 ns |  1.907 ns | 13.81 |    0.10 |         - |          NA |
+| ReadF1GameUDPMarshal | NET11 | .NET 11.0 | CarTelemetry2       |    64.87 ns |  0.506 ns |  0.474 ns |  1.00 |    0.00 |         - |          NA |

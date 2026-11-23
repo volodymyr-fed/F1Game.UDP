@@ -1,12 +1,243 @@
-﻿namespace F1Game.UDP.Events;
+﻿using System.Runtime.CompilerServices;
+
+namespace F1Game.UDP.Events;
 
 /// <summary>
 /// Represents a union of all possible F1 event details, allowing access to the specific event data based on <see cref="EventType"/>.
 /// </summary>
 [StructLayout(LayoutKind.Explicit, Pack = 1)]
+#if NET11_0_OR_GREATER
+[Union]
+#endif
 public readonly record struct EventDetails : IByteParsable<EventDetails>, IByteWritable, ISizeable
+#if NET11_0_OR_GREATER
+	, IUnion
+#endif
 {
 	static int ISizeable.Size => 16;
+
+	/// <summary>
+	/// Gets the boxed payload, or <see langword="null"/> when the discriminator has no payload.
+	/// </summary>
+	public object? Value => EventType switch
+	{
+		EventType.ButtonStatus => buttonsEvent,
+		EventType.DriveThroughServed => driveThroughPenaltyServedEvent,
+		EventType.FastestLap => fastestLapEvent,
+		EventType.Flashback => flashbackEvent,
+		EventType.Overtake => overtakeEvent,
+		EventType.PenaltyIssued => penaltyEvent,
+		EventType.RaceWinner => raceWinnerEvent,
+		EventType.Retirement => retirementEvent,
+		EventType.SpeedTrapTriggered => speedTrapEvent,
+		EventType.StartLights => startLightsEvent,
+		EventType.StopGoServed => stopGoPenaltyServedEvent,
+		EventType.TeamMateInPits => teamMateInPitsEvent,
+		EventType.Collision => collisionEvent,
+		EventType.SafetyCar => safetyCarEvent,
+		EventType.DRSDisabled => drsDisabledEvent,
+		_ => null
+	};
+
+	/// <summary>
+	/// Gets whether the discriminator identifies a supported payload.
+	/// </summary>
+	public bool HasValue => EventType is
+		EventType.ButtonStatus
+		or EventType.DriveThroughServed
+		or EventType.FastestLap
+		or EventType.Flashback
+		or EventType.Overtake
+		or EventType.PenaltyIssued
+		or EventType.RaceWinner
+		or EventType.Retirement
+		or EventType.SpeedTrapTriggered
+		or EventType.StartLights
+		or EventType.StopGoServed
+		or EventType.TeamMateInPits
+		or EventType.Collision
+		or EventType.SafetyCar
+		or EventType.DRSDisabled;
+
+	/// <summary>
+	/// Tries to get the contained <see cref="ButtonsEvent"/> payload.
+	/// </summary>
+	/// <param name="value">The payload if its type matches; otherwise, the default value.</param>
+	/// <returns>Whether the payload type matches.</returns>
+	public bool TryGetValue(out ButtonsEvent value)
+	{
+		var isRightEvent = EventType == EventType.ButtonStatus;
+		value = isRightEvent ? this.buttonsEvent : default;
+		return isRightEvent;
+	}
+
+	/// <summary>
+	/// Tries to get the contained <see cref="DriveThroughPenaltyServedEvent"/> payload.
+	/// </summary>
+	/// <param name="value">The payload if its type matches; otherwise, the default value.</param>
+	/// <returns>Whether the payload type matches.</returns>
+	public bool TryGetValue(out DriveThroughPenaltyServedEvent value)
+	{
+		var isRightEvent = EventType == EventType.DriveThroughServed;
+		value = isRightEvent ? this.driveThroughPenaltyServedEvent : default;
+		return isRightEvent;
+	}
+
+	/// <summary>
+	/// Tries to get the contained <see cref="FastestLapEvent"/> payload.
+	/// </summary>
+	/// <param name="value">The payload if its type matches; otherwise, the default value.</param>
+	/// <returns>Whether the payload type matches.</returns>
+	public bool TryGetValue(out FastestLapEvent value)
+	{
+		var isRightEvent = EventType == EventType.FastestLap;
+		value = isRightEvent ? this.fastestLapEvent : default;
+		return isRightEvent;
+	}
+
+	/// <summary>
+	/// Tries to get the contained <see cref="FlashbackEvent"/> payload.
+	/// </summary>
+	/// <param name="value">The payload if its type matches; otherwise, the default value.</param>
+	/// <returns>Whether the payload type matches.</returns>
+	public bool TryGetValue(out FlashbackEvent value)
+	{
+		var isRightEvent = EventType == EventType.Flashback;
+		value = isRightEvent ? this.flashbackEvent : default;
+		return isRightEvent;
+	}
+
+	/// <summary>
+	/// Tries to get the contained <see cref="OvertakeEvent"/> payload.
+	/// </summary>
+	/// <param name="value">The payload if its type matches; otherwise, the default value.</param>
+	/// <returns>Whether the payload type matches.</returns>
+	public bool TryGetValue(out OvertakeEvent value)
+	{
+		var isRightEvent = EventType == EventType.Overtake;
+		value = isRightEvent ? this.overtakeEvent : default;
+		return isRightEvent;
+	}
+
+	/// <summary>
+	/// Tries to get the contained <see cref="PenaltyEvent"/> payload.
+	/// </summary>
+	/// <param name="value">The payload if its type matches; otherwise, the default value.</param>
+	/// <returns>Whether the payload type matches.</returns>
+	public bool TryGetValue(out PenaltyEvent value)
+	{
+		var isRightEvent = EventType == EventType.PenaltyIssued;
+		value = isRightEvent ? this.penaltyEvent : default;
+		return isRightEvent;
+	}
+
+	/// <summary>
+	/// Tries to get the contained <see cref="RaceWinnerEvent"/> payload.
+	/// </summary>
+	/// <param name="value">The payload if its type matches; otherwise, the default value.</param>
+	/// <returns>Whether the payload type matches.</returns>
+	public bool TryGetValue(out RaceWinnerEvent value)
+	{
+		var isRightEvent = EventType == EventType.RaceWinner;
+		value = isRightEvent ? this.raceWinnerEvent : default;
+		return isRightEvent;
+	}
+
+	/// <summary>
+	/// Tries to get the contained <see cref="RetirementEvent"/> payload.
+	/// </summary>
+	/// <param name="value">The payload if its type matches; otherwise, the default value.</param>
+	/// <returns>Whether the payload type matches.</returns>
+	public bool TryGetValue(out RetirementEvent value)
+	{
+		var isRightEvent = EventType == EventType.Retirement;
+		value = isRightEvent ? this.retirementEvent : default;
+		return isRightEvent;
+	}
+
+	/// <summary>
+	/// Tries to get the contained <see cref="SpeedTrapEvent"/> payload.
+	/// </summary>
+	/// <param name="value">The payload if its type matches; otherwise, the default value.</param>
+	/// <returns>Whether the payload type matches.</returns>
+	public bool TryGetValue(out SpeedTrapEvent value)
+	{
+		var isRightEvent = EventType == EventType.SpeedTrapTriggered;
+		value = isRightEvent ? this.speedTrapEvent : default;
+		return isRightEvent;
+	}
+
+	/// <summary>
+	/// Tries to get the contained <see cref="StartLightsEvent"/> payload.
+	/// </summary>
+	/// <param name="value">The payload if its type matches; otherwise, the default value.</param>
+	/// <returns>Whether the payload type matches.</returns>
+	public bool TryGetValue(out StartLightsEvent value)
+	{
+		var isRightEvent = EventType == EventType.StartLights;
+		value = isRightEvent ? this.startLightsEvent : default;
+		return isRightEvent;
+	}
+
+	/// <summary>
+	/// Tries to get the contained <see cref="StopGoPenaltyServedEvent"/> payload.
+	/// </summary>
+	/// <param name="value">The payload if its type matches; otherwise, the default value.</param>
+	/// <returns>Whether the payload type matches.</returns>
+	public bool TryGetValue(out StopGoPenaltyServedEvent value)
+	{
+		var isRightEvent = EventType == EventType.StopGoServed;
+		value = isRightEvent ? this.stopGoPenaltyServedEvent : default;
+		return isRightEvent;
+	}
+
+	/// <summary>
+	/// Tries to get the contained <see cref="TeamMateInPitsEvent"/> payload.
+	/// </summary>
+	/// <param name="value">The payload if its type matches; otherwise, the default value.</param>
+	/// <returns>Whether the payload type matches.</returns>
+	public bool TryGetValue(out TeamMateInPitsEvent value)
+	{
+		var isRightEvent = EventType == EventType.TeamMateInPits;
+		value = isRightEvent ? this.teamMateInPitsEvent : default;
+		return isRightEvent;
+	}
+
+	/// <summary>
+	/// Tries to get the contained <see cref="CollisionEvent"/> payload.
+	/// </summary>
+	/// <param name="value">The payload if its type matches; otherwise, the default value.</param>
+	/// <returns>Whether the payload type matches.</returns>
+	public bool TryGetValue(out CollisionEvent value)
+	{
+		var isRightEvent = EventType == EventType.Collision;
+		value = isRightEvent ? this.collisionEvent : default;
+		return isRightEvent;
+	}
+
+	/// <summary>
+	/// Tries to get the contained <see cref="SafetyCarEvent"/> payload.
+	/// </summary>
+	/// <param name="value">The payload if its type matches; otherwise, the default value.</param>
+	/// <returns>Whether the payload type matches.</returns>
+	public bool TryGetValue(out SafetyCarEvent value)
+	{
+		var isRightEvent = EventType == EventType.SafetyCar;
+		value = isRightEvent ? this.safetyCarEvent : default;
+		return isRightEvent;
+	}
+
+	/// <summary>
+	/// Tries to get the contained <see cref="DrsDisabledEvent"/> payload.
+	/// </summary>
+	/// <param name="value">The payload if its type matches; otherwise, the default value.</param>
+	/// <returns>Whether the payload type matches.</returns>
+	public bool TryGetValue(out DrsDisabledEvent value)
+	{
+		var isRightEvent = EventType == EventType.DRSDisabled;
+		value = isRightEvent ? this.drsDisabledEvent : default;
+		return isRightEvent;
+	}
 
 	/// <summary>
 	/// Gets the type of the event contained in this union.
@@ -139,180 +370,120 @@ public readonly record struct EventDetails : IByteParsable<EventDetails>, IByteW
 	/// </summary>
 	/// <param name="buttonsEvent">When this method returns, contains the buttons event if the event type matches; otherwise, the default value.</param>
 	/// <returns><c>true</c> if the event type is <see cref="EventType.ButtonStatus"/>; otherwise, <c>false</c>.</returns>
-	public bool TryGetButtonsEvent(out ButtonsEvent buttonsEvent)
-	{
-		var isRightEvent = EventType == EventType.ButtonStatus;
-		buttonsEvent = isRightEvent ? this.buttonsEvent : default;
-		return isRightEvent;
-	}
+	[Obsolete("Use TryGetValue instead.")]
+	public bool TryGetButtonsEvent(out ButtonsEvent buttonsEvent) => TryGetValue(out buttonsEvent);
 
 	/// <summary>
 	/// Tries to get the <see cref="DriveThroughPenaltyServedEvent"/> from this union.
 	/// </summary>
 	/// <param name="driveThroughPenaltyServedEvent">When this method returns, contains the drive through penalty served event if the event type matches; otherwise, the default value.</param>
 	/// <returns><c>true</c> if the event type is <see cref="EventType.DriveThroughServed"/>; otherwise, <c>false</c>.</returns>
-	public bool TryGetDriveThroughPenaltyServedEvent(out DriveThroughPenaltyServedEvent driveThroughPenaltyServedEvent)
-	{
-		var isRightEvent = EventType == EventType.DriveThroughServed;
-		driveThroughPenaltyServedEvent = isRightEvent ? this.driveThroughPenaltyServedEvent : default;
-		return isRightEvent;
-	}
+	[Obsolete("Use TryGetValue instead.")]
+	public bool TryGetDriveThroughPenaltyServedEvent(out DriveThroughPenaltyServedEvent driveThroughPenaltyServedEvent) => TryGetValue(out driveThroughPenaltyServedEvent);
 
 	/// <summary>
 	/// Tries to get the <see cref="FastestLapEvent"/> from this union.
 	/// </summary>
 	/// <param name="fastestLapEvent">When this method returns, contains the fastest lap event if the event type matches; otherwise, the default value.</param>
 	/// <returns><c>true</c> if the event type is <see cref="EventType.FastestLap"/>; otherwise, <c>false</c>.</returns>
-	public bool TryGetFastestLapEvent(out FastestLapEvent fastestLapEvent)
-	{
-		var isRightEvent = EventType == EventType.FastestLap;
-		fastestLapEvent = isRightEvent ? this.fastestLapEvent : default;
-		return isRightEvent;
-	}
+	[Obsolete("Use TryGetValue instead.")]
+	public bool TryGetFastestLapEvent(out FastestLapEvent fastestLapEvent) => TryGetValue(out fastestLapEvent);
 
 	/// <summary>
 	/// Tries to get the <see cref="FlashbackEvent"/> from this union.
 	/// </summary>
 	/// <param name="flashbackEvent">When this method returns, contains the flashback event if the event type matches; otherwise, the default value.</param>
 	/// <returns><c>true</c> if the event type is <see cref="EventType.Flashback"/>; otherwise, <c>false</c>.</returns>
-	public bool TryGetFlashbackEvent(out FlashbackEvent flashbackEvent)
-	{
-		var isRightEvent = EventType == EventType.Flashback;
-		flashbackEvent = isRightEvent ? this.flashbackEvent : default;
-		return isRightEvent;
-	}
+	[Obsolete("Use TryGetValue instead.")]
+	public bool TryGetFlashbackEvent(out FlashbackEvent flashbackEvent) => TryGetValue(out flashbackEvent);
 
 	/// <summary>
 	/// Tries to get the <see cref="OvertakeEvent"/> from this union.
 	/// </summary>
 	/// <param name="overtakeEvent">When this method returns, contains the overtake event if the event type matches; otherwise, the default value.</param>
 	/// <returns><c>true</c> if the event type is <see cref="EventType.Overtake"/>; otherwise, <c>false</c>.</returns>
-	public bool TryGetOvertakeEvent(out OvertakeEvent overtakeEvent)
-	{
-		var isRightEvent = EventType == EventType.Overtake;
-		overtakeEvent = isRightEvent ? this.overtakeEvent : default;
-		return isRightEvent;
-	}
+	[Obsolete("Use TryGetValue instead.")]
+	public bool TryGetOvertakeEvent(out OvertakeEvent overtakeEvent) => TryGetValue(out overtakeEvent);
 
 	/// <summary>
 	/// Tries to get the <see cref="PenaltyEvent"/> from this union.
 	/// </summary>
 	/// <param name="penaltyEvent">When this method returns, contains the penalty event if the event type matches; otherwise, the default value.</param>
 	/// <returns><c>true</c> if the event type is <see cref="EventType.PenaltyIssued"/>; otherwise, <c>false</c>.</returns>
-	public bool TryGetPenaltyEvent(out PenaltyEvent penaltyEvent)
-	{
-		var isRightEvent = EventType == EventType.PenaltyIssued;
-		penaltyEvent = isRightEvent ? this.penaltyEvent : default;
-		return isRightEvent;
-	}
+	[Obsolete("Use TryGetValue instead.")]
+	public bool TryGetPenaltyEvent(out PenaltyEvent penaltyEvent) => TryGetValue(out penaltyEvent);
 
 	/// <summary>
 	/// Tries to get the <see cref="RaceWinnerEvent"/> from this union.
 	/// </summary>
 	/// <param name="raceWinnerEvent">When this method returns, contains the race winner event if the event type matches; otherwise, the default value.</param>
 	/// <returns><c>true</c> if the event type is <see cref="EventType.RaceWinner"/>; otherwise, <c>false</c>.</returns>
-	public bool TryGetRaceWinnerEvent(out RaceWinnerEvent raceWinnerEvent)
-	{
-		var isRightEvent = EventType == EventType.RaceWinner;
-		raceWinnerEvent = isRightEvent ? this.raceWinnerEvent : default;
-		return isRightEvent;
-	}
+	[Obsolete("Use TryGetValue instead.")]
+	public bool TryGetRaceWinnerEvent(out RaceWinnerEvent raceWinnerEvent) => TryGetValue(out raceWinnerEvent);
 
 	/// <summary>
 	/// Tries to get the <see cref="RetirementEvent"/> from this union.
 	/// </summary>
 	/// <param name="retirementEvent">When this method returns, contains the retirement event if the event type matches; otherwise, the default value.</param>
 	/// <returns><c>true</c> if the event type is <see cref="EventType.Retirement"/>; otherwise, <c>false</c>.</returns>
-	public bool TryGetRetirementEvent(out RetirementEvent retirementEvent)
-	{
-		var isRightEvent = EventType == EventType.Retirement;
-		retirementEvent = isRightEvent ? this.retirementEvent : default;
-		return isRightEvent;
-	}
+	[Obsolete("Use TryGetValue instead.")]
+	public bool TryGetRetirementEvent(out RetirementEvent retirementEvent) => TryGetValue(out retirementEvent);
 
 	/// <summary>
 	/// Tries to get the <see cref="SpeedTrapEvent"/> from this union.
 	/// </summary>
 	/// <param name="speedTrapEvent">When this method returns, contains the speed trap event if the event type matches; otherwise, the default value.</param>
 	/// <returns><c>true</c> if the event type is <see cref="EventType.SpeedTrapTriggered"/>; otherwise, <c>false</c>.</returns>
-	public bool TryGetSpeedTrapEvent(out SpeedTrapEvent speedTrapEvent)
-	{
-		var isRightEvent = EventType == EventType.SpeedTrapTriggered;
-		speedTrapEvent = isRightEvent ? this.speedTrapEvent : default;
-		return isRightEvent;
-	}
+	[Obsolete("Use TryGetValue instead.")]
+	public bool TryGetSpeedTrapEvent(out SpeedTrapEvent speedTrapEvent) => TryGetValue(out speedTrapEvent);
 
 	/// <summary>
 	/// Tries to get the <see cref="StartLightsEvent"/> from this union.
 	/// </summary>
 	/// <param name="startLightsEvent">When this method returns, contains the start lights event if the event type matches; otherwise, the default value.</param>
 	/// <returns><c>true</c> if the event type is <see cref="EventType.StartLights"/>; otherwise, <c>false</c>.</returns>
-	public bool TryGetStartLightsEvent(out StartLightsEvent startLightsEvent)
-	{
-		var isRightEvent = EventType == EventType.StartLights;
-		startLightsEvent = isRightEvent ? this.startLightsEvent : default;
-		return isRightEvent;
-	}
+	[Obsolete("Use TryGetValue instead.")]
+	public bool TryGetStartLightsEvent(out StartLightsEvent startLightsEvent) => TryGetValue(out startLightsEvent);
 
 	/// <summary>
 	/// Tries to get the <see cref="StopGoPenaltyServedEvent"/> from this union.
 	/// </summary>
 	/// <param name="stopGoPenaltyServedEvent">When this method returns, contains the stop-go penalty served event if the event type matches; otherwise, the default value.</param>
 	/// <returns><c>true</c> if the event type is <see cref="EventType.StopGoServed"/>; otherwise, <c>false</c>.</returns>
-	public bool TryGetStopGoPenaltyServedEvent(out StopGoPenaltyServedEvent stopGoPenaltyServedEvent)
-	{
-		var isRightEvent = EventType == EventType.StopGoServed;
-		stopGoPenaltyServedEvent = isRightEvent ? this.stopGoPenaltyServedEvent : default;
-		return isRightEvent;
-	}
+	[Obsolete("Use TryGetValue instead.")]
+	public bool TryGetStopGoPenaltyServedEvent(out StopGoPenaltyServedEvent stopGoPenaltyServedEvent) => TryGetValue(out stopGoPenaltyServedEvent);
 
 	/// <summary>
 	/// Tries to get the <see cref="TeamMateInPitsEvent"/> from this union.
 	/// </summary>
 	/// <param name="teamMateInPitsEvent">When this method returns, contains the team mate in pits event if the event type matches; otherwise, the default value.</param>
 	/// <returns><c>true</c> if the event type is <see cref="EventType.TeamMateInPits"/>; otherwise, <c>false</c>.</returns>
-	public bool TryGetTeamMateInPitsEvent(out TeamMateInPitsEvent teamMateInPitsEvent)
-	{
-		var isRightEvent = EventType == EventType.TeamMateInPits;
-		teamMateInPitsEvent = isRightEvent ? this.teamMateInPitsEvent : default;
-		return isRightEvent;
-	}
+	[Obsolete("Use TryGetValue instead.")]
+	public bool TryGetTeamMateInPitsEvent(out TeamMateInPitsEvent teamMateInPitsEvent) => TryGetValue(out teamMateInPitsEvent);
 
 	/// <summary>
 	/// Tries to get the <see cref="CollisionEvent"/> from this union.
 	/// </summary>
 	/// <param name="collisionEvent">When this method returns, contains the collision event if the event type matches; otherwise, the default value.</param>
 	/// <returns><c>true</c> if the event type is <see cref="EventType.Collision"/>; otherwise, <c>false</c>.</returns>
-	public bool TryGetCollisionEvent(out CollisionEvent collisionEvent)
-	{
-		var isRightEvent = EventType == EventType.Collision;
-		collisionEvent = isRightEvent ? this.collisionEvent : default;
-		return isRightEvent;
-	}
+	[Obsolete("Use TryGetValue instead.")]
+	public bool TryGetCollisionEvent(out CollisionEvent collisionEvent) => TryGetValue(out collisionEvent);
 
 	/// <summary>
 	/// Tries to get the <see cref="SafetyCarEvent"/> from this union.
 	/// </summary>
 	/// <param name="safetyCarEvent">When this method returns, contains the safety car event if the event type matches; otherwise, the default value.</param>
 	/// <returns><c>true</c> if the event type is <see cref="EventType.SafetyCar"/>; otherwise, <c>false</c>.</returns>
-	public bool TryGetSafetyCarEvent(out SafetyCarEvent safetyCarEvent)
-	{
-		var isRightEvent = EventType == EventType.SafetyCar;
-		safetyCarEvent = isRightEvent ? this.safetyCarEvent : default;
-		return isRightEvent;
-	}
+	[Obsolete("Use TryGetValue instead.")]
+	public bool TryGetSafetyCarEvent(out SafetyCarEvent safetyCarEvent) => TryGetValue(out safetyCarEvent);
 
 	/// <summary>
 	/// Tries to get the <see cref="DrsDisabledEvent"/> from this union.
 	/// </summary>
 	/// <param name="drsDisabledEvent">When this method returns, contains the DRS disabled event if the event type matches; otherwise, the default value.</param>
 	/// <returns><c>true</c> if the event type is <see cref="EventType.DRSDisabled"/>; otherwise, <c>false</c>.</returns>
-	public bool TryGetDrsDisabledEvent(out DrsDisabledEvent drsDisabledEvent)
-	{
-		var isRightEvent = EventType == EventType.DRSDisabled;
-		drsDisabledEvent = isRightEvent ? this.drsDisabledEvent : default;
-		return isRightEvent;
-	}
+	[Obsolete("Use TryGetValue instead.")]
+	public bool TryGetDrsDisabledEvent(out DrsDisabledEvent drsDisabledEvent) => TryGetValue(out drsDisabledEvent);
 
 	static EventDetails IByteParsable<EventDetails>.Parse(ref BytesReader reader)
 	{

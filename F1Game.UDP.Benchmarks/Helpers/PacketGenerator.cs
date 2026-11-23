@@ -29,7 +29,7 @@ static class PacketGenerator
 
 	static byte[] SetupCarTelemetryPacket(byte[] data, Random random)
 	{
-		if (!data.ToPacket().TryGetCarTelemetryDataPacket(out var packet))
+		if (!data.ToPacket().TryGetValue(out CarTelemetryDataPacket packet))
 			return data;
 
 		var updatedPacket = packet with
@@ -49,7 +49,7 @@ static class PacketGenerator
 
 	static byte[] SetupCarStatusPacket(byte[] data, Random random)
 	{
-		if (!data.ToPacket().TryGetCarStatusDataPacket(out var packet))
+		if (!data.ToPacket().TryGetValue(out CarStatusDataPacket packet))
 			return data;
 
 		var updatedPacket = packet with
@@ -75,7 +75,7 @@ static class PacketGenerator
 
 	static byte[] SetupSessionPacket(byte[] data, Random random)
 	{
-		if (!data.ToPacket().TryGetSessionDataPacket(out var packet))
+		if (!data.ToPacket().TryGetValue(out SessionDataPacket packet))
 			return data;
 
 		var updatedPacket = packet with
