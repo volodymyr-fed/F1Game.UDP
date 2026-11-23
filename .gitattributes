@@ -3,6 +3,10 @@
 ###############################################################################
 * text=auto
 
+# Verify snapshots require UTF-8 text with LF line endings on every platform.
+*.verified.txt text eol=lf working-tree-encoding=UTF-8
+*.verified.cs text eol=lf working-tree-encoding=UTF-8
+
 ###############################################################################
 # Set default behavior for command prompt diff.
 #
